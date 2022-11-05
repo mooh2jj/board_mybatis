@@ -14,41 +14,32 @@
 </head>
 <body>
 
+<h2>게시판 - 보기 </h2>
 
 <div class="container">
     <div class="row">
-        <form id='form' action="/board/modify" method="post">
+        <form id='form' action="/board/modifyForm" method="get">
             <input type='hidden' id='id' name='id' value='<c:out value="${board.id}"/>'>
             <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
             <input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
             <input type='hidden' name='keyword' value='<c:out value="${cri.keyword}"/>'>
             <input type='hidden' name='type' value='<c:out value="${cri.type}"/>'>
 
-            <div class="form-group">
-                <label>작성자</label>
-                <input class="form-control" name='writer' value='<c:out value="${board.writer}"/>' readonly="readonly">
-            </div>
-            조회수: ${board.hit}
-            <br>
+            작성자
+            ${board.writer}
+            조회수: ${board.hit+1}
             등록일시
-            <input class="form-control" name='createdAt'
-                   value='<fmt:formatDate pattern = "yyyy/MM/dd" value = "${board.createdAt}" />' readonly="readonly">
+            <fmt:formatDate pattern="yyyy.MM.dd HH:mm:ss" value = "${board.createdAt}" />
             수정일시
-            <input class="form-control" name='updatedAt'
-                   value='<fmt:formatDate pattern = "yyyy/MM/dd" value = "${board.updatedAt}" />' readonly="readonly">
-            <div class="form-group">
-                <label>카테고리</label>
-                <input class="form-control" name='category' value='<c:out value="${board.category}"/>'>
-            </div>
-            <div class="form-group">
-                <input class="form-control" name='title' value='<c:out value="${board.title}"/>'>
-            </div>
-
+            <fmt:formatDate pattern="yyyy.MM.dd HH:mm:ss" value = "${board.updatedAt}" />
+            <br>
+            [${board.category}] ${board.title}
+            <hr>
             <table class="table table-striped">
                 <tr>
                     <td style="min-height: 200px; text-align: left;">
                         <label>
-                            <textarea class="form-control" rows="3" name='content'><c:out
+                            <textarea class="form-control" rows="3" name='content' readonly><c:out
                                     value="${board.content}"/></textarea>
                         </label>
                     </td>
@@ -85,7 +76,7 @@
             </table>
             <br>
             <button data-oper='list' class="btn btn-info">목록</button>
-            <button data-oper='modify' class="btn btn-default">수정</button>
+            <button data-oper='modifyForm' class="btn btn-default">수정</button>
             <button data-oper="remove" class="btn btn-danger">삭제</button>
         </form>
     </div>
@@ -194,7 +185,7 @@
 
             if (operation === 'remove') {
                 alert('정말로 삭제하시겠습니까?');
-                formObj.attr("action", "/board/remove");
+                formObj.attr("action", "/board/remove").attr("method", "post");
             } else if (operation === 'list') {
                 formObj.attr("action", "/board/list").attr("method", "get");
                 var pageNumTag = $("input[name='pageNum']").clone();
@@ -208,28 +199,23 @@
                 formObj.append(amountTag);
                 formObj.append(keywordTag);
                 formObj.append(typeTag);
-
-            } else if (operation === 'modify') {
-
-                console.log("submit clicked");
-
-                var str = "";
-
-                // $(".uploadResult ul li").each(function(i, obj){
-                //
-                //     var jobj = $(obj);
-                //
-                //     console.dir(jobj);
-                //
-                //     str += "<input type='hidden' name='attachList["+i+"].fileName' value='"+jobj.data("filename")+"'>";
-                //     str += "<input type='hidden' name='attachList["+i+"].uuid' value='"+jobj.data("uuid")+"'>";
-                //     str += "<input type='hidden' name='attachList["+i+"].uploadPath' value='"+jobj.data("path")+"'>";
-                //     str += "<input type='hidden' name='attachList["+i+"].fileType' value='"+ jobj.data("type")+"'>";
-                //
-                // });
-                formObj.append(str).submit();
             }
-            formObj.submit();
+
+
+            // $(".uploadResult ul li").each(function(i, obj){
+            //
+            //     var jobj = $(obj);
+            //
+            //     console.dir(jobj);
+            //
+            //     str += "<input type='hidden' name='attachList["+i+"].fileName' value='"+jobj.data("filename")+"'>";
+            //     str += "<input type='hidden' name='attachList["+i+"].uuid' value='"+jobj.data("uuid")+"'>";
+            //     str += "<input type='hidden' name='attachList["+i+"].uploadPath' value='"+jobj.data("path")+"'>";
+            //     str += "<input type='hidden' name='attachList["+i+"].fileType' value='"+ jobj.data("type")+"'>";
+            //
+            // });
+            // formObj.append(str).submit();
+            formObj.submit();   // 나머지 modifyForm 페이지 이동
         });
     });
 </script>
