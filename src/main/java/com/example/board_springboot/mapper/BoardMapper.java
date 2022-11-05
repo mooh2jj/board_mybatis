@@ -23,4 +23,6 @@ public interface BoardMapper {
     boolean register(BoardVO board);
 
     void insertSelectKey(BoardVO board);
+
+    List<String> getCategoryList();
 }

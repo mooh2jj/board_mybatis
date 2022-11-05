@@ -4,6 +4,18 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.board_springboot.mapper.BoardMapper">
 
+    <resultMap id="boardVO" type="com.example.board_springboot.domain.BoardVO">
+        <result property="id" column="id" javaType="Long" jdbcType="BIGINT"/>
+        <result property="category" column="category" javaType="String" jdbcType="VARCHAR"/>
+        <result property="password" column="password" javaType="String" jdbcType="VARCHAR"/>
+        <result property="title" column="title" javaType="String" jdbcType="VARCHAR"/>
+        <result property="content" column="content" javaType="String" jdbcType="VARCHAR"/>
+        <result property="writer" column="writer" javaType="String" jdbcType="VARCHAR"/>
+        <result property="hit" column="hit" javaType="int" jdbcType="INTEGER"/>
+        <result property="createdAt" column="created_at" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
+        <result property="updatedAt" column="updated_at" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
     <!--  검색 기능 메서드 따로 차출, T, W, C 짤라서 배열로 foreach문을 돌림.  -->
     <sql id="criteria">
         <trim prefix="where (" suffix=")" prefixOverrides="OR">
@@ -26,7 +38,8 @@
     </sql>
 
     <!-- 게시글 목록 with 페이징, 검색 -->
-    <select id="getAll" resultType="com.example.board_springboot.domain.BoardVO">
+<!--    <select id="getAll" resultType="com.example.board_springboot.domain.BoardVO">-->
+    <select id="getAll" resultMap="boardVO">
         select * from board
         <if test="keyword != null">
             <include refid="criteria"/>
@@ -45,7 +58,7 @@
     </select>
 
     <!-- 게시글 상세보기 -->
-    <select id="get" resultType="com.example.board_springboot.domain.BoardVO">
+    <select id="get" resultMap="boardVO">
         select *
         from board
         where id = #{id}
@@ -77,9 +90,8 @@
 
     <!--  게시글 등록  -->
     <insert id="register">
-
-        INSERT INTO board (id, category, password, title, content, writer)
-        values (null, #{category}, #{password}, #{title}, #{content}, #{writer})
+        INSERT INTO board (id, category, password, title, content, writer, created_at)
+        values (null, #{category}, #{password}, #{title}, #{content}, #{writer}, NOW())
     </insert>
 
     <!--  selectKey   -->
@@ -92,4 +104,12 @@
         INSERT INTO board (id, category, password, title, content, writer)
         values (#{id}, #{category}, #{password}, #{title}, #{content}, #{writer})
     </insert>
+
+    <!-- 카테고리 목록  -->
+    <select id="getCategoryList" resultType="String">
+        SELECT name FROM category
+        GROUP BY name
+        ORDER BY name
+    </select>
+
 </mapper>

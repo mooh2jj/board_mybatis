@@ -65,15 +65,22 @@ public class BoardServiceImpl implements BoardService {
         boolean result = boardMapper.register(board);
         log.info("register result: {}", result);
 
-        boardMapper.insertSelectKey(board);
-        if (board.getAttachList() == null || board.getAttachList().size() == 0) {
-            return false;
-        }
-
-        board.getAttachList().forEach(attach -> {
-            attach.setBoardId(board.getId());
-            attachMapper.insert(attach);
-        });
+//        boardMapper.insertSelectKey(board);
+//        if (board.getAttachList() == null || board.getAttachList().size() == 0) {
+//            return false;
+//        }
+//
+//        board.getAttachList().forEach(attach -> {
+//            attach.setBoardId(board.getId());
+//            attachMapper.insert(attach);
+//        });
         return result;
+    }
+
+    @Override
+    public List<String> getCategoryList() {
+        List<String> categoryList = boardMapper.getCategoryList();
+        log.info("getCategoryList: {}", categoryList);
+        return categoryList;
     }
 }

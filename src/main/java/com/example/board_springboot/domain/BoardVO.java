@@ -1,16 +1,11 @@
 package com.example.board_springboot.domain;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
-@Getter
-@Setter
-@ToString
+@Data
 public class BoardVO {
     private Long id;
     private String category;
@@ -20,15 +15,12 @@ public class BoardVO {
     private String writer;
     private int hit;
 
-    private boolean fileYn;
-    private String fileUUID;
-
     /**
      * Timestamp -> LocalDateTime
      */
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
 
-    private List<AttachVO> attachList;
+//    private List<AttachVO> attachList;
 
 }
