@@ -100,7 +100,7 @@
 <%--                    </td>--%>
 <%--                </tr>--%>
             </table>
-            <button type="submit" data-oper='list' class="btn btn-info">취소</button>
+            <button type="submit" data-oper='cancel' class="btn btn-info">취소</button>
             <button type="submit" data-oper='modify' class="btn btn-primary pull-left">수정</button>
 <%--         TODO: modifyAction.jsp에 보내기 위해 hidden으로 file delete oper 정보 보내야돼! --%>
         </form>
@@ -118,26 +118,22 @@
             var operation = $(this).data("oper");
             console.log("operation: ", operation);
 
-            if(operation === 'list'){
+            if(operation === 'cancel'){
                 //move to list
-                formObj.attr("action", "list.jsp").attr("method","get");
-
+                formObj.attr("action", "/board/get").attr("method","get");
+                var boardIdTag = $("input[name='id']").clone();
                 var pageNumTag = $("input[name='pageNum']").clone();
                 var amountTag = $("input[name='amount']").clone();
                 var keywordTag = $("input[name='keyword']").clone();
-                var searchOption = $("input[name='searchOption']").clone();
+                var typeTag = $("input[name='type']").clone();
 
-                console.log("pageNumTag: ", pageNumTag);
-                console.log("amountTag: ", amountTag);
-                console.log("keywordTag: ", keywordTag);
-                console.log("searchOption: ", searchOption);
+                formObj.empty();
 
-                formObj.empty();        // pageNum, amount, keyword, searchOption 외에는 가져오지 않기 위해
-
+                formObj.append(boardIdTag);
                 formObj.append(pageNumTag);
                 formObj.append(amountTag);
                 formObj.append(keywordTag);
-                formObj.append(searchOption);
+                formObj.append(typeTag);
             }
 
             if (operation === 'modify') {
