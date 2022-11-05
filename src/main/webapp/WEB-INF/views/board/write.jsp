@@ -24,18 +24,20 @@
                 <tr>
                     <td style="width: 20%; background-color: #eeeeee;">카테고리</td>
                     <td colspan="2">
-<%--                        <select name="category" size="1">--%>
-<%--                            <option value="" selected></option>--%>
+                        <select name="category" size="1">
+                            <option value="" selected></option>
+                            <c:forEach var="category" items="${categories}">
 <%--                            <%--%>
 <%--                                boardDAO = new BoardDAO();--%>
 <%--                                int categoryCnt = boardDAO.getCategory().size();--%>
 <%--                                for (int i = 0; i < categoryCnt; i++) {--%>
 <%--                            %>--%>
-<%--                            <option value=<%=boardDAO.getCategory().get(i)%>><%=boardDAO.getCategory().get(i)%></option>--%>
+                            <option value="${category}">${category}</option>
 <%--                            <%--%>
 <%--                                }--%>
 <%--                            %>--%>
-<%--                        </select>--%>
+                            </c:forEach>
+                        </select>
                     </td>
                 </tr>
                 <tr>
