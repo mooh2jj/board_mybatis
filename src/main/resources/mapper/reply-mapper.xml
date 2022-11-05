@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.board_springboot.mapper.ReplyMapper">
+
+    <resultMap id="replyVO" type="com.example.board_springboot.domain.ReplyVO">
+        <result property="id" column="id" javaType="int" jdbcType="INTEGER"/>
+        <result property="boardId" column="board_id" javaType="Long" jdbcType="BIGINT"/>
+        <result property="replyText" column="reply_text" javaType="String" jdbcType="VARCHAR"/>
+        <result property="replyer" column="replyer" javaType="String" jdbcType="VARCHAR"/>
+        <result property="repliedAt" column="replied_at" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--  댓글 등록  -->
+    <insert id="insert">
+        INSERT INTO reply (id, board_id, reply_text, replyer, replied_at)
+        values (null, #{boardId}, #{replyText}, #{replyer}, NOW())
+    </insert>
+
+    <!-- 한 게시글에 댓글 리스트 -->
+<!--    <select id="getList" resultType="com.example.board_springboot.domain.ReplyVO">-->
+    <select id="getList" resultMap="replyVO">
+        SELECT * FROM reply
+        where 1=1
+        AND board_id = #{boardId}
+        ORDER BY id DESC
+    </select>
+
+
+
+
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.board_springboot.mapper.AttachMapper">
+
+    <insert id="insert">
+        insert into attach (uuid, upload_path, file_name,
+                            file_type, board_id)
+        values (#{uuid}, #{uploadPath}, #{fileName},
+                #{fileType}, #{boardId} )
+    </insert>
+
+    <delete id="delete">
+
+        delete from attach where uuid = #{uuid}
+
+    </delete>
+
+    <select id="findByBoardId" resultType="com.example.board_springboot.domain.AttachVO">
+        select * from attach where board_id = #{boardId}
+    </select>
+</mapper>
