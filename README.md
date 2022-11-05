@@ -4,7 +4,10 @@
 * 빌드도구 : Gradle
 * Front Template : JSP
 * DB : Mysql
-* DB연결기술 : Mybatis 
+* DB연결기술 : Mybatis
+  * issue
+    1) [unread] -> <resultMap> 구현 각 자바 클래스 필르와 DB테이블 컬럼 매칭이 안돼서 -> 해결) resultMap javaType, jdbcType 맞추면됨
+    2) mybatis sql 로그 보는 법 - jdbc log4j2 라이브러리 연동 사용, 참고 - https://frozenpond.tistory.com/86
 
 
 ### 구현 사항
