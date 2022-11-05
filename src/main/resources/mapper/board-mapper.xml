@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.board_springboot.mapper.BoardMapper">
+
+    <!--  검색 기능 메서드 따로 차출, T, W, C 짤라서 배열로 foreach문을 돌림.  -->
+    <sql id="criteria">
+        <trim prefix="where (" suffix=")" prefixOverrides="OR">
+            <foreach item='type' collection="typeArr">
+                <trim prefix="OR">
+                    <choose>
+                        <when test="type == 'T'.toString()">
+                            title like concat('%', #{keyword}, '%')
+                        </when>
+                        <when test="type == 'W'.toString()">
+                            writer like concat('%', #{keyword}, '%')
+                        </when>
+                        <when test="type == 'C'.toString()">
+                            content like concat('%', #{keyword}, '%')
+                        </when>
+                    </choose>
+                </trim>
+            </foreach>
+        </trim>
+    </sql>
+
+    <!-- 게시글 목록 with 페이징, 검색 -->
+    <select id="getAll" resultType="com.example.board_springboot.domain.BoardVO">
+        select * from board
+        <if test="keyword != null">
+            <include refid="criteria"/>
+        </if>
+        ORDER BY id DESC
+        LIMIT #{startNum}, #{amount}
+    </select>
+
+    <!-- 게시글 카운트 with 페이징, 검색   -->
+    <select id="totalCount" resultType="int">
+        SELECT COUNT(*)
+        FROM Board
+        <if test="keyword != null">
+            <include refid="criteria"/>
+        </if>
+    </select>
+
+    <!-- 게시글 상세보기 -->
+    <select id="get" resultType="com.example.board_springboot.domain.BoardVO">
+        select *
+        from board
+        where id = #{id}
+    </select>
+
+    <!-- 게시글 상세보기 후 조회수 증가 -->
+    <update id="updateHit">
+        UPDATE board
+        SET hit=hit + 1
+        where id = #{id}
+    </update>
+
+    <!-- 게시글 삭제 -->
+    <delete id="remove">
+        delete
+        from board
+        where id = #{id}
+    </delete>
+
+    <!-- 게시글 수정  -->
+    <update id="modify">
+        UPDATE Board
+        SET title=#{title},
+            content=#{content},
+            writer=#{writer},
+            updated_at=NOW()
+        WHERE id = #{id}
+    </update>
+
+    <!--  게시글 등록  -->
+    <insert id="register">
+
+        INSERT INTO board (id, category, password, title, content, writer)
+        values (null, #{category}, #{password}, #{title}, #{content}, #{writer})
+    </insert>
+
+    <!--  selectKey   -->
+    <insert id="insertSelectKey">
+
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            SELECT IFNULL(MAX(id)+1, 1) FROM board
+        </selectKey>
+
+        INSERT INTO board (id, category, password, title, content, writer)
+        values (#{id}, #{category}, #{password}, #{title}, #{content}, #{writer})
+    </insert>
+</mapper>
