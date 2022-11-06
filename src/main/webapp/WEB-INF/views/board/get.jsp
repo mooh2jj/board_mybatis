@@ -118,8 +118,7 @@
                 success: function (result) {
                     alert("댓글이 입력되었습니다.");
                     console.log("result: ", result)
-                    // listReply();
-                    // TODO : 게시글 등록 후 list페이지로 돌아가지 않게 하기
+                    listReply();
                 }
             });
 
@@ -131,7 +130,6 @@
             $.ajax({
                 type: "get",
                 url: "/reply/list/" + boardId,
-                // contentType: "application/json; charset=utf-8", // ==> 생략가능(RestController이기때문에 가능)
                 dataType: "json",
                 success: function (result) {
                     console.log(result);
@@ -154,7 +152,6 @@
 
         // **날짜 변환함수 작성
         function changeDate(date) {
-            // date = new Date(date);
             date = new Date(date);
             let year = date.getFullYear();
             let month = date.getMonth() + 1;
@@ -186,6 +183,7 @@
             if (operation === 'remove') {
                 alert('정말로 삭제하시겠습니까?');
                 formObj.attr("action", "/board/remove").attr("method", "post");
+                formObj.submit();
             } else if (operation === 'list') {
                 formObj.attr("action", "/board/list").attr("method", "get");
                 var pageNumTag = $("input[name='pageNum']").clone();
@@ -199,6 +197,7 @@
                 formObj.append(amountTag);
                 formObj.append(keywordTag);
                 formObj.append(typeTag);
+                formObj.submit();
             }
 
 
@@ -215,7 +214,7 @@
             //
             // });
             // formObj.append(str).submit();
-            formObj.submit();   // 나머지 modifyForm 페이지 이동
+            // formObj.submit();   // 무조건 button은 submit이 되게 처리됐음. 나머지 modifyForm 페이지 이동
         });
     });
 </script>
