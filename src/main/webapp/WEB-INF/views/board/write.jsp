@@ -120,29 +120,31 @@
                 formObj.append(amountTag);
                 formObj.append(keywordTag);
                 formObj.append(searchOption);
+
+                formObj.submit();
+            } else if(operation == 'register') {
+                // 나머지는 그냥 submit -> register
+
+                var str = "";
+
+                $(".uploadResult ul li").each(function (i, obj) {
+
+                    var jobj = $(obj);
+
+                    console.dir(jobj);
+                    console.log("-------------------------");
+                    console.log(jobj.data("filename"));
+
+                    str += "<input type='hidden' name='attachList[" + i + "].fileName' value='" + jobj.data("filename") + "'>";
+                    str += "<input type='hidden' name='attachList[" + i + "].uuid' value='" + jobj.data("uuid") + "'>";
+                    str += "<input type='hidden' name='attachList[" + i + "].uploadPath' value='" + jobj.data("path") + "'>";
+                    str += "<input type='hidden' name='attachList[" + i + "].fileType' value='" + jobj.data("type") + "'>";
+
+                });
+                console.log("str: ", str);
+                formObj.append(str).submit();
             }
-            // 나머지는 그냥 submit -> register
 
-            var str = "";
-
-            $(".uploadResult ul li").each(function(i, obj){
-
-                var jobj = $(obj);
-
-                console.dir(jobj);
-                console.log("-------------------------");
-                console.log(jobj.data("filename"));
-
-                str += "<input type='hidden' name='attachList["+i+"].fileName' value='"+jobj.data("filename")+"'>";
-                str += "<input type='hidden' name='attachList["+i+"].uuid' value='"+jobj.data("uuid")+"'>";
-                str += "<input type='hidden' name='attachList["+i+"].uploadPath' value='"+jobj.data("path")+"'>";
-                str += "<input type='hidden' name='attachList["+i+"].fileType' value='"+ jobj.data("type")+"'>";
-
-            });
-
-            console.log("str: ", str);
-
-            formObj.append(str).submit();
         });
 
         // 파일업로드 따로 처리
