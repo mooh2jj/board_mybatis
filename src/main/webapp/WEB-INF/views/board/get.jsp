@@ -198,6 +198,8 @@
                 formObj.append(keywordTag);
                 formObj.append(typeTag);
                 formObj.submit();
+            } else if (operation == 'modifyForm') {
+                formObj.submit();
             }
 
 
