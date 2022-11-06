@@ -76,11 +76,9 @@
                     <td>${board.writer}</td>
                     <td>${board.hit}</td>
                     <td><fmt:formatDate pattern="yyyy.MM.dd HH:mm:ss" value="${board.createdAt}"/></td>
-                    <td>${board.createdAt}</td>
                     <c:choose>
                         <c:when test="${board.updatedAt ne null}">
                             <td><fmt:formatDate pattern="yyyy.MM.dd HH:mm:ss" value="${board.updatedAt}"/></td>
-                            <td>${board.updatedAt}</td>
                         </c:when>
                         <c:otherwise>
                             <td style="text-align: center">-</td>

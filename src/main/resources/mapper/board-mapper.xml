@@ -95,14 +95,19 @@
     </insert>
 
     <!--  selectKey   -->
-    <insert id="insertSelectKey">
+    <insert id="registerWithSelectKey">
 
-        <selectKey keyProperty="id" resultType="long" order="BEFORE">
-            SELECT IFNULL(MAX(id)+1, 1) FROM board
+<!--        <selectKey keyProperty="id" resultType="long" order="BEFORE">-->
+<!--            SELECT MAX(id)+1 FROM board-->
+<!--        </selectKey>-->
+
+        INSERT INTO board (id, category, password, title, content, writer, created_at)
+        values (#{id}, #{category}, #{password}, #{title}, #{content}, #{writer}, NOW())
+
+        <selectKey keyProperty="id" resultType="long" order="AFTER">
+            SELECT LAST_INSERT_ID()
         </selectKey>
 
-        INSERT INTO board (id, category, password, title, content, writer)
-        values (#{id}, #{category}, #{password}, #{title}, #{content}, #{writer})
     </insert>
 
     <!-- 카테고리 목록  -->

@@ -61,20 +61,18 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public boolean register(BoardVO board) {
-        boolean result = boardMapper.register(board);
-        log.info("register result: {}", result);
+    public void register(BoardVO board) {
 
-//        boardMapper.insertSelectKey(board);
-//        if (board.getAttachList() == null || board.getAttachList().size() == 0) {
-//            return false;
-//        }
-//
-//        board.getAttachList().forEach(attach -> {
-//            attach.setBoardId(board.getId());
-//            attachMapper.insert(attach);
-//        });
-        return result;
+        long result = boardMapper.registerWithSelectKey(board);
+        log.info("register result: {}", result);
+        if (board.getAttachList() == null || board.getAttachList().size() == 0) {
+            return;
+        }
+
+        board.getAttachList().forEach(attach -> {
+            attach.setBoardId(board.getId());
+            attachMapper.insert(attach);
+        });
     }
 
     @Override

@@ -27,15 +27,7 @@
                         <select name="category" size="1">
                             <option value="" selected></option>
                             <c:forEach var="category" items="${categories}">
-<%--                            <%--%>
-<%--                                boardDAO = new BoardDAO();--%>
-<%--                                int categoryCnt = boardDAO.getCategory().size();--%>
-<%--                                for (int i = 0; i < categoryCnt; i++) {--%>
-<%--                            %>--%>
-                            <option value="${category}">${category}</option>
-<%--                            <%--%>
-<%--                                }--%>
-<%--                            %>--%>
+                                <option value="${category}">${category}</option>
                             </c:forEach>
                         </select>
                     </td>
@@ -76,7 +68,7 @@
             <%--            <input type="button" class="btn btn-primary" onclick="location.href='list.jsp?pageNum=<%=pageNum%>&amount=<%=amount%>'" value="취소">--%>
             <button data-oper='list' class="btn btn-info">목록</button>
             <%--            <input type="submit" class="btn btn-primary pull-right" value="저장">--%>
-            <button data-oper='register' class="btn btn-default">저장</button>
+            <button data-oper='register' class="btn btn-default">등록</button>
         </form>
     </div>
 </div>
@@ -93,7 +85,6 @@
                 </div>
                 <div class='uploadResult'>
                     <ul>
-
                     </ul>
                 </div>
             </div>
@@ -105,30 +96,6 @@
 </div>
 <!-- /.row -->
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-<script>
-
-    $(document).ready(function () {
-        $('.pw').focusout (function () {
-            let password = $("#password").val();
-            let passwordCheck = $("#passwordCheck").val();
-            console.log("password:", password);
-            console.log("passwordCheck:", passwordCheck);
-
-            if (password !== '' && passwordCheck === '') {
-                null;
-            } else if (password !== '' || passwordCheck !== '') {
-                if (password === passwordCheck) {
-                    $("#alert-success").css('display', 'inline-block');
-                    $("#alert-danger").css('display', 'none');
-                } else {
-                    alert("비밀번호가 일치하지 않습니다. 비밀번호를 재확인해주세요.");
-                    $("#alert-success").css('display', 'none');
-                    $("#alert-danger").css('display', 'inline-block');
-                }
-            }
-        });
-    });
-</script>
 <script>
     $(document).ready(function() {
         var formObj = $("#form");
@@ -166,7 +133,6 @@
                 console.log("-------------------------");
                 console.log(jobj.data("filename"));
 
-
                 str += "<input type='hidden' name='attachList["+i+"].fileName' value='"+jobj.data("filename")+"'>";
                 str += "<input type='hidden' name='attachList["+i+"].uuid' value='"+jobj.data("uuid")+"'>";
                 str += "<input type='hidden' name='attachList["+i+"].uploadPath' value='"+jobj.data("path")+"'>";
@@ -174,11 +140,12 @@
 
             });
 
-            console.log(str);
+            console.log("str: ", str);
 
             formObj.append(str).submit();
         });
 
+        // 파일업로드 따로 처리
         var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
         var maxSize = 5242880; //5MB
 
@@ -196,44 +163,135 @@
             return true;
         }
 
-        var csrfHeaderName ="${_csrf.headerName}";
-        var csrfTokenValue="${_csrf.token}";
 
         $("input[type='file']").change(function(e){
+
+            console.log("file change!")
 
             var formData = new FormData();
 
             var inputFile = $("input[name='uploadFile']");
 
             var files = inputFile[0].files;
-
+            console.log("files: ", files)
             for(var i = 0; i < files.length; i++){
 
                 if(!checkExtension(files[i].name, files[i].size) ){
                     return false;
                 }
                 formData.append("uploadFile", files[i]);
+                console.log("for files: ", files[i])
 
             }
+            console.log("formData: ", formData)
 
             // 파일 업로드 ajax 처리
             $.ajax({
                 url: '/uploadAjaxAction',
                 processData: false,
                 contentType: false,
-                beforeSend: function(xhr) {
-                    xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
-                },
                 data:formData,
+                // beforeSend: function(xhr) {
+                //     xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+                // },
                 type: 'POST',
-                dataType:'json',
                 success: function(result){
-                    console.log(result);
-                    // showUploadResult(result); //업로드 결과 처리 함수
-
+                    console.log("result:", result);
+                    showUploadResult(result); //업로드 결과 처리 함수
+                    // var output = "";
+                    // for(var i in result) {
+                    //     output += "<li>" + "<input type='hidden' name='attachList[" + i + "].fileName' value='" + result[i].fileName + "'>" + "</li>";
+                    //     output += "<li>" + "<input type='hidden' name='attachList[" + i + "].uuid' value='" + result[i].uuid + "'>" + "</li>";
+                    //     output += "<li>" + "<input type='hidden' name='attachList[" + i + "].uploadPath' value='" + result[i].uploadPath + "'>" + "</li>";
+                    //     output += "<li>" + "<input type='hidden' name='attachList[" + i + "].fileType' value='" + result[i].fileType + "'>" + "</li>";
+                    // }
+                    // console.log("uploadAjaxAction output: ", output);
+                    // $(".uploadResult ul").html(output);
                 }
             }); //$.ajax
 
+            function showUploadResult(uploadResultArr){
+
+                if(!uploadResultArr || uploadResultArr.length == 0){ return; }
+
+                var uploadUL = $(".uploadResult ul");
+
+                var str ="";
+
+                $(uploadResultArr).each(function(i, obj){
+
+                     //image type
+/*                    if(obj.image){
+                      var fileCallPath =  encodeURIComponent( obj.uploadPath+ "/s_"+obj.uuid +"_"+obj.fileName);
+                      str += "<li><div>";
+                      str += "<span> "+ obj.fileName+"</span>";
+                      str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
+                      str += "<img src='/display?fileName="+fileCallPath+"'>";
+                      str += "</div>";
+                      str +"</li>";
+                    }else{
+                      var fileCallPath =  encodeURIComponent( obj.uploadPath+"/"+ obj.uuid +"_"+obj.fileName);
+                        var fileLink = fileCallPath.replace(new RegExp(/\\/g),"/");
+
+                      str += "<li><div>";
+                      str += "<span> "+ obj.fileName+"</span>";
+                      str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
+                      str += "<img src='/resources/img/attach.png'></a>";
+                      str += "</div>";
+                      str +"</li>";
+                    }*/
+                    //image type
+
+                    if(obj.image){
+                        var fileCallPath =  encodeURIComponent( obj.uploadPath+ "/s_"+obj.uuid +"_"+obj.fileName);
+                        str += "<li data-path='"+obj.uploadPath+"'";
+                        str +=" data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'"
+                        str +" ><div>";
+                        str += "<span> "+ obj.fileName+"</span>";
+                        str += "<button type='button' data-file=\'"+fileCallPath+"\' "
+                        str += "data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
+                        str += "<img src='/display?fileName="+fileCallPath+"'>";
+                        str += "</div>";
+                        str +"</li>";
+                    }else{
+                        var fileCallPath =  encodeURIComponent( obj.uploadPath+"/"+ obj.uuid +"_"+obj.fileName);
+                        var fileLink = fileCallPath.replace(new RegExp(/\\/g),"/");
+
+                        str += "<li "
+                        str += "data-path='"+obj.uploadPath+"' data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"' ><div>";
+                        str += "<span> "+ obj.fileName+"</span>";
+                        str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' "
+                        str += "class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
+                        str += "<img src='/resources/img/attach.png'></a>";
+                        str += "</div>";
+                        str +"</li>";
+                    }
+
+                });
+
+                uploadUL.append(str);
+            }
+
+        });
+        // 비밀번호 확인
+        $('.pw').focusout (function () {
+            let password = $("#password").val();
+            let passwordCheck = $("#passwordCheck").val();
+            console.log("password:", password);
+            console.log("passwordCheck:", passwordCheck);
+
+            if (password !== '' && passwordCheck === '') {
+                null;
+            } else if (password !== '' || passwordCheck !== '') {
+                if (password === passwordCheck) {
+                    $("#alert-success").css('display', 'inline-block');
+                    $("#alert-danger").css('display', 'none');
+                } else {
+                    alert("비밀번호가 일치하지 않습니다. 비밀번호를 재확인해주세요.");
+                    $("#alert-success").css('display', 'none');
+                    $("#alert-danger").css('display', 'inline-block');
+                }
+            }
         });
     });
 </script>

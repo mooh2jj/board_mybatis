@@ -21,6 +21,6 @@ public class BoardVO {
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
-//    private List<AttachVO> attachList;
+    private List<AttachVO> attachList;
 
 }

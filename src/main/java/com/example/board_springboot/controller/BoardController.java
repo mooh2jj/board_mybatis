@@ -99,11 +99,12 @@ public class BoardController {
         log.info("/board/register board: {}", board);
 
         // 파일첨부 로직 추가
-/*        if (board.getAttachList() != null) {
+        if (board.getAttachList() != null) {
             board.getAttachList().forEach(
                     attach -> log.info("attach: {}", attach)
             );
-        }*/
+        }
+        log.info("board.getAttachList(): {}", board.getAttachList());
         boardService.register(board);
 
         return "redirect:/board/list";
