@@ -215,26 +215,27 @@
                 if(obj.image){
                     var fileCallPath =  encodeURIComponent( obj.uploadPath+ "/"+obj.uuid +"_"+obj.fileName);
                     str += "<li data-path='"+obj.uploadPath+"'";
-                    str +=" data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'"
-                    str +" ><div>";
+                    str += " data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'>";
+                    str += "<div>";
                     str += "<span> "+ obj.fileName+"</span>";
                     str += "<button type='button' data-file=\'"+fileCallPath+"\' "
-                    str += "data-type='image' class='btn btn-warning btn-circle'>파일삭제</button><br>";
+                    str += "data-type='image' class='btn btn-warning btn-circle'>X</button><br>";
                     str += "<img src='/display?fileName="+fileCallPath+"'>";
                     str += "</div>";
-                    str +"</li>";
+                    str += "</li>";
                 }else{
                     var fileCallPath =  encodeURIComponent( obj.uploadPath+"/"+ obj.uuid +"_"+obj.fileName);
                     var fileLink = fileCallPath.replace(new RegExp(/\\/g),"/");
 
                     str += "<li "
-                    str += "data-path='"+obj.uploadPath+"' data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"' ><div>";
+                    str += "data-path='"+obj.uploadPath+"' data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'>";
+                    str += "<div>";
                     str += "<span> "+ obj.fileName+"</span>";
                     str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' "
-                    str += "class='btn btn-warning btn-circle'>파일삭제</button><br>";
+                    str += "class='btn btn-warning btn-circle'>X</button><br>";
                     str += "<img src='/resources/img/attach.png'></a>";
                     str += "</div>";
-                    str +"</li>";
+                    str += "</li>";
                 }
 
             });

@@ -209,26 +209,27 @@ $(document).ready(function() {
                     var fileCallPath =  encodeURIComponent( attach.uploadPath+ "/"+attach.uuid +"_"+attach.fileName);
 
                     str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' "
-                    str +=" data-filename='"+attach.fileName+"' data-type='"+attach.image+"' ><div>";
+                    str +=" data-filename='"+attach.fileName+"' data-type='"+attach.image+"'>";
+                    str += "<div>";
                     str += "<span> "+ attach.fileName+"</span>";
-                    str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='image' "
-                    str += "class='btn btn-warning btn-circle'>파일삭제</button><br>";
+                    str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='image' ";
+                    str += "class='btn btn-warning btn-circle'>X</button><br>";
                     str += "<img src='/display?fileName="+fileCallPath+"'>";
                     str += "</div>";
                     str +"</li>";
                 }else{
 
                     str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' "
-                    str += "data-filename='"+attach.fileName+"' data-type='"+attach.image+"' ><div>";
-                    str += "<span> "+ attach.fileName+"</span><br/>";
+                    str += "data-filename='"+attach.fileName+"' data-type='"+attach.image+"'>";
+                    str += "<div>";
+                    str += "<span> "+ attach.fileName+"</span>";
                     str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' "
-                    str += " class='btn btn-warning btn-circle'>파일삭제</button><br>";
+                    str += " class='btn btn-warning btn-circle'>X</button><br>";
                     str += "<img src='/resources/img/attach.png'></a>";
                     str += "</div>";
                     str +"</li>";
                 }
             });
-
 
             $(".uploadResult ul").html(str);
 
@@ -245,6 +246,26 @@ $(document).ready(function() {
             var targetLi = $(this).closest("li");
             targetLi.remove();
         }
+    });
+// 파일 다운로드
+    $(".uploadResult").on("click","li", function(e){
+
+        console.log("view image");
+
+        var liObj = $(this);
+
+        var path = encodeURIComponent(liObj.data("path")+"/" + liObj.data("uuid")+"_" + liObj.data("filename"));
+
+        // if(liObj.data("type")){
+        //     showImage(path.replace(new RegExp(/\\/g),"/"));
+        // }else {
+        //     //download
+        //     self.location ="/download?fileName="+path
+        // }
+        console.log("path: ", path)
+        // 바로 다운로드
+        self.location ="/download?fileName="+path
+
     });
 
 // 파일업로드 따로 처리
@@ -323,7 +344,7 @@ $(document).ready(function() {
                 str +=" ><div>";
                 str += "<span> "+ obj.fileName+"</span>";
                 str += "<button type='button' data-file=\'"+fileCallPath+"\' ";
-                str += "data-type='image' class='btn btn-warning btn-circle'>파일삭제</button><br>";
+                str += "data-type='image' class='btn btn-warning btn-circle'>X</button><br>";
                 str += "<img src='/display?fileName="+fileCallPath+"'/>";
                 str += "</div>";
                 str +"</li>";
@@ -335,7 +356,7 @@ $(document).ready(function() {
                 str +=" ><div>";
                 str += "<span> "+ obj.fileName+"</span>";
                 str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' ";
-                str += "class='btn btn-warning btn-circle'>파일삭제</button><br>";
+                str += "class='btn btn-warning btn-circle'>X</button><br>";
                 str += "<img src='/resources/img/attach.png'/>";
                 str += "</div>";
                 str +"</li>";
