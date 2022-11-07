@@ -25,8 +25,7 @@ public class BoardController {
 
     @GetMapping("/board/list")
     public String list(Model model, Criteria cri) {
-        log.info("/board/list");
-        log.info("cri: {}", cri);
+        log.info("/board/list cri: {}", cri);
 
         int total = boardService.totalCount(cri);
         log.info("total: {}", total);
@@ -38,7 +37,7 @@ public class BoardController {
         log.info("pageDTO: {}", pageDTO);
         model.addAttribute("pageMaker", pageDTO);
 
-        return "board/list";
+        return "/board/list";
     }
 
     @GetMapping("/board/get")
@@ -90,15 +89,15 @@ public class BoardController {
         return "redirect:/board/list" + cri.getListLink();
     }
 
-    @GetMapping("/board/write")
+    @GetMapping("/board/register")
     public String write(
             @ModelAttribute("cri") Criteria cri,
             Model model
     ) {
         List<String> categoryList = boardService.getCategoryList();
-        log.info("/board/write 페이지 이동 categoryList: {}", categoryList);
+        log.info("/board/register 페이지 이동 categoryList: {}", categoryList);
         model.addAttribute("categories", categoryList);
-        return "board/write";
+        return "board/register";
     }
 
     @PostMapping("/board/register")

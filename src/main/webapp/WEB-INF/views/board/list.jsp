@@ -117,7 +117,6 @@
             <input type='hidden' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>'>
         </form>
 
-        <%--            <a href="write.jsp?pageNum=${pageNum}" class="btn btn-primary pull-right">등록</a>--%>
         <button id="regBtn" type="button" class="btn btn-xs pull-right">등록</button>
     </div>
 </div>
@@ -168,7 +167,7 @@
 
         $("#regBtn").on("click", function() {
 
-            self.location = "/board/write";
+            self.location = "/board/register";
 
         });
 
