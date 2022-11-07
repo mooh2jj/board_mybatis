@@ -12,14 +12,13 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/reply/*")
 @RequiredArgsConstructor
 public class ReplyController {
 
     private final ReplyService replyService;
 
     // 댓글 입력
-    @PostMapping("insert")
+    @PostMapping("/reply/insert")
     public ResponseEntity<String> insert(@RequestBody ReplyVO reply) {
         log.info("reply insert replyVO: {}", reply);
         int result = replyService.insert(reply);
@@ -29,7 +28,7 @@ public class ReplyController {
     }
 
     // 2) ajax 방식
-    @GetMapping("list/{id}")
+    @GetMapping("/reply/list/{id}")
     public ResponseEntity<List<ReplyVO>> list(@PathVariable("id") Long boardId) {
         log.info("reply list boardId: {}", boardId);
         List<ReplyVO> replyList = replyService.getList(boardId);
