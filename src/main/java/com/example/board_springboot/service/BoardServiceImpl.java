@@ -62,8 +62,14 @@ public class BoardServiceImpl implements BoardService {
 
         boolean result = boardMapper.modify(board);
         log.info("modify result: {}", result);
-        if (board.getAttachList() == null || board.getAttachList().size() == 0) {
-            return false;
+        // 게시판 수정 후 attach insert 가능하게 처리
+        if (result && (board.getAttachList() != null || board.getAttachList().size() != 0)) {
+
+            board.getAttachList().forEach(attach -> {
+                attach.setBoardId(board.getId());
+                attachMapper.insert(attach);
+                log.info("modify attach: {}", attach);
+            });
         }
         board.getAttachList().forEach(attach -> {
             attach.setBoardId(board.getId());
