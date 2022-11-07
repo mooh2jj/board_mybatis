@@ -5,6 +5,7 @@ import com.example.board_springboot.mapper.ReplyMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class ReplyServiceImpl implements ReplyService {
     private final ReplyMapper replyMapper;
 
     @Override
+    @Transactional
     public int insert(ReplyVO reply) {
         int result = replyMapper.insert(reply);
         log.info("reply insert result: {}", result);
@@ -23,6 +25,7 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ReplyVO> getList(Long boardId) {
         log.info("boardId: {}", boardId);
         List<ReplyVO> replyList = replyMapper.getList(boardId);

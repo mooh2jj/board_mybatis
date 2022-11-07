@@ -8,6 +8,7 @@ import com.example.board_springboot.mapper.BoardMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class BoardServiceImpl implements BoardService {
     private final AttachMapper attachMapper;
 
     @Override
+    @Transactional(readOnly = true)
     public List<BoardVO> getAll(Criteria cri) {
         List<BoardVO> all = boardMapper.getAll(cri);
         log.info("all : {}", all);
@@ -28,6 +30,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public int totalCount(Criteria cri) {
         int total = boardMapper.totalCount(cri);
         log.info("boardService total : {}", total);
@@ -35,6 +38,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BoardVO get(Long id) {
         BoardVO boardVO = boardMapper.get(id);
         log.info("get boardVO: {}", boardVO);
@@ -42,6 +46,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    @Transactional
     public int updateHit(Long id) {
         int updateHit = boardMapper.updateHit(id);
         log.info("updateHit: {}", updateHit);
@@ -49,12 +54,14 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    @Transactional
     public void remove(Long id) {
         boolean result = boardMapper.remove(id);
         log.info("remove result : {}", result);
     }
 
     @Override
+    @Transactional
     public boolean modify(BoardVO board) {
         log.info("modify......" + board);
         // 기존 파일 삭제
@@ -71,16 +78,11 @@ public class BoardServiceImpl implements BoardService {
                 log.info("modify attach: {}", attach);
             });
         }
-        board.getAttachList().forEach(attach -> {
-            attach.setBoardId(board.getId());
-            attachMapper.insert(attach);
-            log.info("modify attach: {}", attach);
-        });
-
         return result;
     }
 
     @Override
+    @Transactional
     public void register(BoardVO board) {
 
         long result = boardMapper.registerWithSelectKey(board);
@@ -96,6 +98,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<String> getCategoryList() {
         List<String> categoryList = boardMapper.getCategoryList();
         log.info("getCategoryList: {}", categoryList);
@@ -103,6 +106,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<AttachVO> getAttachList(Long boardId) {
         log.info("get Attach list by boardId: {}", boardId);
         List<AttachVO> attachList = attachMapper.findByBoardId(boardId);
