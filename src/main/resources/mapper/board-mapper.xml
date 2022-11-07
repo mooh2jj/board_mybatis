@@ -94,8 +94,9 @@
         values (null, #{category}, #{password}, #{title}, #{content}, #{writer}, NOW())
     </insert>
 
-    <!--  selectKey   -->
-    <insert id="registerWithSelectKey">
+    <!--  board insert 후 boardId 리턴  -->
+    <!--  selectKey 리턴값은 parameterType에 넘겨준 객체에 넘어간다 BoardVO-->
+    <insert id="registerWithSelectKey" parameterType="com.example.board_springboot.domain.BoardVO">
 
 <!--        <selectKey keyProperty="id" resultType="long" order="BEFORE">-->
 <!--            SELECT MAX(id)+1 FROM board-->
