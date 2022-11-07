@@ -7,7 +7,7 @@ public class PageDTO {
 
     private int total;            // 총 카운트=게시글 총 갯수
     private int startPage;        // 페이지에 보여질 시작페이지번호
-    private int endPage;                // 페이지에 보여질 끝 페이지번호
+    private int endPage;          // 페이지에 보여질 끝 페이지번호
     private int realEnd;          // 제일 마지막 페이지번호
     private boolean prev, next;   // 페이지 이전, 다음 있을지 불린값
 
