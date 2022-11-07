@@ -12,6 +12,28 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>게시판 수정</title>
 </head>
+<style>
+    .uploadResult {
+        width: 100%;
+        background-color: gray;
+    }
+
+    .uploadResult ul {
+        display: flex;
+        flex-flow: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .uploadResult ul li {
+        list-style: none;
+        padding: 10px;
+    }
+
+    .uploadResult ul li img {
+        width: 100px;
+    }
+</style>
 <body>
 
 <h2>게시판 - 수정</h2>
