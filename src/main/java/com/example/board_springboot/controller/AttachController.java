@@ -2,14 +2,25 @@ package com.example.board_springboot.controller;
 
 import com.example.board_springboot.domain.AttachVO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -54,6 +65,10 @@ public class AttachController {
                 attachVO.setUuid(uuid.toString());
                 attachVO.setUploadPath(uploadPath);
 
+                if (checkImageType(saveFile)) {
+                    attachVO.setImage(true);
+                }
+
                 attachList.add(attachVO);
             } catch (Exception e) {
                 log.error(e.getMessage());
@@ -61,6 +76,85 @@ public class AttachController {
         } // end for
 
         return new ResponseEntity<>(attachList, HttpStatus.OK);
+    }
+
+    private boolean checkImageType(File file) {
+
+        try {
+            String contentType = Files.probeContentType(file.toPath());
+            log.info("checkImageType: {}", contentType);
+
+            return contentType.startsWith("image");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    @GetMapping("/display")
+    public ResponseEntity<byte[]> getFile(String fileName, HttpServletRequest request) throws UnsupportedEncodingException {
+
+        log.info("fileName: " + fileName);
+
+        String path = request.getSession().getServletContext().getRealPath("resources");
+        log.info("path: {}", path);     // C:\WebStudy\Study\ebrainSoft\board_mybatis\src\main\webapp\resources
+        String uploadPath = path + File.separator + UPLOAD_DIRECTORY;
+
+        File file = new File(URLDecoder.decode(fileName, "UTF-8"));
+
+        log.info("file: " + file);
+
+        ResponseEntity<byte[]> result = null;
+
+        try {
+            HttpHeaders header = new HttpHeaders();
+
+            header.add("Content-Type", Files.probeContentType(file.toPath()));
+            result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent") String userAgent, String fileName, HttpServletRequest request) throws UnsupportedEncodingException {
+
+        Resource resource = new FileSystemResource(URLDecoder.decode(fileName, "UTF-8"));
+
+        if (resource.exists() == false) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        String resourceName = resource.getFilename();
+
+        // remove UUID
+        String resourceOriginalName = resourceName.substring(resourceName.indexOf("_") + 1);
+
+        HttpHeaders headers = new HttpHeaders();
+        try {
+
+            boolean checkIE = (userAgent.indexOf("MSIE") > -1 || userAgent.indexOf("Trident") > -1);
+
+            String downloadName = null;
+
+            if (checkIE) {
+//                downloadName = URLEncoder.encode(resourceOriginalName, "UTF8").replaceAll("\\+", " ");
+                downloadName = resourceOriginalName.replaceAll("\\+", " ");
+            } else {
+                downloadName = new String(resourceOriginalName.getBytes("UTF-8"), "ISO-8859-1");
+            }
+
+            headers.add("Content-Disposition", "attachment; filename=" + downloadName);
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
     }
 
 }

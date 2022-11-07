@@ -1,6 +1,7 @@
 package com.example.board_springboot.service;
 
 import com.example.board_springboot.common.Criteria;
+import com.example.board_springboot.domain.AttachVO;
 import com.example.board_springboot.domain.BoardVO;
 import com.example.board_springboot.mapper.AttachMapper;
 import com.example.board_springboot.mapper.BoardMapper;
@@ -55,8 +56,20 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public boolean modify(BoardVO board) {
+        log.info("modify......" + board);
+        attachMapper.deleteAll(board.getId());
+
         boolean result = boardMapper.modify(board);
         log.info("modify result: {}", result);
+        if (board.getAttachList() == null || board.getAttachList().size() == 0) {
+            return false;
+        }
+        board.getAttachList().forEach(attach -> {
+            attach.setBoardId(board.getId());
+            attachMapper.insert(attach);
+            log.info("modify attach: {}", attach);
+        });
+
         return result;
     }
 
@@ -80,5 +93,13 @@ public class BoardServiceImpl implements BoardService {
         List<String> categoryList = boardMapper.getCategoryList();
         log.info("getCategoryList: {}", categoryList);
         return categoryList;
+    }
+
+    @Override
+    public List<AttachVO> getAttachList(Long boardId) {
+        log.info("get Attach list by boardId: {}", boardId);
+        List<AttachVO> attachList = attachMapper.findByBoardId(boardId);
+        log.info("attachList: {}", attachList);
+        return attachList;
     }
 }

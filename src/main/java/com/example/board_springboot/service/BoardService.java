@@ -1,6 +1,7 @@
 package com.example.board_springboot.service;
 
 import com.example.board_springboot.common.Criteria;
+import com.example.board_springboot.domain.AttachVO;
 import com.example.board_springboot.domain.BoardVO;
 
 import java.util.List;
@@ -21,4 +22,6 @@ public interface BoardService {
     void register(BoardVO board);
 
     List<String> getCategoryList();
+
+    List<AttachVO> getAttachList(Long boardId);
 }

@@ -2,16 +2,17 @@ package com.example.board_springboot.controller;
 
 import com.example.board_springboot.common.Criteria;
 import com.example.board_springboot.common.PageDTO;
+import com.example.board_springboot.domain.AttachVO;
 import com.example.board_springboot.domain.BoardVO;
 import com.example.board_springboot.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -69,6 +70,12 @@ public class BoardController {
                          @ModelAttribute("cri") Criteria cri
     ) {
         log.info("/board/modify board: " + board);
+        // 파일첨부 로직 추가
+        if (board.getAttachList() != null) {
+            board.getAttachList().forEach(
+                    attach -> log.info("modify attach: {}", attach)
+            );
+        }
         boardService.modify(board);
         return "redirect:/board/list" + cri.getListLink();
     }
@@ -108,5 +115,15 @@ public class BoardController {
         boardService.register(board);
 
         return "redirect:/board/list";
+    }
+
+    @GetMapping(value = "/board/getAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public ResponseEntity<List<AttachVO>> getAttachList(Long boardId) {
+
+        log.info("getAttachList " + boardId);
+
+        return new ResponseEntity<>(boardService.getAttachList(boardId), HttpStatus.OK);
+
     }
 }

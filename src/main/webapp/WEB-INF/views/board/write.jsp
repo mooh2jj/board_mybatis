@@ -102,12 +102,11 @@
 
         $('button').on("click", function(e) {
             e.preventDefault();
-            console.log("submit clicked");
-
             var operation = $(this).data("oper");
-            console.log(operation);
+            console.log("operation: ", operation);
 
             if (operation === 'list') {
+                //move to list
                 formObj.attr("action", "/board/list").attr("method","get");
                 var pageNumTag = $("input[name='pageNum']").clone();
                 var amountTag = $("input[name='amount']").clone();
@@ -122,23 +121,21 @@
                 formObj.append(searchOption);
 
                 formObj.submit();
-            } else if(operation == 'register') {
+            } else if(operation === 'register') {
                 // 나머지는 그냥 submit -> register
 
                 var str = "";
-
                 $(".uploadResult ul li").each(function (i, obj) {
-
                     var jobj = $(obj);
 
                     console.dir(jobj);
                     console.log("-------------------------");
                     console.log(jobj.data("filename"));
 
-                    str += "<input type='hidden' name='attachList[" + i + "].fileName' value='" + jobj.data("filename") + "'>";
                     str += "<input type='hidden' name='attachList[" + i + "].uuid' value='" + jobj.data("uuid") + "'>";
                     str += "<input type='hidden' name='attachList[" + i + "].uploadPath' value='" + jobj.data("path") + "'>";
-                    str += "<input type='hidden' name='attachList[" + i + "].fileType' value='" + jobj.data("type") + "'>";
+                    str += "<input type='hidden' name='attachList[" + i + "].fileName' value='" + jobj.data("filename") + "'>";
+                    str += "<input type='hidden' name='attachList[" + i + "].image' value='" + jobj.data("type") + "'>";
 
                 });
                 console.log("str: ", str);
@@ -243,9 +240,9 @@
                       str +"</li>";
                     }*/
                     //image type
-
+                    console.log("obj.image: ", obj.image)
                     if(obj.image){
-                        var fileCallPath =  encodeURIComponent( obj.uploadPath+ "/s_"+obj.uuid +"_"+obj.fileName);
+                        var fileCallPath =  encodeURIComponent( obj.uploadPath+ "/"+obj.uuid +"_"+obj.fileName);
                         str += "<li data-path='"+obj.uploadPath+"'";
                         str +=" data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'"
                         str +" ><div>";

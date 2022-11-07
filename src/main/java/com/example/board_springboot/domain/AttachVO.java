@@ -8,7 +8,7 @@ public class AttachVO {
     private String uuid;
     private String uploadPath;
     private String fileName;
-    private String fileType;
+    private boolean image;
 
     private Long boardId;
 }

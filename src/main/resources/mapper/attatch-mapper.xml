@@ -4,11 +4,18 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.board_springboot.mapper.AttachMapper">
 
-    <insert id="insert">
-        insert into attach (uuid, upload_path, file_name,
-                            file_type, board_id)
+    <resultMap id="attachVO" type="com.example.board_springboot.domain.AttachVO">
+        <result property="uuid" column="uuid" javaType="String" jdbcType="VARCHAR"/>
+        <result property="uploadPath" column="upload_path" javaType="String" jdbcType="VARCHAR"/>
+        <result property="fileName" column="file_name" javaType="String" jdbcType="VARCHAR"/>
+        <result property="image" column="image" javaType="boolean" jdbcType="CHAR"/>
+        <result property="boardId" column="board_id" javaType="Long" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <insert id="insert" >
+        insert into attach (uuid, upload_path, file_name, image, board_id)
         values (#{uuid}, #{uploadPath}, #{fileName},
-                #{fileType}, #{boardId} )
+                #{image}, #{boardId} )
     </insert>
 
     <delete id="delete">
@@ -17,7 +24,12 @@
 
     </delete>
 
-    <select id="findByBoardId" resultType="com.example.board_springboot.domain.AttachVO">
+    <select id="findByBoardId" resultMap="attachVO">
         select * from attach where board_id = #{boardId}
     </select>
+
+    <delete id="deleteAll">
+        delete from attach where board_id = #{boardId}
+    </delete>
+
 </mapper>

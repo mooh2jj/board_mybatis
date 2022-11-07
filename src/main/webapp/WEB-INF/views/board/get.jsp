@@ -81,6 +81,32 @@
         </form>
     </div>
 </div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+
+            <div class="panel-heading">파일</div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+
+                <div class='uploadResult'>
+                    <ul>
+                    </ul>
+                </div>
+            </div>
+            <!--  end panel-body -->
+        </div>
+        <!--  end panel-body -->
+    </div>
+    <!-- end panel -->
+</div>
+<!-- /.row -->
+
+<div class='bigPictureWrapper'>
+    <div class='bigPicture'>
+    </div>
+</div>
+
 <br>
 <div>
     <div id="listReply"></div>
@@ -206,6 +232,90 @@
             // formObj.submit();   // 무조건 button은 submit이 되게 처리됐음. 나머지 modifyForm 페이지 이동
         });
     });
+</script>
+<script>
+$(document).ready(function(){
+
+    (function(){
+
+        var boardId = '<c:out value="${board.id}"/>';
+
+        $.getJSON("/board/getAttachList", {boardId: boardId}, function(arr){
+
+            console.log(arr);
+
+            var str = "";
+
+            $(arr).each(function(i, attach){
+
+                //image type
+                if(attach.fileType){
+                    var fileCallPath =  encodeURIComponent( attach.uploadPath+ "/"+attach.uuid +"_"+attach.fileName);
+
+                    str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' ><div>";
+                    str += "<img src='/display?fileName="+fileCallPath+"'>";
+                    str += "</div>";
+                    str +"</li>";
+                }else{
+
+                    str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' ><div>";
+                    str += "<span> "+ attach.fileName+"</span><br/>";
+                    str += "<img src='/resources/img/attach.png'></a>";
+                    str += "</div>";
+                    str +"</li>";
+                }
+            });
+
+            $(".uploadResult ul").html(str);
+
+
+        });//end getjson
+
+
+    })();//end function
+
+    $(".uploadResult").on("click","li", function(e){
+
+        console.log("view image");
+
+        var liObj = $(this);
+
+        var path = encodeURIComponent(liObj.data("path")+"/" + liObj.data("uuid")+"_" + liObj.data("filename"));
+
+        // if(liObj.data("type")){
+        //     showImage(path.replace(new RegExp(/\\/g),"/"));
+        // }else {
+        //     //download
+        //     self.location ="/download?fileName="+path
+        // }
+        console.log("path: ", path)
+        // 바로 다운로드
+        self.location ="/download?fileName="+path
+
+    });
+
+    function showImage(fileCallPath){
+
+        alert(fileCallPath);
+
+        $(".bigPictureWrapper").css("display","flex").show();
+
+        $(".bigPicture")
+            .html("<img src='/display?fileName="+fileCallPath+"' >")
+            .animate({width:'100%', height: '100%'}, 1000);
+
+    }
+
+    $(".bigPictureWrapper").on("click", function(e){
+        $(".bigPicture").animate({width:'0%', height: '0%'}, 1000);
+        setTimeout(function(){
+            $('.bigPictureWrapper').hide();
+        }, 1000);
+    });
+
+
+});
+
 </script>
 </body>
 </html>

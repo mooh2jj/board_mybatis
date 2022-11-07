@@ -13,4 +13,5 @@ public interface AttachMapper {
 
     void delete(String uuid);
 
+    void deleteAll(Long id);
 }
