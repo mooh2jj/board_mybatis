@@ -57,6 +57,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public boolean modify(BoardVO board) {
         log.info("modify......" + board);
+        // 기존 파일 삭제
         attachMapper.deleteAll(board.getId());
 
         boolean result = boardMapper.modify(board);

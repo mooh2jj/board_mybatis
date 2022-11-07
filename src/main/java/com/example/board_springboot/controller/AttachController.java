@@ -157,4 +157,42 @@ public class AttachController {
         return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
     }
 
+    /**
+     * 업로드폴더 파일 삭제
+     * @param fileName
+     * @param type
+     * @return
+     */
+    @PostMapping("/deleteFile")
+    public ResponseEntity<String> deleteFile(String fileName, String type) {
+
+        log.info("deleteFile: " + fileName);
+
+        File file;
+
+        try {
+            file = new File(URLDecoder.decode(fileName, "UTF-8"));
+
+            file.delete();
+
+            if (type.equals("image")) {
+
+                String largeFileName = file.getAbsolutePath().replace("s_", "");
+
+                log.info("largeFileName: " + largeFileName);
+
+                file = new File(largeFileName);
+
+                file.delete();
+            }
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<String>("deleted", HttpStatus.OK);
+
+    }
+
 }

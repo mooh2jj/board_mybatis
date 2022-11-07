@@ -44,35 +44,6 @@
                         </label>
                     </td>
                 </tr>
-                <%--                <c:forEach var="fileItem" items="<%=fileItemList%>">--%>
-                <%--                    <tr>--%>
-                <%--                        <c:choose>--%>
-                <%--                            <c:when test="${fileItem.fileName ne null}">--%>
-                <%--                                <td><a href="downloadAction.jsp?fileUUIDName=${fileItem.fileUUIDName}">${fileItem.fileName}</a></td>--%>
-                <%--                            </c:when>--%>
-                <%--                            <c:otherwise>--%>
-                <%--                                <span>&nbsp;</span>--%>
-                <%--                            </c:otherwise>--%>
-                <%--                        </c:choose>--%>
-                <%--                    </tr>--%>
-                <%--                </c:forEach>--%>
-                <%--                <br>--%>
-                <%--                <c:forEach var="reply" items="${replyList}">--%>
-                <%--                    <tr>--%>
-                <%--                        <td>--%>
-                <%--                            <fmt:formatDate pattern="yyyy.MM.dd HH:mm:ss" value="${reply.repliedAt}"/>--%>
-                <%--                            <br>--%>
-                <%--                                ${reply.replyText}--%>
-                <%--                        </td>--%>
-                <%--                    </tr>--%>
-                <%--                </c:forEach>--%>
-
-
-                <%--                <tr>--%>
-                <%--                    <td>--%>
-
-                <%--                    <td>--%>
-                <%--                </tr>--%>
             </table>
             <br>
             <button data-oper='list' class="btn btn-info">목록</button>
@@ -249,16 +220,16 @@ $(document).ready(function(){
             $(arr).each(function(i, attach){
 
                 //image type
-                if(attach.fileType){
+                if(attach.image){
                     var fileCallPath =  encodeURIComponent( attach.uploadPath+ "/"+attach.uuid +"_"+attach.fileName);
 
-                    str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' ><div>";
+                    str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.image+"' ><div>";
+                    str += "<span> "+ attach.fileName+"</span>";
                     str += "<img src='/display?fileName="+fileCallPath+"'>";
                     str += "</div>";
                     str +"</li>";
                 }else{
-
-                    str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' ><div>";
+                    str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.image+"' ><div>";
                     str += "<span> "+ attach.fileName+"</span><br/>";
                     str += "<img src='/resources/img/attach.png'></a>";
                     str += "</div>";

@@ -65,9 +65,7 @@
             <input type='hidden' name='keyword' value='<c:out value="${cri.keyword}"/>'>
             <input type='hidden' name='type' value='<c:out value="${cri.type}"/>'>
 
-            <%--            <input type="button" class="btn btn-primary" onclick="location.href='list.jsp?pageNum=<%=pageNum%>&amount=<%=amount%>'" value="취소">--%>
             <button data-oper='list' class="btn btn-info">목록</button>
-            <%--            <input type="submit" class="btn btn-primary pull-right" value="저장">--%>
             <button data-oper='register' class="btn btn-default">등록</button>
         </form>
     </div>
@@ -122,7 +120,6 @@
 
                 formObj.submit();
             } else if(operation === 'register') {
-                // 나머지는 그냥 submit -> register
 
                 var str = "";
                 $(".uploadResult ul li").each(function (i, obj) {
@@ -197,81 +194,80 @@
                 success: function(result){
                     console.log("result:", result);
                     showUploadResult(result); //업로드 결과 처리 함수
-                    // var output = "";
-                    // for(var i in result) {
-                    //     output += "<li>" + "<input type='hidden' name='attachList[" + i + "].fileName' value='" + result[i].fileName + "'>" + "</li>";
-                    //     output += "<li>" + "<input type='hidden' name='attachList[" + i + "].uuid' value='" + result[i].uuid + "'>" + "</li>";
-                    //     output += "<li>" + "<input type='hidden' name='attachList[" + i + "].uploadPath' value='" + result[i].uploadPath + "'>" + "</li>";
-                    //     output += "<li>" + "<input type='hidden' name='attachList[" + i + "].fileType' value='" + result[i].fileType + "'>" + "</li>";
-                    // }
-                    // console.log("uploadAjaxAction output: ", output);
-                    // $(".uploadResult ul").html(output);
+
                 }
             }); //$.ajax
 
-            function showUploadResult(uploadResultArr){
-
-                if(!uploadResultArr || uploadResultArr.length == 0){ return; }
-
-                var uploadUL = $(".uploadResult ul");
-
-                var str ="";
-
-                $(uploadResultArr).each(function(i, obj){
-
-                     //image type
-/*                    if(obj.image){
-                      var fileCallPath =  encodeURIComponent( obj.uploadPath+ "/s_"+obj.uuid +"_"+obj.fileName);
-                      str += "<li><div>";
-                      str += "<span> "+ obj.fileName+"</span>";
-                      str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-                      str += "<img src='/display?fileName="+fileCallPath+"'>";
-                      str += "</div>";
-                      str +"</li>";
-                    }else{
-                      var fileCallPath =  encodeURIComponent( obj.uploadPath+"/"+ obj.uuid +"_"+obj.fileName);
-                        var fileLink = fileCallPath.replace(new RegExp(/\\/g),"/");
-
-                      str += "<li><div>";
-                      str += "<span> "+ obj.fileName+"</span>";
-                      str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-                      str += "<img src='/resources/img/attach.png'></a>";
-                      str += "</div>";
-                      str +"</li>";
-                    }*/
-                    //image type
-                    console.log("obj.image: ", obj.image)
-                    if(obj.image){
-                        var fileCallPath =  encodeURIComponent( obj.uploadPath+ "/"+obj.uuid +"_"+obj.fileName);
-                        str += "<li data-path='"+obj.uploadPath+"'";
-                        str +=" data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'"
-                        str +" ><div>";
-                        str += "<span> "+ obj.fileName+"</span>";
-                        str += "<button type='button' data-file=\'"+fileCallPath+"\' "
-                        str += "data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-                        str += "<img src='/display?fileName="+fileCallPath+"'>";
-                        str += "</div>";
-                        str +"</li>";
-                    }else{
-                        var fileCallPath =  encodeURIComponent( obj.uploadPath+"/"+ obj.uuid +"_"+obj.fileName);
-                        var fileLink = fileCallPath.replace(new RegExp(/\\/g),"/");
-
-                        str += "<li "
-                        str += "data-path='"+obj.uploadPath+"' data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"' ><div>";
-                        str += "<span> "+ obj.fileName+"</span>";
-                        str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' "
-                        str += "class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-                        str += "<img src='/resources/img/attach.png'></a>";
-                        str += "</div>";
-                        str +"</li>";
-                    }
-
-                });
-
-                uploadUL.append(str);
-            }
-
         });
+
+        function showUploadResult(uploadResultArr){
+
+            if(!uploadResultArr || uploadResultArr.length == 0){ return; }
+
+            var uploadUL = $(".uploadResult ul");
+
+            var str ="";
+
+            $(uploadResultArr).each(function(i, obj){
+
+                //image type
+                console.log("obj.image: ", obj.image)
+                if(obj.image){
+                    var fileCallPath =  encodeURIComponent( obj.uploadPath+ "/"+obj.uuid +"_"+obj.fileName);
+                    str += "<li data-path='"+obj.uploadPath+"'";
+                    str +=" data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'"
+                    str +" ><div>";
+                    str += "<span> "+ obj.fileName+"</span>";
+                    str += "<button type='button' data-file=\'"+fileCallPath+"\' "
+                    str += "data-type='image' class='btn btn-warning btn-circle'>파일삭제</button><br>";
+                    str += "<img src='/display?fileName="+fileCallPath+"'>";
+                    str += "</div>";
+                    str +"</li>";
+                }else{
+                    var fileCallPath =  encodeURIComponent( obj.uploadPath+"/"+ obj.uuid +"_"+obj.fileName);
+                    var fileLink = fileCallPath.replace(new RegExp(/\\/g),"/");
+
+                    str += "<li "
+                    str += "data-path='"+obj.uploadPath+"' data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"' ><div>";
+                    str += "<span> "+ obj.fileName+"</span>";
+                    str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' "
+                    str += "class='btn btn-warning btn-circle'>파일삭제</button><br>";
+                    str += "<img src='/resources/img/attach.png'></a>";
+                    str += "</div>";
+                    str +"</li>";
+                }
+
+            });
+
+            uploadUL.append(str);
+        }
+
+        $(".uploadResult").on("click", "button", function(e){
+
+            console.log("delete file");
+
+            var targetFile = $(this).data("file");
+            var type = $(this).data("type");
+
+            var targetLi = $(this).closest("li");
+
+            $.ajax({
+                url: '/deleteFile',
+                data: {fileName: targetFile, type:type},
+                // beforeSend: function(xhr) {
+                //     xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+                // },
+
+                dataType:'text',
+                type: 'POST',
+                success: function(result){
+                    alert(result);
+
+                    targetLi.remove();
+                }
+            }); //$.ajax
+        });
+
         // 비밀번호 확인
         $('.pw').focusout (function () {
             let password = $("#password").val();
