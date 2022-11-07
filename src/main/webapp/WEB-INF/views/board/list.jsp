@@ -54,6 +54,7 @@
                style="text-align: center; border: 1px solid #dddddd;">
             <tr>
                 <th style="background-color: #eeeeee; text-align: center">카테고리</th>
+                     <%-- TODO: 파일 이미지 표시  --%>
 <%--                <th style="background-color: #eeeeee; text-align: center">&nbsp;</th>--%>
                 <th style="background-color: #eeeeee; text-align: center">제목</th>
                 <th style="background-color: #eeeeee; text-align: center">작성자</th>
