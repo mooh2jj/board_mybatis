@@ -8,7 +8,6 @@ import com.example.board_springboot.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,6 +46,7 @@ public class BoardController {
     ) {
         BoardVO board = boardService.get(id);
         log.info("/board/get board: {}", board);
+        // 조회수도 함께 증가
         boardService.updateHit(id);
 
         model.addAttribute("board", board);
@@ -116,13 +116,11 @@ public class BoardController {
         return "redirect:/board/list";
     }
 
-    @GetMapping(value = "/board/getAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping("/board/getAttachList")
     @ResponseBody
     public ResponseEntity<List<AttachVO>> getAttachList(Long boardId) {
 
         log.info("getAttachList " + boardId);
-
         return new ResponseEntity<>(boardService.getAttachList(boardId), HttpStatus.OK);
-
     }
 }

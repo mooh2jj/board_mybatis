@@ -2,6 +2,7 @@ package com.example.board_springboot.controller;
 
 import com.example.board_springboot.domain.AttachVO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -29,16 +30,13 @@ import java.util.UUID;
 @RestController
 public class AttachController {
 
-    private final static String UPLOAD_DIRECTORY = "upload";
+    @Value("${file.upload.path}")
+    private String uploadPath;
 
     @PostMapping("/uploadAjaxAction")
-    public ResponseEntity<List<AttachVO>> uploadAjaxPost(MultipartFile[] uploadFile, HttpServletRequest request) {
+    public ResponseEntity<List<AttachVO>> uploadAjaxPost(MultipartFile[] uploadFile) {
         log.info("uploadAjaxAction multipartFile[]: {}", uploadFile);
         List<AttachVO> attachList = new ArrayList<>();
-
-        String path = request.getSession().getServletContext().getRealPath("resources");
-        log.info("path: {}", path);     // C:\WebStudy\Study\ebrainSoft\board_mybatis\src\main\webapp\resources
-        String uploadPath = path + File.separator + UPLOAD_DIRECTORY;
 
         for (MultipartFile multipartFile : uploadFile) {
 
@@ -94,20 +92,14 @@ public class AttachController {
     }
 
     @GetMapping("/display")
-    public ResponseEntity<byte[]> getFile(String fileName, HttpServletRequest request) throws UnsupportedEncodingException {
+    public ResponseEntity<byte[]> getFile(String fileName) throws UnsupportedEncodingException {
 
         log.info("fileName: " + fileName);
 
-        String path = request.getSession().getServletContext().getRealPath("resources");
-        log.info("path: {}", path);     // C:\WebStudy\Study\ebrainSoft\board_mybatis\src\main\webapp\resources
-        String uploadPath = path + File.separator + UPLOAD_DIRECTORY;
-
         File file = new File(URLDecoder.decode(fileName, "UTF-8"));
-
         log.info("file: " + file);
 
         ResponseEntity<byte[]> result = null;
-
         try {
             HttpHeaders header = new HttpHeaders();
 
@@ -124,12 +116,11 @@ public class AttachController {
 
         Resource resource = new FileSystemResource(URLDecoder.decode(fileName, "UTF-8"));
 
-        if (resource.exists() == false) {
+        if (!resource.exists()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         String resourceName = resource.getFilename();
-
         // remove UUID
         String resourceOriginalName = resourceName.substring(resourceName.indexOf("_") + 1);
 
@@ -137,7 +128,6 @@ public class AttachController {
         try {
 
             boolean checkIE = (userAgent.indexOf("MSIE") > -1 || userAgent.indexOf("Trident") > -1);
-
             String downloadName = null;
 
             if (checkIE) {
@@ -146,14 +136,12 @@ public class AttachController {
             } else {
                 downloadName = new String(resourceOriginalName.getBytes("UTF-8"), "ISO-8859-1");
             }
-
             headers.add("Content-Disposition", "attachment; filename=" + downloadName);
-
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
-        return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
+        return new ResponseEntity<>(resource, headers, HttpStatus.OK);
     }
 
     /**
@@ -166,9 +154,7 @@ public class AttachController {
     public ResponseEntity<String> deleteFile(String fileName, String type) {
 
         log.info("deleteFile: " + fileName);
-
         File file;
-
         try {
             file = new File(URLDecoder.decode(fileName, "UTF-8"));
 
@@ -177,9 +163,7 @@ public class AttachController {
             if (type.equals("image")) {
 
                 String largeFileName = file.getAbsolutePath().replace("s_", "");
-
                 log.info("largeFileName: " + largeFileName);
-
                 file = new File(largeFileName);
 
                 file.delete();
@@ -190,8 +174,7 @@ public class AttachController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<String>("deleted", HttpStatus.OK);
-
+        return new ResponseEntity<>("deleted", HttpStatus.OK);
     }
 
 }

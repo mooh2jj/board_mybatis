@@ -17,6 +17,13 @@ spring:
       prefix: /WEB-INF/views/
       suffix: .jsp
 
+  servlet:
+    multipart:
+      enabled: 'true'
+      max-request-size: 215MB
+      file-size-threshold: 2KB
+      max-file-size: 200MB
+
   datasource:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
     url: jdbc:log4jdbc:mysql://localhost:3306/board_dsg?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
@@ -37,3 +44,7 @@ spring:
 logging:
   level:
     org.hibernate.SQL: debug
+
+file:
+  upload:
+    path: C:\\upload
