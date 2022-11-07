@@ -234,7 +234,9 @@ $(document).ready(function() {
                     str +=" data-filename='"+attach.fileName+"' data-type='"+attach.image+"'>";
                     str += "<div>";
                     str += "<span> "+ attach.fileName+"</span>";
-                    str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='image' ";
+                    str += "<button data-oper='download' data-file=\'"+fileCallPath+"\' data-type='image' "
+                    str += " class='btn btn-warning btn-circle'>Download</button>";
+                    str += "<button data-oper='delete' data-file=\'"+fileCallPath+"\' data-type='image' ";
                     str += "class='btn btn-warning btn-circle'>X</button><br>";
                     str += "<img src='/display?fileName="+fileCallPath+"'>";
                     str += "</div>";
@@ -245,8 +247,10 @@ $(document).ready(function() {
                     str += "data-filename='"+attach.fileName+"' data-type='"+attach.image+"'>";
                     str += "<div>";
                     str += "<span> "+ attach.fileName+"</span>";
-                    str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' "
-                    str += " class='btn btn-warning btn-circle'>X</button><br>";
+                    str += "<button data-oper='download' data-file=\'"+fileCallPath+"\' data-type='file' "
+                    str += " class='btn btn-warning btn-circle'>Download</button>";
+                    str += "<button data-oper='delete' data-file=\'"+fileCallPath+"\' data-type='file' ";
+                    str += "class='btn btn-warning btn-circle'>X</button><br>";
                     str += "<img src='/resources/img/attach.png'></a>";
                     str += "</div>";
                     str +"</li>";
@@ -261,32 +265,33 @@ $(document).ready(function() {
 // 수정시 화면상 파일 삭제, 업로드 폴더 삭제는 하지 않음. -> 수정버튼 누를시, 업로드 폴더 삭제케 서버에서 처리
     $(".uploadResult").on("click", "button", function(e){
 
-        console.log("delete file");
+        var operation = $(this).data("oper");
+        console.log("operation: ", operation);
+        // 파일 '화면상' 삭제
+        if (operation === 'delete') {
+            console.log("delete file");
+            if(confirm("파일을 삭제하시겠습니까?? ")){
 
-        if(confirm("파일을 삭제하시겠습니까?? ")){
-
-            var targetLi = $(this).closest("li");
-            targetLi.remove();
+                var targetLi = $(this).closest("li");
+                targetLi.remove();
+            }
         }
-    });
-// 파일 다운로드
-    $(".uploadResult").on("click","li", function(e){
+        // 파일 다운로드
+        if (operation === 'download') {
+            console.log("download file");
+            var liObj = $(this).closest("li");
 
-        console.log("view image");
-
-        var liObj = $(this);
-
-        var path = encodeURIComponent(liObj.data("path")+"/" + liObj.data("uuid")+"_" + liObj.data("filename"));
-
-        // if(liObj.data("type")){
-        //     showImage(path.replace(new RegExp(/\\/g),"/"));
-        // }else {
-        //     //download
-        //     self.location ="/download?fileName="+path
-        // }
-        console.log("path: ", path)
-        // 바로 다운로드
-        self.location ="/download?fileName="+path
+            var path = encodeURIComponent(liObj.data("path")+"/" + liObj.data("uuid")+"_" + liObj.data("filename"));
+            // if(liObj.data("type")){
+            //     showImage(path.replace(new RegExp(/\\/g),"/"));
+            // }else {
+            //     //download
+            //     self.location ="/download?fileName="+path
+            // }
+            console.log("path: ", path)
+            // 바로 다운로드
+            self.location ="/download?fileName="+path
+        }
 
     });
 
