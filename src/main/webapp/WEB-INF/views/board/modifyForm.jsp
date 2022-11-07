@@ -235,6 +235,18 @@ $(document).ready(function() {
         });//end getjson
     })();//end function
 
+// 수정시 화면상 파일 삭제, 업로드 폴더 삭제는 하지 않음. -> 수정버튼 누를시, 업로드 폴더 삭제케 서버에서 처리
+    $(".uploadResult").on("click", "button", function(e){
+
+        console.log("delete file");
+
+        if(confirm("파일을 삭제하시겠습니까?? ")){
+
+            var targetLi = $(this).closest("li");
+            targetLi.remove();
+        }
+    });
+
 // 파일업로드 따로 처리
     var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
     var maxSize = 5242880; //5MB
@@ -333,35 +345,6 @@ $(document).ready(function() {
 
         uploadUL.append(str);
     }
-
-    $(".uploadResult").on("click", "button", function(e){
-
-        console.log("delete file");
-
-        var targetFile = $(this).data("file");
-        var type = $(this).data("type");
-
-        var targetLi = $(this).closest("li");
-
-        if(confirm("파일을 삭제하시겠습니까?? ")) {
-            // 업로드 폴더에 파일 삭제
-            $.ajax({
-                url: '/deleteFile',
-                data: {fileName: targetFile, type: type},
-                // beforeSend: function(xhr) {
-                //     xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
-                // },
-
-                dataType: 'text',
-                type: 'POST',
-                success: function (result) {
-                    alert(result);
-
-                    targetLi.remove();
-                }
-            }); //$.ajax
-        }
-    });
 
 });
 </script>
