@@ -118,4 +118,11 @@
         ORDER BY name
     </select>
 
+    <!--  게시물 패스워드 리턴  -->
+    <select id="findPassword" resultType="String">
+        select password from board
+        where id = #{boardId}
+    </select>
+
+
 </mapper>

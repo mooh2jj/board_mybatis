@@ -25,4 +25,6 @@ public interface BoardMapper {
     List<String> getCategoryList();
 
     Long registerWithSelectKey(BoardVO board);
+
+    String findPassword(Long boardId);
 }

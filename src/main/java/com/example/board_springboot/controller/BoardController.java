@@ -120,7 +120,15 @@ public class BoardController {
     @ResponseBody
     public ResponseEntity<List<AttachVO>> getAttachList(Long boardId) {
 
-        log.info("getAttachList " + boardId);
+        log.info("getAttachList boardId" + boardId);
         return new ResponseEntity<>(boardService.getAttachList(boardId), HttpStatus.OK);
+    }
+
+    @GetMapping("/board/getPassword/{boardId}")
+    public ResponseEntity<String> getPassword(@PathVariable("boardId") Long boardId) {
+
+        String password = boardService.getPassword(boardId);
+        log.info("getPassword, password {}", password);
+        return new ResponseEntity<>(password, HttpStatus.OK);
     }
 }

@@ -113,4 +113,13 @@ public class BoardServiceImpl implements BoardService {
         log.info("attachList: {}", attachList);
         return attachList;
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public String getPassword(Long boardId) {
+        log.info("get Password boardId: {}", boardId);
+        String password = boardMapper.findPassword(boardId);
+        log.info("password: {}", password);
+        return password;
+    }
 }

@@ -79,8 +79,9 @@
                 <tr>
                     <td style="width: 20%; background-color: #eeeeee;">비밀번호</td>
                     <td colspan="2">
-                        <input type="text" class="form-control"
-                               placeholder="비밀번호" name="password" maxlength="50">
+                        <input type="text" class="pw" placeholder="비밀번호" name="password" id="password" maxlength="50">
+                        <span id="alert-success" style="display: none; color: #2b52f6; font-weight: bold;">비밀번호가 일치합니다.</span>
+                        <span id="alert-danger" style="display: none; color: #d92742; font-weight: bold;">비밀번호가 일치하지 않습니다.</span>
                     </td>
                 </tr>
                 <tr>
@@ -392,6 +393,38 @@ $(document).ready(function() {
         });
 
         uploadUL.append(str);
+    }
+
+    $('.pw').on("keydown", function () {
+        let password = $('#password').val();
+        console.log("password: ", password)
+
+        let boardId = '<c:out value="${board.id}"/>';
+
+        $.ajax({
+            type: "get",
+            url: "/board/getPassword/" + boardId,
+            dataType: "text",
+            success: function (result) {
+                console.log(result);
+                checkPassword(result);
+            },
+
+        })
+    });
+
+    function checkPassword(result) {
+        let password = $('#password').val();
+        console.log("password: ", password)
+        if (password === result) {
+            $("#alert-success").css('display', 'inline-block');
+            $("#alert-danger").css('display', 'none');
+        } else {
+            alert("비밀번호가 일치하지 않습니다. 비밀번호를 재확인해주세요.");
+            $("#alert-success").css('display', 'none');
+            $("#alert-danger").css('display', 'inline-block');
+            return false;
+        }
     }
 
 });

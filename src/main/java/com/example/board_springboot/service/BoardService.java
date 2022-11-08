@@ -24,4 +24,6 @@ public interface BoardService {
     List<String> getCategoryList();
 
     List<AttachVO> getAttachList(Long boardId);
+
+    String getPassword(Long boardId);
 }

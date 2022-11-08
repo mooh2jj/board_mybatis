@@ -33,6 +33,29 @@
     .uploadResult ul li img {
         width: 100px;
     }
+
+    /* The Modal (background) */
+    .searchModal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 10; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content/Box */
+    .search-modal-content {
+        background-color: #fefefe;
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 70%; /* Could be more or less, depending on screen size */
+    }
 </style>
 <body>
 
@@ -68,9 +91,9 @@
                 </tr>
             </table>
             <br>
-            <button data-oper='list' class="btn btn-info">목록</button>
-            <button data-oper='modifyForm' class="btn btn-default">수정</button>
-            <button data-oper="remove" class="btn btn-danger">삭제</button>
+            <button id="list" data-oper='list' class="btn btn-info">목록</button>
+            <button id="modifyForm" data-oper='modifyForm' class="btn btn-default">수정</button>
+            <button id="remove" data-oper="remove" class="btn btn-danger">삭제</button>
         </form>
     </div>
 </div>
@@ -107,11 +130,36 @@
     <button type="button" id="btnReply">등록</button>
 </div>
 
+<!-- 비밀번호 Modal창 -->
+<div id="modal" class="searchModal">
+    <div class="search-modal-content">
+        <div class="page-header">
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-12">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+    <div style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;">
+        비밀번호 <input type="text" class="pw" placeholder="비밀번호" name="password" id="password" maxlength="50">
+        <span id="alert-success" style="display: none; color: #2b52f6; font-weight: bold;">비밀번호가 일치합니다.</span>
+        <span id="alert-danger" style="display: none; color: #d92742; font-weight: bold;">비밀번호가 일치하지 않습니다.</span>
+    </div>
+    <div class="modal-footer">
+        <button id='modalCancel' type="button" class="btn btn-primary">취소</button>
+        <button id='modalCheck' type="button" class="btn btn-default">확인</button>
+    </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"
         integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script>
     $(document).ready(function () {
-
+        // 댓글 보여주기
         listReply();
 
         $('#btnReply').on('click', function (e) {
@@ -193,37 +241,81 @@
 <script>
     $(document).ready(function () {
         var formObj = $("#form");
-        $('button').on("click", function (e) {
+        var modal = $("#modal");
+        $("#remove").on("click", function (e) {
+            e.preventDefault();
+            modal.show();
+        });
+
+        $("#list").on("click", function (e) {
             e.preventDefault();
 
-            var operation = $(this).data("oper");
-            console.log(operation);
+            formObj.attr("action", "/board/list").attr("method", "get");
+            var pageNumTag = $("input[name='pageNum']").clone();
+            var amountTag = $("input[name='amount']").clone();
+            var keywordTag = $("input[name='keyword']").clone();
+            var typeTag = $("input[name='type']").clone();
 
-            if (operation === 'remove') {
-                alert('정말로 삭제하시겠습니까?');
+            formObj.empty();
+
+            formObj.append(pageNumTag);
+            formObj.append(amountTag);
+            formObj.append(keywordTag);
+            formObj.append(typeTag);
+            formObj.submit();
+        });
+
+        $("#modifyForm").on("click", function () {
+            formObj.submit();
+        });
+
+        // modal 비밀번호
+        // modal창 닫기
+        $("#modalCancel").on("click", function (e) {
+            e.preventDefault();
+            modal.hide();
+            // 비밀번호 입력창 초기화
+            modal.find("input[name='password']").val("");
+            $("#alert-danger").css('display', 'none');
+            $("#alert-success").css('display', 'none');
+        });
+
+        // modal창 비밀번호 체크 후 삭제
+        $("#modalCheck").on("click", function (e) {
+            e.preventDefault();
+            if (confirm("정말 삭제하시겠습니까?")) {
                 formObj.attr("action", "/board/remove").attr("method", "post");
                 formObj.submit();
-            } else if (operation === 'list') {
-                formObj.attr("action", "/board/list").attr("method", "get");
-                var pageNumTag = $("input[name='pageNum']").clone();
-                var amountTag = $("input[name='amount']").clone();
-                var keywordTag = $("input[name='keyword']").clone();
-                var typeTag = $("input[name='type']").clone();
-
-                formObj.empty();
-
-                formObj.append(pageNumTag);
-                formObj.append(amountTag);
-                formObj.append(keywordTag);
-                formObj.append(typeTag);
-                formObj.submit();
-            } else if (operation == 'modifyForm') {
-                formObj.submit();
             }
-
-            // formObj.append(str).submit();
-            // formObj.submit();   // 무조건 button은 submit이 되게 처리됐음. 나머지 modifyForm 페이지 이동
         });
+
+        $('.pw').on("keydown", function () {
+            let boardId = '<c:out value="${board.id}"/>';
+
+            $.ajax({
+                type: "get",
+                url: "/board/getPassword/" + boardId,
+                dataType: "text",
+                success: function (result) {
+                    console.log(result);
+                    checkPassword(result);
+                },
+            })
+        });
+
+        function checkPassword(result) {
+            let password = $('#password').val();
+            console.log("password: ", password)
+            if (password === result) {
+                $("#alert-success").css('display', 'inline-block');
+                $("#alert-danger").css('display', 'none');
+            } else {
+                alert("비밀번호가 일치하지 않습니다. 비밀번호를 재확인해주세요.");
+                $("#alert-success").css('display', 'none');
+                $("#alert-danger").css('display', 'inline-block');
+                return false;
+            }
+        }
     });
 </script>
 <script>
