@@ -91,4 +91,53 @@ public class FileController {
             }
         return "result";
     }
+    
+    
+    @RequestMapping("download")
+	public void fileDownload(HttpServletRequest req, HttpServletResponse res) {
+		String filename = req.getParameter("fileName");
+		String readFilename = "";
+		System.out.println("filename: "+filename);
+		
+			try {
+				String browser = req.getHeader("User-Agent"); // User-Agent 정보 꼭 필요!
+				// 파일 인코딩
+				if(browser.contains("MSIE") || browser.contains("Trident") || browser.contains("Chrome")) {
+				filename = URLEncoder.encode(filename, "UTF-8").replaceAll("\\+", "%20");
+				
+			} else {
+					filename = new String(filename.getBytes("UTF-8"), "ISO-8859-1");
+			}
+		} catch (UnsupportedEncodingException e) {
+			
+			e.printStackTrace();
+			}
+			readFilename = "I:\\upload\\" + filename;
+			System.out.println("readFilename: "+ readFilename);
+			File file = new File(readFilename);
+			if(!file.exists()) {
+				return ;
+		}
+		
+		// 파일명 지정
+		res.setContentType("application/octer-stream");
+		res.setHeader("Content-Transfer-Encoding", "binary;");
+		res.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");  // Content-Disposition, 그리고 다운로드할 파일명 적어줘야!
+		
+		try {
+			OutputStream os = res.getOutputStream();
+			FileInputStream fis = new FileInputStream(readFilename);
+			
+			int ncount = 0;
+			byte[] bytes = new byte[512];
+			
+			while((ncount = fis.read(bytes)) != -1) {
+				os.write(bytes, 0, ncount);
+			}
+			fis.close();
+			os.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
