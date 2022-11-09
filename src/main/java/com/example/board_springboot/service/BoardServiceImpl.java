@@ -66,9 +66,11 @@ public class BoardServiceImpl implements BoardService {
         log.info("modify......" + board);
         // 기존 파일 삭제
         attachMapper.deleteAll(board.getId());
-
+        // 파일유무 false 등록
+        boardMapper.removeFileYN(board.getId());
         boolean result = boardMapper.modify(board);
         log.info("modify result: {}", result);
+
         // 게시판 수정 후 attach insert 가능하게 처리
         if (result && board.getAttachList() != null && board.getAttachList().size() != 0) {
             board.getAttachList().forEach(attach -> {
@@ -79,8 +81,6 @@ public class BoardServiceImpl implements BoardService {
             // 파일유무 true 등록
             boardMapper.registerFileYN(board.getId());
         }
-        // 그외 파일유무 false 등록
-        boardMapper.removeFileYN(board.getId());
         return result;
     }
 
