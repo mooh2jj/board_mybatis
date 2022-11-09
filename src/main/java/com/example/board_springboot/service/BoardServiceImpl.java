@@ -70,31 +70,34 @@ public class BoardServiceImpl implements BoardService {
         boolean result = boardMapper.modify(board);
         log.info("modify result: {}", result);
         // 게시판 수정 후 attach insert 가능하게 처리
-        if (result && (board.getAttachList() != null || board.getAttachList().size() != 0)) {
-
+        if (result && board.getAttachList() != null && board.getAttachList().size() != 0) {
             board.getAttachList().forEach(attach -> {
                 attach.setBoardId(board.getId());
                 attachMapper.insert(attach);
                 log.info("modify attach: {}", attach);
             });
+            // 파일유무 true 등록
+            boardMapper.registerFileYN(board.getId());
         }
+        // 그외 파일유무 false 등록
+        boardMapper.removeFileYN(board.getId());
         return result;
     }
 
     @Override
     @Transactional
     public void register(BoardVO board) {
-
         long result = boardMapper.registerWithSelectKey(board);
         log.info("register result: {}", result);
-        if (board.getAttachList() == null || board.getAttachList().size() == 0) {
-            return;
-        }
 
-        board.getAttachList().forEach(attach -> {
-            attach.setBoardId(board.getId());
-            attachMapper.insert(attach);
-        });
+        if (board.getAttachList() != null && board.getAttachList().size() != 0) {
+            board.getAttachList().forEach(attach -> {
+                attach.setBoardId(board.getId());
+                attachMapper.insert(attach);
+            });
+            // 파일유무 true 등록
+            boardMapper.registerFileYN(board.getId());
+        }
     }
 
     @Override

@@ -54,8 +54,7 @@
                style="text-align: center; border: 1px solid #dddddd;">
             <tr>
                 <th style="background-color: #eeeeee; text-align: center">카테고리</th>
-                     <%-- TODO: 파일 이미지 표시  --%>
-<%--                <th style="background-color: #eeeeee; text-align: center">&nbsp;</th>--%>
+                <th style="background-color: #eeeeee; text-align: center">&nbsp;</th>
                 <th style="background-color: #eeeeee; text-align: center">제목</th>
                 <th style="background-color: #eeeeee; text-align: center">작성자</th>
                 <th style="background-color: #eeeeee; text-align: center">조회수</th>
@@ -65,14 +64,14 @@
             <c:forEach var="board" items="${list}">
                 <tr>
                     <td>${board.category}</td>
-<%--                    <c:choose>--%>
-<%--                        <c:when test="${board.fileYn}">--%>
-<%--                            <td><img src="/img/file_img.png"  alt=""></td>--%>
-<%--                        </c:when>--%>
-<%--                        <c:otherwise>--%>
-<%--                            <td>&nbsp;</td>--%>
-<%--                        </c:otherwise>--%>
-<%--                    </c:choose>--%>
+                    <c:choose>
+                        <c:when test="${board.fileYN}">
+                            <td><img src="/resources/img/file_img.png"  alt=""></td>
+                        </c:when>
+                        <c:otherwise>
+                            <td>&nbsp;</td>
+                        </c:otherwise>
+                    </c:choose>
                     <td style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap; max-width: 500px"><a class="move" href="${board.id}"> ${board.title}</a></td>
                     <td>${board.writer}</td>
                     <td>${board.hit}</td>

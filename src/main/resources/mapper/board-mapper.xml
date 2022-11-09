@@ -12,6 +12,7 @@
         <result property="content" column="content" javaType="String" jdbcType="VARCHAR"/>
         <result property="writer" column="writer" javaType="String" jdbcType="VARCHAR"/>
         <result property="hit" column="hit" javaType="int" jdbcType="INTEGER"/>
+        <result property="fileYN" column="file_yn" javaType="boolean" jdbcType="INTEGER"/>
         <result property="createdAt" column="created_at" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
         <result property="updatedAt" column="updated_at" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
     </resultMap>
@@ -118,9 +119,23 @@
         ORDER BY name
     </select>
 
-    <!--  게시물 패스워드 리턴  -->
+    <!--  게시글 패스워드 리턴  -->
     <select id="findPassword" resultType="String">
         select password from board
+        where id = #{boardId}
+    </select>
+
+    <!--  게시글 파일유무 true 등록 -->
+    <select id="registerFileYN">
+        update board
+        set file_yn = 1
+        where id = #{boardId}
+    </select>
+
+    <!--  게시글 파일유무 false 등록 -->
+    <select id="removeFileYN">
+        update board
+        set file_yn = 0
         where id = #{boardId}
     </select>
 

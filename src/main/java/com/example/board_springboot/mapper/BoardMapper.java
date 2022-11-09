@@ -27,4 +27,8 @@ public interface BoardMapper {
     Long registerWithSelectKey(BoardVO board);
 
     String findPassword(Long boardId);
+
+    void registerFileYN(Long id);
+
+    void removeFileYN(Long id);
 }

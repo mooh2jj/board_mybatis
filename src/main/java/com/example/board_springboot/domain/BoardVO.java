@@ -14,6 +14,7 @@ public class BoardVO {
     private String content;
     private String writer;
     private int hit;
+    private boolean fileYN;
 
     /**
      * Timestamp -> LocalDateTime
