@@ -166,10 +166,10 @@
 
         });
 
-        $("#regBtn").on("click", function() {
-
-            self.location = "/board/register";
-
+        $("#regBtn").on("click", function(e) {
+            e.preventDefault();
+            actionForm.attr("action", "/board/register");
+            actionForm.submit();
         });
 
     });
