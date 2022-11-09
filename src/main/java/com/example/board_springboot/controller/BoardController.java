@@ -124,9 +124,11 @@ public class BoardController {
         return new ResponseEntity<>(boardService.getAttachList(boardId), HttpStatus.OK);
     }
 
-    @GetMapping("/board/getPassword/{boardId}")
-    public ResponseEntity<String> getPassword(@PathVariable("boardId") Long boardId) {
+    @PostMapping("/board/getPassword")
+    public ResponseEntity<String> getPassword(@RequestParam("boardId") String boardIdStr) {
+        log.info("/board/getPassword boardId: {}", boardIdStr);
 
+        Long boardId = Long.parseLong(boardIdStr);
         String password = boardService.getPassword(boardId);
         log.info("getPassword, password {}", password);
         return new ResponseEntity<>(password, HttpStatus.OK);

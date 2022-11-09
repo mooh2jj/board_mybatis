@@ -289,13 +289,13 @@
             }
         });
 
-        $('.pw').on("keydown", function () {
+        $('.pw').on("focusout", function () {
             let boardId = '<c:out value="${board.id}"/>';
 
             $.ajax({
-                type: "get",
-                url: "/board/getPassword/" + boardId,
-                dataType: "text",
+                type: "post",
+                url: "/board/getPassword",
+                data: {"boardId": boardId},
                 success: function (result) {
                     console.log(result);
                     checkPassword(result);
@@ -310,7 +310,6 @@
                 $("#alert-success").css('display', 'inline-block');
                 $("#alert-danger").css('display', 'none');
             } else {
-                alert("비밀번호가 일치하지 않습니다. 비밀번호를 재확인해주세요.");
                 $("#alert-success").css('display', 'none');
                 $("#alert-danger").css('display', 'inline-block');
                 return false;
