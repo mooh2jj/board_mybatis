@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
@@ -30,7 +31,6 @@ public class BoardController {
         log.info("total: {}", total);
 
         PageDTO pageDTO = new PageDTO(cri, total);   // default
-
         model.addAttribute("list", boardService.getAll(cri));
 
         log.info("pageDTO: {}", pageDTO);
@@ -65,8 +65,9 @@ public class BoardController {
     }
 
     @PostMapping("/board/modify")
-    public String modify(BoardVO board,
-                         @ModelAttribute("cri") Criteria cri
+    public String modify(
+            @Valid BoardVO board,
+            @ModelAttribute("cri") Criteria cri
     ) {
         log.info("/board/modify board: " + board);
         // 파일첨부 로직 추가
@@ -101,7 +102,7 @@ public class BoardController {
     }
 
     @PostMapping("/board/register")
-    public String register(BoardVO board) {
+    public String register(@Valid BoardVO board) {
         log.info("/board/register board: {}", board);
 
         // 파일첨부 로직 추가
@@ -125,12 +126,15 @@ public class BoardController {
     }
 
     @PostMapping("/board/getPassword")
-    public ResponseEntity<String> getPassword(@RequestParam("boardId") String boardIdStr) {
+    public ResponseEntity<String> getPassword(
+            @RequestParam("boardId") String boardIdStr
+    ) {
         log.info("/board/getPassword boardId: {}", boardIdStr);
 
         Long boardId = Long.parseLong(boardIdStr);
         String password = boardService.getPassword(boardId);
         log.info("getPassword, password {}", password);
+
         return new ResponseEntity<>(password, HttpStatus.OK);
     }
 }

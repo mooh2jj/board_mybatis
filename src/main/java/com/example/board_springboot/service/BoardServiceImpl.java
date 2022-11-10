@@ -47,7 +47,7 @@ public class BoardServiceImpl implements BoardService {
     @Transactional(readOnly = true)
     public BoardVO get(Long id) {
         BoardVO board = boardMapper.get(id);
-        validateEntity(board);
+
         log.info("get board: {}", board);
         return board;
     }
@@ -156,7 +156,7 @@ public class BoardServiceImpl implements BoardService {
         if (board == null) {
             throw new CustomException(ErrorCode.NO_FOUND_ENTITY);
         }
-        if (boardMapper.getCount(board.getId()) > 0) {
+        if (boardMapper.getCount(board.getId()) > 1) {
             throw new CustomException(ErrorCode.DUPLICATED_ENTITY);
         }
 
