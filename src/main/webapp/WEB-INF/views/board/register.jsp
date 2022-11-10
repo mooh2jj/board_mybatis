@@ -46,7 +46,7 @@
                 <tr>
                     <td style="width: 20%; background-color: #eeeeee;">카테고리</td>
                     <td colspan="2">
-                        <select name="category" size="1">
+                        <select id="category" name="category" size="1">
                             <option value="" selected></option>
                             <c:forEach var="category" items="${categories}">
                                 <option value="${category}">${category}</option>
@@ -56,24 +56,24 @@
                 </tr>
                 <tr>
                     <td style="width: 20%; background-color: #eeeeee;">작성자</td>
-                    <td colspan="2"><input type="text" class="form-control" placeholder="작성자" name="writer" maxlength="50"></td>
+                    <td colspan="2"><input type="text" id="writer" class="check" placeholder="작성자" name="writer" maxlength="50"></td>
                 </tr>
                 <tr>
                     <td style="width: 20%; background-color: #eeeeee;">비밀번호</td>
                     <td colspan="2">
-                        <input type="text" class="pw" placeholder="비밀번호" id="password" name="password" maxlength="50">
-                        <input type="text" class="pw" placeholder="비밀번호 확인" id="passwordCheck" name="passwordCheck" maxlength="50">
+                        <input type="text" class="check" placeholder="비밀번호" id="password" name="password" maxlength="50">
+                        <input type="text" class="check" placeholder="비밀번호 확인" id="passwordCheck" name="passwordCheck" maxlength="50">
                         <span id="alert-success" style="display: none; color: #2b52f6; font-weight: bold;">비밀번호가 일치합니다.</span>
                         <span id="alert-danger" style="display: none; color: #d92742; font-weight: bold;">비밀번호가 일치하지 않습니다.</span>
                     </td>
                 </tr>
                 <tr>
                     <td style="width: 20%; background-color: #eeeeee;">제목</td>
-                    <td colspan="2"><input type="text" class="form-control" placeholder="제목" name="title" size="67" maxlength="300"></td>
+                    <td colspan="2"><input type="text" id="title" class="check" placeholder="제목" name="title" size="67" maxlength="300"></td>
                 </tr>
                 <tr>
                     <td style="width: 20%; background-color: #eeeeee;">내용</td>
-                    <td colspan="2"><textarea class="form-control" placeholder="글 내용" name="content" rows="10" cols="65" maxlength="4000"></textarea></td>
+                    <td colspan="2"><textarea id="content" class="check" placeholder="글 내용" name="content" rows="10" cols="65" maxlength="4000"></textarea></td>
                 </tr>
 <%--                <tr>--%>
 <%--                    <td style="width: 20%; background-color: #eeeeee;">파일 첨부</td>--%>
@@ -291,24 +291,95 @@
             }); //$.ajax
         });
 
-        // 비밀번호 확인
-        $('.pw').focusout (function () {
-            let password = $("#password").val();
-            let passwordCheck = $("#passwordCheck").val();
-            console.log("password:", password);
-            console.log("passwordCheck:", passwordCheck);
+    });
+</script>
+<script>
+    $(function () {
+        // 등록시 값 유효성 검사
+        $('.check').on('change', function (e) {
+            e.preventDefault();
+            let category = $("#category option:selected");
 
-            if (password !== '' && passwordCheck === '') {
-                null;
-            } else if (password !== '' || passwordCheck !== '') {
-                if (password === passwordCheck) {
+            let writer = $('#writer');
+            let title = $('#title');
+            let content = $('#content');
+
+            let password = $("#password");
+            let passwordCheck = $("#passwordCheck");
+
+            if (category.val() === "") {
+                alert("카테고리를 입력하세요.");
+                category.focus();
+                return false;
+            }
+
+            if (writer.val() === "" || writer.val().length === 0) {
+                alert("작성자명을 입력하세요.");
+                writer.focus();
+                return false;
+            }
+
+            if(writer.val().length < 3 || writer.val().length > 5){
+                alert("작성자명은 3글자 이상 5글자 미만이어야 합니다.");
+                writer.val("");
+                writer.focus();
+                return false;
+            }
+
+            if (password.val() === "" || password.val().length === 0) {
+                alert("비밀번호을 입력하세요.");
+                password.focus();
+                return false;
+            }
+
+            let check_pw = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{4,15}$/;
+            if (!check_pw.test(password.val()) ) {
+                alert("비밀번호는 4글자 이상, 16글자 미만 그리고 영문/숫자/특수문자 포함이어야 합니다.");
+                password.val("");
+                password.focus();
+                return false;
+            }
+
+            if (passwordCheck.val() === "" || passwordCheck.val().length === 0) {
+                alert("비밀번호 확인을 위하여 다시한번 입력해주세요");
+                passwordCheck.focus();
+                return false;
+            }
+
+            if (password.val() !== '' && passwordCheck.val() !== '') {
+                if (password.val() === passwordCheck.val()) {
                     $("#alert-success").css('display', 'inline-block');
                     $("#alert-danger").css('display', 'none');
                 } else {
                     $("#alert-success").css('display', 'none');
                     $("#alert-danger").css('display', 'inline-block');
+                    passwordCheck.val("");
+                    passwordCheck.focus();
+                    return false;
                 }
             }
+
+            if(title.val() === "" || title.val().length === 0){
+                alert("제목을 입력해주세요.");
+                title.val("");
+                title.focus();
+                return false;
+            }
+
+            if (title.val().length < 4 || title.val().length > 100) {
+                alert("제목은 4글자 이상 100글자 미만이어야 합니다.");
+                title.val("");
+                title.focus();
+                return false;
+            }
+
+            if (content.val().length < 4 || content.val().length > 2000) {
+                alert("내용은 4글자 이상 2000글자 미만이어야 합니다.");
+                content.val("");
+                content.focus();
+                return false;
+            }
+
         });
     });
 </script>
