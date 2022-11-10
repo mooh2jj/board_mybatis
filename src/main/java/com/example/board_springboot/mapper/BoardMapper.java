@@ -31,4 +31,6 @@ public interface BoardMapper {
     void registerFileYN(Long id);
 
     void removeFileYN(Long id);
+
+    int getCount(Long id);
 }

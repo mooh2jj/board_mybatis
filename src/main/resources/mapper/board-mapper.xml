@@ -139,5 +139,12 @@
         where id = #{boardId}
     </select>
 
+    <!--  게시글 중복 검증  -->
+    <select id="getCount" resultType="integer">
+        SELECT COUNT(*) FROM
+            board
+        WHERE id =#{boardId}
+    </select>
+
 
 </mapper>

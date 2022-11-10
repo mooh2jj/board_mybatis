@@ -1,6 +1,8 @@
 package com.example.board_springboot.service;
 
 import com.example.board_springboot.common.Criteria;
+import com.example.board_springboot.common.exception.CustomException;
+import com.example.board_springboot.common.exception.ErrorCode;
 import com.example.board_springboot.domain.AttachVO;
 import com.example.board_springboot.domain.BoardVO;
 import com.example.board_springboot.mapper.AttachMapper;
@@ -25,6 +27,10 @@ public class BoardServiceImpl implements BoardService {
     @Transactional(readOnly = true)
     public List<BoardVO> getAll(Criteria cri) {
         List<BoardVO> all = boardMapper.getAll(cri);
+
+        if (all == null) {
+            throw new CustomException(ErrorCode.NO_FOUND_ENTITY);
+        }
         log.info("all : {}", all);
         return all;
     }
@@ -40,14 +46,17 @@ public class BoardServiceImpl implements BoardService {
     @Override
     @Transactional(readOnly = true)
     public BoardVO get(Long id) {
-        BoardVO boardVO = boardMapper.get(id);
-        log.info("get boardVO: {}", boardVO);
-        return boardVO;
+        BoardVO board = boardMapper.get(id);
+        validateEntity(board);
+        log.info("get board: {}", board);
+        return board;
     }
 
     @Override
     @Transactional
     public int updateHit(Long id) {
+        BoardVO board = boardMapper.get(id);
+        validateEntity(board);
         int updateHit = boardMapper.updateHit(id);
         log.info("updateHit: {}", updateHit);
         return updateHit;
@@ -56,6 +65,9 @@ public class BoardServiceImpl implements BoardService {
     @Override
     @Transactional
     public void remove(Long id) {
+        BoardVO board = boardMapper.get(id);
+        validateEntity(board);
+        
         boolean result = boardMapper.remove(id);
         log.info("remove result : {}", result);
     }
@@ -64,6 +76,7 @@ public class BoardServiceImpl implements BoardService {
     @Transactional
     public boolean modify(BoardVO board) {
         log.info("modify......" + board);
+        validateEntity(board);
         // 기존 파일 삭제
         attachMapper.deleteAll(board.getId());
         // 파일유무 false 등록
@@ -87,6 +100,8 @@ public class BoardServiceImpl implements BoardService {
     @Override
     @Transactional
     public void register(BoardVO board) {
+        validateEntity(board);
+        
         long result = boardMapper.registerWithSelectKey(board);
         log.info("register result: {}", result);
 
@@ -104,6 +119,10 @@ public class BoardServiceImpl implements BoardService {
     @Transactional(readOnly = true)
     public List<String> getCategoryList() {
         List<String> categoryList = boardMapper.getCategoryList();
+        if (categoryList == null) {
+            throw new CustomException(ErrorCode.NO_FOUND_ENTITY);
+        }
+        
         log.info("getCategoryList: {}", categoryList);
         return categoryList;
     }
@@ -112,6 +131,9 @@ public class BoardServiceImpl implements BoardService {
     @Transactional(readOnly = true)
     public List<AttachVO> getAttachList(Long boardId) {
         log.info("get Attach list by boardId: {}", boardId);
+        BoardVO board = boardMapper.get(boardId);
+        validateEntity(board);
+        
         List<AttachVO> attachList = attachMapper.findByBoardId(boardId);
         log.info("attachList: {}", attachList);
         return attachList;
@@ -121,8 +143,22 @@ public class BoardServiceImpl implements BoardService {
     @Transactional(readOnly = true)
     public String getPassword(Long boardId) {
         log.info("get Password boardId: {}", boardId);
+        
+        BoardVO board = boardMapper.get(boardId);
+        validateEntity(board);
+        
         String password = boardMapper.findPassword(boardId);
         log.info("password: {}", password);
         return password;
+    }
+
+    private void validateEntity(BoardVO board) {
+        if (board == null) {
+            throw new CustomException(ErrorCode.NO_FOUND_ENTITY);
+        }
+        if (boardMapper.getCount(board.getId()) > 0) {
+            throw new CustomException(ErrorCode.DUPLICATED_ENTITY);
+        }
+
     }
 }
