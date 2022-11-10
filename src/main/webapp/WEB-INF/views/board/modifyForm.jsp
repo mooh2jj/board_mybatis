@@ -71,8 +71,8 @@
                 <tr>
                     <td style="width: 20%; background-color: #eeeeee;">작성자</td>
                     <td colspan="2">
-                        <input type="text" class="form-control"
-                               placeholder="작성자" name="writer" maxlength="50"
+                        <input type="text" class="check"
+                               placeholder="작성자" id="writer" name="writer" maxlength="50"
                                value="${board.writer}">
                     </td>
                 </tr>
@@ -87,8 +87,8 @@
                 <tr>
                     <td style="width: 20%; background-color: #eeeeee;">제목</td>
                     <td colspan="2">
-                        <input type="text" class="form-control"
-                               placeholder="제목" name="title" maxlength="50"
+                        <input type="text" class="check"
+                               placeholder="제목" id="title" name="title" maxlength="50"
                                value="${board.title}">
                     </td>
                 </tr>
@@ -96,32 +96,12 @@
                 <tr>
                     <td style="width: 20%; background-color: #eeeeee;">내용</td>
                     <td colspan="2">
-                        <textarea class="form-control" placeholder="내용"
+                        <textarea class="check" placeholder="내용" id="content"
                                   name="content" maxlength="2048" style="height: 350px;">
                                   ${board.content}</textarea>
                     </td>
                 </tr>
-<%--                <tr>--%>
-<%--                    <td style="width: 20%; background-color: #eeeeee;">파일 첨부</td>--%>
-<%--                    <c:forEach var="fileItem" items="<%=fileItemList%>">--%>
-<%--                    <td colspan="2">--%>
-<%--                        <c:choose>--%>
-<%--                            <c:when test="${board.fileUUID ne null}">--%>
-<%--                                <div class="uploadResult">--%>
-<%--                                    <ul>--%>
-<%--                                        <a href="downloadAction.jsp?fileUUIDName=${fileItem.fileUUIDName}">${fileItem.fileName}</a>--%>
-<%--                                        <button type="button" id="delete_fileItem">삭제</button>--%>
-<%--                                    </ul>--%>
-<%--                                </div>--%>
-<%--                            </c:when>--%>
-<%--                            <c:otherwise>--%>
-<%--                                <span>&nbsp;</span><br>--%>
-<%--                            </c:otherwise>--%>
-<%--                        </c:choose>--%>
-<%--                    </c:forEach>--%>
-<%--                        <div><input type="file" name="upload" value="" class="file_modify_input" /></div>--%>
-<%--                    </td>--%>
-<%--                </tr>--%>
+
             </table>
             <input type='hidden' id='id' name='id' value='<c:out value="${board.id}"/>'>
             <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
@@ -427,6 +407,70 @@ $(document).ready(function() {
 
 });
 </script>
+<script>
+    $(function () {
+        // 등록시 값 유효성 검사
+        // TODO: 먼저 alert창이 뜨는 현상 방지
+        $('.check').on('change', function (e) {
+            e.preventDefault();
 
+            let writer = $('#writer');
+            let title = $('#title');
+            let content = $('#content');
+
+            let password = $("#password");
+
+            let writerVal = writer.val().trim();
+            let titleVal = title.val().trim();
+            let contentVal = content.val().trim();
+
+            let passwordVal = password.val().trim();
+
+            if (writerVal === "") {
+                alert("작성자명을 입력하세요.");
+                writer.focus();
+                return false;
+            }
+
+            if(writerVal.length < 3 || writerVal.length > 5){
+                alert("작성자명은 3글자 이상 5글자 미만이어야 합니다.");
+                writer.focus();
+                return false;
+            }
+
+            if (passwordVal === "" || password.val().length === 0) {
+                alert("비밀번호을 입력하세요.");
+                password.focus();
+                return false;
+            }
+
+
+            if(titleVal === ""){
+                alert("제목을 입력해주세요.");
+                title.focus();
+                return false;
+            }
+
+            if (titleVal.length < 4 || titleVal.length > 100) {
+                alert("제목은 4글자 이상 100글자 미만이어야 합니다.");
+                title.focus();
+                return false;
+            }
+
+            if(contentVal === ""){
+                alert("제목을 입력해주세요.");
+                title.focus();
+                return false;
+            }
+
+            if (contentVal.length < 4 || contentVal.length > 2000) {
+                alert("내용은 4글자 이상 2000글자 미만이어야 합니다.");
+                content.focus();
+                return false;
+            }
+
+        });
+    });
+</script>
 </body>
 </html>

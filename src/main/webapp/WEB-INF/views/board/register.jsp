@@ -296,6 +296,7 @@
 <script>
     $(function () {
         // 등록시 값 유효성 검사
+        // TODO: 먼저 alert창이 뜨는 현상 방지
         $('.check').on('change', function (e) {
             e.preventDefault();
             let category = $("#category option:selected");
@@ -307,47 +308,55 @@
             let password = $("#password");
             let passwordCheck = $("#passwordCheck");
 
-            if (category.val() === "") {
+            let categoryVal = category.val().trim();
+            let writerVal = writer.val().trim();
+            let titleVal = title.val().trim();
+            let contentVal = content.val().trim();
+
+            let passwordVal = password.val().trim();
+            let passwordCheckVal = passwordCheck.val().trim();
+
+            if (categoryVal === "") {
                 alert("카테고리를 입력하세요.");
                 category.focus();
                 return false;
             }
 
-            if (writer.val() === "" || writer.val().length === 0) {
+            if (writerVal === "") {
                 alert("작성자명을 입력하세요.");
                 writer.focus();
                 return false;
             }
 
-            if(writer.val().length < 3 || writer.val().length > 5){
+            if(writerVal.length < 3 || writerVal.length > 5){
                 alert("작성자명은 3글자 이상 5글자 미만이어야 합니다.");
                 writer.val("");
                 writer.focus();
                 return false;
             }
 
-            if (password.val() === "" || password.val().length === 0) {
+            if (passwordVal === "" || password.val().length === 0) {
                 alert("비밀번호을 입력하세요.");
                 password.focus();
                 return false;
             }
 
             let check_pw = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{4,15}$/;
-            if (!check_pw.test(password.val()) ) {
+            if (!check_pw.test(passwordVal) ) {
                 alert("비밀번호는 4글자 이상, 16글자 미만 그리고 영문/숫자/특수문자 포함이어야 합니다.");
                 password.val("");
                 password.focus();
                 return false;
             }
 
-            if (passwordCheck.val() === "" || passwordCheck.val().length === 0) {
+            if (passwordCheckVal === "" || passwordCheckVal.length === 0) {
                 alert("비밀번호 확인을 위하여 다시한번 입력해주세요");
                 passwordCheck.focus();
                 return false;
             }
 
-            if (password.val() !== '' && passwordCheck.val() !== '') {
-                if (password.val() === passwordCheck.val()) {
+            if (passwordVal !== '' && passwordCheck.val() !== '') {
+                if (passwordVal === passwordCheckVal) {
                     $("#alert-success").css('display', 'inline-block');
                     $("#alert-danger").css('display', 'none');
                 } else {
@@ -359,21 +368,28 @@
                 }
             }
 
-            if(title.val() === "" || title.val().length === 0){
+            if(titleVal === ""){
                 alert("제목을 입력해주세요.");
                 title.val("");
                 title.focus();
                 return false;
             }
 
-            if (title.val().length < 4 || title.val().length > 100) {
+            if (titleVal.length < 4 || titleVal.length > 100) {
                 alert("제목은 4글자 이상 100글자 미만이어야 합니다.");
                 title.val("");
                 title.focus();
                 return false;
             }
 
-            if (content.val().length < 4 || content.val().length > 2000) {
+            if(contentVal === ""){
+                alert("내용을 입력해주세요.");
+                content.val("");
+                content.focus();
+                return false;
+            }
+
+            if (contentVal.length < 4 || contentVal.length > 2000) {
                 alert("내용은 4글자 이상 2000글자 미만이어야 합니다.");
                 content.val("");
                 content.focus();
