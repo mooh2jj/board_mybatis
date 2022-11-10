@@ -5,16 +5,26 @@
 <mapper namespace="com.example.board_springboot.mapper.BoardMapper">
 
     <resultMap id="boardVO" type="com.example.board_springboot.domain.BoardVO">
+<!--        <result property="id" column="id" javaType="Long" jdbcType="BIGINT"/>-->
+<!--        <result property="category" column="category" javaType="String" jdbcType="VARCHAR"/>-->
+<!--        <result property="password" column="password" javaType="String" jdbcType="VARCHAR"/>-->
+<!--        <result property="title" column="title" javaType="String" jdbcType="VARCHAR"/>-->
+<!--        <result property="content" column="content" javaType="String" jdbcType="VARCHAR"/>-->
+<!--        <result property="writer" column="writer" javaType="String" jdbcType="VARCHAR"/>-->
+<!--        <result property="hit" column="hit" javaType="int" jdbcType="INTEGER"/>-->
+<!--        <result property="fileYN" column="file_yn" javaType="boolean" jdbcType="INTEGER"/>-->
+<!--        <result property="createdAt" column="created_at" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>-->
+<!--        <result property="updatedAt" column="updated_at" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>-->
         <result property="id" column="id" javaType="Long" jdbcType="BIGINT"/>
-        <result property="category" column="category" javaType="String" jdbcType="VARCHAR"/>
-        <result property="password" column="password" javaType="String" jdbcType="VARCHAR"/>
-        <result property="title" column="title" javaType="String" jdbcType="VARCHAR"/>
-        <result property="content" column="content" javaType="String" jdbcType="VARCHAR"/>
-        <result property="writer" column="writer" javaType="String" jdbcType="VARCHAR"/>
-        <result property="hit" column="hit" javaType="int" jdbcType="INTEGER"/>
-        <result property="fileYN" column="file_yn" javaType="boolean" jdbcType="INTEGER"/>
-        <result property="createdAt" column="created_at" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
-        <result property="updatedAt" column="updated_at" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
+        <result property="category" column="category" />
+        <result property="password" column="password" />
+        <result property="title" column="title" />
+        <result property="content" column="content" />
+        <result property="writer" column="writer" />
+        <result property="hit" column="hit" />
+        <result property="fileYN" column="file_yn" />
+        <result property="createdAt" column="created_at" />
+        <result property="updatedAt" column="updated_at" />
     </resultMap>
 
     <!--  검색 기능 메서드 따로 차출, T, W, C 짤라서 배열로 foreach문을 돌림.  -->
