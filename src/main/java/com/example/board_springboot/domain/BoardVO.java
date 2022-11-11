@@ -10,7 +10,10 @@ import java.util.List;
 
 @Data
 public class BoardVO {
+
     private Long id;
+
+    @NotBlank
     private String category;
     @NotBlank
     @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{4,15}$",
@@ -34,7 +37,7 @@ public class BoardVO {
     private boolean fileYN;
 
     /**
-     * Timestamp -> LocalDateTime
+     * issue: Timestamp -> LocalDateTime : log4j 로깅으로 오류뜸.
      */
     private Timestamp createdAt;
     private Timestamp updatedAt;

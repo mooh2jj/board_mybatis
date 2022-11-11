@@ -63,7 +63,7 @@
 
 <div class="container">
     <div class="row">
-        <form id='form' action="/board/modifyForm" method="get">
+        <form id='form' action="/board/modify" method="get">
             <input type='hidden' id='id' name='id' value='<c:out value="${board.id}"/>'>
             <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
             <input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>

@@ -355,7 +355,7 @@ $(document).ready(function() {
                 str += "data-type='image' class='btn btn-warning btn-circle'>X</button><br>";
                 str += "<img src='/display?fileName="+fileCallPath+"'/>";
                 str += "</div>";
-                str +"</li>";
+                str += "</li>";
             }else{
                 var fileCallPath =  encodeURIComponent( obj.uploadPath+"/"+ obj.uuid +"_"+obj.fileName);
                 var fileLink = fileCallPath.replace(new RegExp(/\\/g),"/");
@@ -367,7 +367,7 @@ $(document).ready(function() {
                 str += "class='btn btn-warning btn-circle'>X</button><br>";
                 str += "<img src='/resources/img/attach.png'/>";
                 str += "</div>";
-                str +"</li>";
+                str += "</li>";
             }
 
         });

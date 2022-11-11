@@ -23,6 +23,12 @@ public class BoardController {
 
     private final BoardService boardService;
 
+    /**
+     * 게시판 목록
+     * @param model
+     * @param cri
+     * @return 게시판 리스트
+     */
     @GetMapping("/board/list")
     public String list(Model model, Criteria cri) {
         log.info("/board/list cri: {}", cri);
@@ -39,6 +45,12 @@ public class BoardController {
         return "/board/list";
     }
 
+    /**
+     * 게시글 상세보기
+     * @param id
+     * @param cri
+     * @param model
+     */
     @GetMapping("/board/get")
     public void get(
             @RequestParam("id") Long id,
@@ -52,18 +64,31 @@ public class BoardController {
         model.addAttribute("board", board);
     }
 
-    @GetMapping("/board/modifyForm")
+    /**
+     * 게시글 수정페이지 이동
+     * @param id
+     * @param cri
+     * @param model
+     * @return modify 페이지
+     */
+    @GetMapping("/board/modify")
     public String modifyForm(
             @RequestParam("id") Long id,
             @ModelAttribute("cri") Criteria cri, Model model
     ) {
         BoardVO board = boardService.get(id);
-        log.info("modifyForm 이동 board: {}", board);
+        log.info("modify 페이지 이동 board: {}", board);
         model.addAttribute("board", board);
 
-        return "/board/modifyForm";
+        return "/board/modify";
     }
 
+    /**
+     * 게시글 수정하기 작업
+     * @param board
+     * @param cri
+     * @return 수정후 목록페이지 이동
+     */
     @PostMapping("/board/modify")
     public String modify(
             @Valid BoardVO board,
@@ -80,6 +105,12 @@ public class BoardController {
         return "redirect:/board/list" + cri.getListLink();
     }
 
+    /**
+     * 게시글 삭제 작업
+     * @param id
+     * @param cri
+     * @return 삭제후 목록페이지 이동
+     */
     @PostMapping("/board/remove")
     public String remove(
             @RequestParam("id") Long id,
@@ -90,6 +121,12 @@ public class BoardController {
         return "redirect:/board/list" + cri.getListLink();
     }
 
+    /**
+     * 게시글 등록페이지 이동
+     * @param cri
+     * @param model
+     * @return register 페이지 이동
+     */
     @GetMapping("/board/register")
     public String write(
             @ModelAttribute("cri") Criteria cri,
@@ -101,6 +138,11 @@ public class BoardController {
         return "board/register";
     }
 
+    /**
+     * 게시글 등록 작업
+     * @param board
+     * @return 등록 후 목록페이지 이동
+     */
     @PostMapping("/board/register")
     public String register(@Valid BoardVO board) {
         log.info("/board/register board: {}", board);
@@ -117,6 +159,11 @@ public class BoardController {
         return "redirect:/board/list";
     }
 
+    /**
+     * 게시글 당 파일첨부 리스트 가져오기
+     * @param boardId
+     * @return ResponseBody in 파일첨부 리스트
+     */
     @GetMapping("/board/getAttachList")
     @ResponseBody
     public ResponseEntity<List<AttachVO>> getAttachList(Long boardId) {
@@ -125,6 +172,11 @@ public class BoardController {
         return new ResponseEntity<>(boardService.getAttachList(boardId), HttpStatus.OK);
     }
 
+    /**
+     * 게시글 당 비밀번호 가져오기
+     * @param boardIdStr
+     * @return ResponseBody in 비밀번호
+     */
     @PostMapping("/board/getPassword")
     public ResponseEntity<String> getPassword(
             @RequestParam("boardId") String boardIdStr

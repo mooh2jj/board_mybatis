@@ -33,6 +33,12 @@ public class AttachController {
     @Value("${file.upload.path}")
     private String uploadPath;
 
+    /**
+     * ajax방식
+     * (다중)파일업로드
+     * @param uploadFile
+     * @return 첨부파일 리스트
+     */
     @PostMapping("/uploadAjaxAction")
     public ResponseEntity<List<AttachVO>> uploadAjaxPost(MultipartFile[] uploadFile) {
         log.info("uploadAjaxAction multipartFile[]: {}", uploadFile);
@@ -76,6 +82,11 @@ public class AttachController {
         return new ResponseEntity<>(attachList, HttpStatus.OK);
     }
 
+    /**
+     * 이미지 파일인지 유무 판단 메서드
+     * @param file
+     * @return boolean
+     */
     private boolean checkImageType(File file) {
 
         try {
@@ -91,6 +102,12 @@ public class AttachController {
         return false;
     }
 
+    /**
+     * 이미지 표시
+     * @param fileName
+     * @return
+     * @throws UnsupportedEncodingException
+     */
     @GetMapping("/display")
     public ResponseEntity<byte[]> getFile(String fileName) throws UnsupportedEncodingException {
 
@@ -111,6 +128,14 @@ public class AttachController {
         return result;
     }
 
+    /**
+     * 파일 업로드 후 다운로드
+     * @param userAgent
+     * @param fileName
+     * @param request
+     * @return resource, headers
+     * @throws UnsupportedEncodingException
+     */
     @GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent") String userAgent, String fileName, HttpServletRequest request) throws UnsupportedEncodingException {
 
@@ -148,7 +173,7 @@ public class AttachController {
      * 업로드폴더 파일 삭제
      * @param fileName
      * @param type
-     * @return
+     * @return String "deleted"
      */
     @PostMapping("/deleteFile")
     public ResponseEntity<String> deleteFile(String fileName, String type) {

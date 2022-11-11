@@ -17,7 +17,11 @@ public class ReplyController {
 
     private final ReplyService replyService;
 
-    // 댓글 입력
+    /**
+     * 댓글 입력
+     * @param reply
+     * @return 메시지(성공인 경우) && HttpStatus
+     */
     @PostMapping("/reply/insert")
     public ResponseEntity<String> insert(@RequestBody ReplyVO reply) {
         log.info("reply insert replyVO: {}", reply);
@@ -27,7 +31,12 @@ public class ReplyController {
                 : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    // 2) ajax 방식
+    /**
+     * ajax 방식
+     * 게시글 당 댓글 리스트 가져오기
+     * @param boardId
+     * @return 댓글 리스트
+     */
     @GetMapping("/reply/list/{id}")
     public ResponseEntity<List<ReplyVO>> list(@PathVariable("id") Long boardId) {
         log.info("reply list boardId: {}", boardId);
