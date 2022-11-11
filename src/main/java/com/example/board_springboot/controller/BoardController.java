@@ -58,7 +58,7 @@ public class BoardController {
     ) {
         BoardVO board = boardService.get(id);
         log.info("/board/get board: {}", board);
-        // 조회수도 함께 증가
+
         boardService.updateHit(id);
 
         model.addAttribute("board", board);
@@ -147,7 +147,7 @@ public class BoardController {
     public String register(@Valid BoardVO board) {
         log.info("/board/register board: {}", board);
 
-        // 파일첨부 로직 추가
+        // 파일첨부 로직 확인
         if (board.getAttachList() != null) {
             board.getAttachList().forEach(
                     attach -> log.info("attach: {}", attach)

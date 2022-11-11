@@ -5,16 +5,16 @@
 <mapper namespace="com.example.board_springboot.mapper.BoardMapper">
 
     <resultMap id="boardVO" type="com.example.board_springboot.domain.BoardVO">
-<!--        <result property="id" column="id" javaType="Long" jdbcType="BIGINT"/>-->
-<!--        <result property="category" column="category" javaType="String" jdbcType="VARCHAR"/>-->
-<!--        <result property="password" column="password" javaType="String" jdbcType="VARCHAR"/>-->
-<!--        <result property="title" column="title" javaType="String" jdbcType="VARCHAR"/>-->
-<!--        <result property="content" column="content" javaType="String" jdbcType="VARCHAR"/>-->
-<!--        <result property="writer" column="writer" javaType="String" jdbcType="VARCHAR"/>-->
-<!--        <result property="hit" column="hit" javaType="int" jdbcType="INTEGER"/>-->
-<!--        <result property="fileYN" column="file_yn" javaType="boolean" jdbcType="INTEGER"/>-->
-<!--        <result property="createdAt" column="created_at" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>-->
-<!--        <result property="updatedAt" column="updated_at" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>-->
+<!--        <result property="id" column="id" javaType="Long" jdbcType="BIGINT"/>
+        <result property="category" column="category" javaType="String" jdbcType="VARCHAR"/>
+        <result property="password" column="password" javaType="String" jdbcType="VARCHAR"/>
+        <result property="title" column="title" javaType="String" jdbcType="VARCHAR"/>
+        <result property="content" column="content" javaType="String" jdbcType="VARCHAR"/>
+        <result property="writer" column="writer" javaType="String" jdbcType="VARCHAR"/>
+        <result property="hit" column="hit" javaType="int" jdbcType="INTEGER"/>
+        <result property="fileYN" column="file_yn" javaType="boolean" jdbcType="INTEGER"/>
+        <result property="createdAt" column="created_at" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
+        <result property="updatedAt" column="updated_at" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>-->
         <result property="id" column="id" javaType="Long" jdbcType="BIGINT"/>
         <result property="category" column="category" />
         <result property="password" column="password" />
@@ -105,8 +105,7 @@
         values (null, #{category}, #{password}, #{title}, #{content}, #{writer}, NOW())
     </insert>
 
-    <!--  board insert 후 boardId 리턴  -->
-    <!--  selectKey 리턴값은 parameterType에 넘겨준 객체에 넘어간다 BoardVO-->
+    <!--  board insert 후 boardId 리턴, LAST_INSERT_ID() 사용 -->
     <insert id="registerWithSelectKey" parameterType="com.example.board_springboot.domain.BoardVO">
 
 <!--        <selectKey keyProperty="id" resultType="long" order="BEFORE">-->

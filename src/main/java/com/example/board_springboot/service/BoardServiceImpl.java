@@ -77,9 +77,9 @@ public class BoardServiceImpl implements BoardService {
     public boolean modify(BoardVO board) {
         log.info("modify......" + board);
         validateEntity(board);
-        // 기존 파일 삭제
+
         attachMapper.deleteAll(board.getId());
-        // 파일유무 false 등록
+
         boardMapper.removeFileYN(board.getId());
         boolean result = boardMapper.modify(board);
         log.info("modify result: {}", result);
@@ -91,7 +91,6 @@ public class BoardServiceImpl implements BoardService {
                 attachMapper.insert(attach);
                 log.info("modify attach: {}", attach);
             });
-            // 파일유무 true 등록
             boardMapper.registerFileYN(board.getId());
         }
         return result;
@@ -110,7 +109,6 @@ public class BoardServiceImpl implements BoardService {
                 attach.setBoardId(board.getId());
                 attachMapper.insert(attach);
             });
-            // 파일유무 true 등록
             boardMapper.registerFileYN(board.getId());
         }
     }
@@ -152,6 +150,12 @@ public class BoardServiceImpl implements BoardService {
         return password;
     }
 
+    /**
+     * 게시글 검증
+     * 1) 엔티티 존재하는지 체크
+     * 2) 기존 엔티티 등록했는지 중복체크
+     * @param board
+     */
     private void validateEntity(BoardVO board) {
         if (board == null) {
             throw new CustomException(ErrorCode.NO_FOUND_ENTITY);
