@@ -8,11 +8,11 @@ import java.util.List;
 
 @Mapper
 public interface BoardMapper {
-    List<BoardVO> getAll(Criteria cri);
+    List<BoardVO> findAll(Criteria cri);
 
-    int totalCount(Criteria cri);
+    int findTotalCount(Criteria cri);
 
-    BoardVO get(Long id);
+    BoardVO findById(Long id);
 
     int updateHit(Long id);
 
@@ -22,7 +22,7 @@ public interface BoardMapper {
 
     boolean register(BoardVO board);
 
-    List<String> getCategoryList();
+    List<String> findCategoryList();
 
     /**
      * board insert 후 boardId 리턴
@@ -46,5 +46,5 @@ public interface BoardMapper {
      */
     void removeFileYN(Long id);
 
-    int getCount(Long id);
+    int findCount(Long id);
 }

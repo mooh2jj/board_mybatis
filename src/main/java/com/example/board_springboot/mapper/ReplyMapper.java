@@ -9,5 +9,5 @@ import java.util.List;
 public interface ReplyMapper {
     int insert(ReplyVO reply);
 
-    List<ReplyVO> getList(Long boardId);
+    List<ReplyVO> findListByBoardId(Long boardId);
 }

@@ -36,11 +36,11 @@ public class ReplyServiceImpl implements ReplyService {
     public List<ReplyVO> getList(Long boardId) {
         log.info("boardId: {}", boardId);
 
-        if (boardMapper.get(boardId) == null) {
+        if (boardMapper.findById(boardId) == null) {
             throw new CustomException(ErrorCode.NO_FOUND_ENTITY);
         }
 
-        List<ReplyVO> replyList = replyMapper.getList(boardId);
+        List<ReplyVO> replyList = replyMapper.findListByBoardId(boardId);
         log.info("replyList: {}", replyList);
         return replyList;
     }

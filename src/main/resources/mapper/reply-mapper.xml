@@ -19,15 +19,11 @@
     </insert>
 
     <!-- 한 게시글에 댓글 리스트 -->
-<!--    <select id="getList" resultType="com.example.board_springboot.domain.ReplyVO">-->
-    <select id="getList" resultMap="replyVO">
+    <select id="findListByBoardId" resultMap="replyVO">
         SELECT * FROM reply
         where 1=1
         AND board_id = #{boardId}
         ORDER BY id DESC
     </select>
-
-
-
 
 </mapper>

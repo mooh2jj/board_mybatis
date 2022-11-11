@@ -4,7 +4,7 @@
 * 프레임워크 : Springboot2.7
 * 빌드도구 : Gradle
 * Front Template : JSP
-* DB : Mysql
+* DB : MySQL8
 * SqlMapper : Mybatis
   * issue
     1) mybatis sql 로그 보는 법 - jdbc log4j2 라이브러리 연동 사용, 참고 - https://frozenpond.tistory.com/86

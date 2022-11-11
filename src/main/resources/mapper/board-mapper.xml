@@ -5,7 +5,8 @@
 <mapper namespace="com.example.board_springboot.mapper.BoardMapper">
 
     <resultMap id="boardVO" type="com.example.board_springboot.domain.BoardVO">
-<!--        <result property="id" column="id" javaType="Long" jdbcType="BIGINT"/>
+<!--    타입 추가 불필요
+        <result property="id" column="id" javaType="Long" jdbcType="BIGINT"/>
         <result property="category" column="category" javaType="String" jdbcType="VARCHAR"/>
         <result property="password" column="password" javaType="String" jdbcType="VARCHAR"/>
         <result property="title" column="title" javaType="String" jdbcType="VARCHAR"/>
@@ -14,7 +15,8 @@
         <result property="hit" column="hit" javaType="int" jdbcType="INTEGER"/>
         <result property="fileYN" column="file_yn" javaType="boolean" jdbcType="INTEGER"/>
         <result property="createdAt" column="created_at" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
-        <result property="updatedAt" column="updated_at" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>-->
+        <result property="updatedAt" column="updated_at" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
+        -->
         <result property="id" column="id" javaType="Long" jdbcType="BIGINT"/>
         <result property="category" column="category" />
         <result property="password" column="password" />
@@ -49,8 +51,8 @@
     </sql>
 
     <!-- 게시글 목록 with 페이징, 검색 -->
-<!--    <select id="getAll" resultType="com.example.board_springboot.domain.BoardVO">-->
-    <select id="getAll" resultMap="boardVO">
+<!--    <select id="findAll" resultType="com.example.board_springboot.domain.BoardVO">-->
+    <select id="findAll" resultMap="boardVO">
         select * from board
         <if test="keyword != null">
             <include refid="criteria"/>
@@ -60,7 +62,7 @@
     </select>
 
     <!-- 게시글 카운트 with 페이징, 검색   -->
-    <select id="totalCount" resultType="int">
+    <select id="findTotalCount" resultType="int">
         SELECT COUNT(*)
         FROM Board
         <if test="keyword != null">
@@ -69,7 +71,7 @@
     </select>
 
     <!-- 게시글 상세보기 -->
-    <select id="get" resultMap="boardVO">
+    <select id="findById" resultMap="boardVO">
         select *
         from board
         where id = #{id}
@@ -122,7 +124,7 @@
     </insert>
 
     <!-- 카테고리 목록  -->
-    <select id="getCategoryList" resultType="String">
+    <select id="findCategoryList" resultType="String">
         SELECT name FROM category
         GROUP BY name
         ORDER BY name
@@ -149,7 +151,7 @@
     </select>
 
     <!--  게시글 중복 검증  -->
-    <select id="getCount" resultType="integer">
+    <select id="findCount" resultType="integer">
         SELECT COUNT(*) FROM
             board
         WHERE id =#{boardId}

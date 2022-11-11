@@ -29,7 +29,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     @Transactional(readOnly = true)
     public List<BoardVO> getAll(Criteria cri) {
-        List<BoardVO> all = boardMapper.getAll(cri);
+        List<BoardVO> all = boardMapper.findAll(cri);
 
         if (all == null) {
             throw new CustomException(ErrorCode.NO_FOUND_ENTITY);
@@ -41,7 +41,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     @Transactional(readOnly = true)
     public int totalCount(Criteria cri) {
-        int total = boardMapper.totalCount(cri);
+        int total = boardMapper.findTotalCount(cri);
         log.info("boardService total : {}", total);
         return total;
     }
@@ -49,7 +49,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     @Transactional(readOnly = true)
     public BoardVO get(Long id) {
-        BoardVO board = boardMapper.get(id);
+        BoardVO board = boardMapper.findById(id);
 
         log.info("get board: {}", board);
         return board;
@@ -58,7 +58,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     @Transactional
     public int updateHit(Long id) {
-        BoardVO board = boardMapper.get(id);
+        BoardVO board = boardMapper.findById(id);
         validateEntity(board);
         int updateHit = boardMapper.updateHit(id);
         log.info("updateHit: {}", updateHit);
@@ -68,7 +68,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     @Transactional
     public void remove(Long id) {
-        BoardVO board = boardMapper.get(id);
+        BoardVO board = boardMapper.findById(id);
         validateEntity(board);
         
         boolean result = boardMapper.remove(id);
@@ -123,7 +123,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     @Transactional(readOnly = true)
     public List<String> getCategoryList() {
-        List<String> categoryList = boardMapper.getCategoryList();
+        List<String> categoryList = boardMapper.findCategoryList();
         if (categoryList == null) {
             throw new CustomException(ErrorCode.NO_FOUND_ENTITY);
         }
@@ -136,7 +136,7 @@ public class BoardServiceImpl implements BoardService {
     @Transactional(readOnly = true)
     public List<AttachVO> getAttachList(Long boardId) {
         log.info("get Attach list by boardId: {}", boardId);
-        BoardVO board = boardMapper.get(boardId);
+        BoardVO board = boardMapper.findById(boardId);
         validateEntity(board);
         
         List<AttachVO> attachList = attachMapper.findByBoardId(boardId);
@@ -149,7 +149,7 @@ public class BoardServiceImpl implements BoardService {
     public boolean checkPassword(PasswordRequest request) {
         log.info("checkPassword request: {}", request);
         
-        BoardVO board = boardMapper.get(request.getBoardId());
+        BoardVO board = boardMapper.findById(request.getBoardId());
         validateEntity(board);
         
         String password = boardMapper.findPassword(request.getBoardId());
@@ -164,13 +164,13 @@ public class BoardServiceImpl implements BoardService {
      * 게시글 검증
      * 1) 엔티티 존재하는지 체크
      * 2) 기존 엔티티 등록했는지 중복체크
-     * @param board
+     * @param board 게시글
      */
     private void validateEntity(BoardVO board) {
         if (board == null) {
             throw new CustomException(ErrorCode.NO_FOUND_ENTITY);
         }
-        if (boardMapper.getCount(board.getId()) > 1) {
+        if (boardMapper.findCount(board.getId()) > 1) {
             throw new CustomException(ErrorCode.DUPLICATED_ENTITY);
         }
 
