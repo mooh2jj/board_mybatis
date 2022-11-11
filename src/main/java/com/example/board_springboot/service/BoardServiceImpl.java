@@ -5,6 +5,7 @@ import com.example.board_springboot.common.exception.CustomException;
 import com.example.board_springboot.common.exception.ErrorCode;
 import com.example.board_springboot.domain.AttachVO;
 import com.example.board_springboot.domain.BoardVO;
+import com.example.board_springboot.dto.PasswordRequest;
 import com.example.board_springboot.mapper.AttachMapper;
 import com.example.board_springboot.mapper.BoardMapper;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+import static com.example.board_springboot.common.utils.EncodePasswordUtils.passwordEncoder;
 
 
 @Slf4j
@@ -100,7 +103,11 @@ public class BoardServiceImpl implements BoardService {
     @Transactional
     public void register(BoardVO board) {
         validateEntity(board);
-        
+
+        // 비밀번호 암호화 처리
+        String encodedPassword = passwordEncoder().encode(board.getPassword());
+        board.setPassword(encodedPassword);
+
         long result = boardMapper.registerWithSelectKey(board);
         log.info("register result: {}", result);
 
@@ -139,15 +146,18 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     @Transactional(readOnly = true)
-    public String getPassword(Long boardId) {
-        log.info("get Password boardId: {}", boardId);
+    public boolean checkPassword(PasswordRequest request) {
+        log.info("checkPassword request: {}", request);
         
-        BoardVO board = boardMapper.get(boardId);
+        BoardVO board = boardMapper.get(request.getBoardId());
         validateEntity(board);
         
-        String password = boardMapper.findPassword(boardId);
-        log.info("password: {}", password);
-        return password;
+        String password = boardMapper.findPassword(request.getBoardId());
+        // 암호화된 비밀번호와 매칭
+        boolean matches = passwordEncoder().matches(request.getPasswordVal(), password);
+        log.info("password matches: {}", matches);
+
+        return matches;
     }
 
     /**

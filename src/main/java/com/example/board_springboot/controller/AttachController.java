@@ -40,7 +40,7 @@ public class AttachController {
      */
     @PostMapping("/uploadAjaxAction")
     public ResponseEntity<List<AttachVO>> uploadAjaxPost(MultipartFile[] uploadFile) {
-        log.info("uploadAjaxAction multipartFile[]: {}", uploadFile);
+
         List<AttachVO> attachList = new ArrayList<>();
 
         for (MultipartFile multipartFile : uploadFile) {

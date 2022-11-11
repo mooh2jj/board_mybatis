@@ -40,6 +40,13 @@ dependencies {
     // validation
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.5.2'
 
+    // crypto
+    implementation group: 'org.springframework.security', name: 'spring-security-crypto', version: '5.7.3'
+    implementation group: 'commons-logging', name: 'commons-logging', version: '1.2'
+
+    // sha256, sha512
+    implementation group: 'commons-codec', name: 'commons-codec', version: '1.10'
+
 
 }
 

@@ -4,6 +4,7 @@ import com.example.board_springboot.common.Criteria;
 import com.example.board_springboot.common.PageDTO;
 import com.example.board_springboot.domain.AttachVO;
 import com.example.board_springboot.domain.BoardVO;
+import com.example.board_springboot.dto.PasswordRequest;
 import com.example.board_springboot.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -173,20 +174,19 @@ public class BoardController {
     }
 
     /**
-     * 게시글 당 비밀번호 가져오기
-     * @param boardIdStr 패스워드 키 boardId 문자열
-     * @return ResponseBody in 비밀번호
+     * 게시글 당 비밀번호 정보 확인
+     * @param request 게시글 seq, 입력한 비밀번호
+     * @return 비밀번호 매칭 유무
      */
-    @PostMapping("/board/getPassword")
-    public ResponseEntity<String> getPassword(
-            @RequestParam("boardId") String boardIdStr
+    @PostMapping("/board/checkPassword")
+    public ResponseEntity<Object> checkPassword(
+            @RequestBody PasswordRequest request
     ) {
-        log.info("/board/getPassword boardId: {}", boardIdStr);
+        log.info("/board/checkPassword request: {}", request);
 
-        Long boardId = Long.parseLong(boardIdStr);
-        String password = boardService.getPassword(boardId);
-        log.info("getPassword, password {}", password);
+        boolean result = boardService.checkPassword(request);
+        log.info("checkPassword, result {}", result);
 
-        return new ResponseEntity<>(password, HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

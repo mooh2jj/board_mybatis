@@ -242,6 +242,10 @@
     $(document).ready(function () {
         var formObj = $("#form");
         var modal = $("#modal");
+
+        let boardId = '<c:out value="${board.id}"/>';
+        let password = $("#password");
+
         $("#remove").on("click", function (e) {
             e.preventDefault();
             modal.show();
@@ -274,7 +278,7 @@
         $("#modalCancel").on("click", function (e) {
             e.preventDefault();
             modal.hide();
-            // 비밀번호 입력창 초기화
+            // 취소후 비밀번호 입력창 초기화
             modal.find("input[name='password']").val("");
             $("#alert-danger").css('display', 'none');
             $("#alert-success").css('display', 'none');
@@ -283,6 +287,15 @@
         // modal창 비밀번호 체크 후 삭제
         $("#modalCheck").on("click", function (e) {
             e.preventDefault();
+
+            let passwordVal = password.val().trim();
+
+            if (passwordVal === "" || password.val().length === 0) {
+                alert("비밀번호을 입력하세요.");
+                password.focus();
+                return false;
+            }
+
             if (confirm("정말 삭제하시겠습니까?")) {
                 formObj.attr("action", "/board/remove").attr("method", "post");
                 formObj.submit();
@@ -290,23 +303,28 @@
         });
 
         $('.pw').on("focusout", function () {
-            let boardId = '<c:out value="${board.id}"/>';
+
+            let passwordVal = password.val().trim();
+
+            let param = {
+                "boardId": boardId,
+                "passwordVal" : passwordVal
+            }
 
             $.ajax({
                 type: "post",
-                url: "/board/getPassword",
-                data: {"boardId": boardId},
+                url: "/board/checkPassword",
+                data: JSON.stringify(param),
+                contentType: "application/json",
                 success: function (result) {
-                    console.log(result);
-                    checkPassword(result);
+                    console.log(result);    // boolean
+                    searchPassword(result);
                 },
             })
         });
 
-        function checkPassword(result) {
-            let password = $('#password').val();
-            console.log("password: ", password)
-            if (password === result) {
+        function searchPassword(result) {
+            if (result) {
                 $("#alert-success").css('display', 'inline-block');
                 $("#alert-danger").css('display', 'none');
             } else {

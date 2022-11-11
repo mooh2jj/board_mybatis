@@ -3,6 +3,7 @@ package com.example.board_springboot.service;
 import com.example.board_springboot.common.Criteria;
 import com.example.board_springboot.domain.AttachVO;
 import com.example.board_springboot.domain.BoardVO;
+import com.example.board_springboot.dto.PasswordRequest;
 
 import java.util.List;
 
@@ -40,9 +41,9 @@ public interface BoardService {
     List<AttachVO> getAttachList(Long boardId);
 
     /**
-     * 게시글당 등록한 비밀번호 가져오기
-     * @param boardId 게시글 seq
-     * @return 패스워드
+     * DB에 있는 암호환된 비밀번호 매칭확인
+     * @param request boardId, 입력한 비밀번호
+     * @return 비밀번호 확인 유무
      */
-    String getPassword(Long boardId);
+    boolean checkPassword(PasswordRequest request);
 }

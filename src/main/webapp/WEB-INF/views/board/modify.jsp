@@ -222,7 +222,7 @@ $(document).ready(function() {
                     str += "class='btn btn-warning btn-circle'>X</button><br>";
                     str += "<img src='/display?fileName="+fileCallPath+"'>";
                     str += "</div>";
-                    str +"</li>";
+                    str += "</li>";
                 }else{
 
                     str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' "
@@ -235,7 +235,7 @@ $(document).ready(function() {
                     str += "class='btn btn-warning btn-circle'>X</button><br>";
                     str += "<img src='/resources/img/attach.png'></a>";
                     str += "</div>";
-                    str +"</li>";
+                    str += "</li>";
                 }
             });
 
@@ -419,20 +419,25 @@ $(document).ready(function() {
 
                 let boardId = '<c:out value="${board.id}"/>';
 
+                var param = {
+                    "boardId": boardId,
+                    "passwordVal" : passwordVal
+                }
+
                 $.ajax({
                     type: "post",
-                    url: "/board/getPassword",
-                    data: {"boardId": boardId},
+                    url: "/board/checkPassword",
+                    data: JSON.stringify(param),
+                    contentType: "application/json",
                     success: function (result) {
-                        console.log(result);
+                        console.log(result);    // boolean
                         checkPassword(result);
                     },
                 })
             });
 
             function checkPassword(result) {
-                console.log("password: ", password)
-                if (passwordVal === result) {
+                if (result) {
                     $("#alert-success").css('display', 'inline-block');
                     $("#alert-danger").css('display', 'none');
                 } else {
