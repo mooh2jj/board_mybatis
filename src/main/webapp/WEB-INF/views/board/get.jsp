@@ -145,7 +145,7 @@
         </div>
         <hr>
     <div style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;">
-        비밀번호 <input type="text" class="pw" placeholder="비밀번호" name="password" id="password" maxlength="50">
+        비밀번호 <input type="password" class="pw" placeholder="비밀번호" name="password" id="password" maxlength="50">
         <span id="alert-success" style="display: none; color: #2b52f6; font-weight: bold;">비밀번호가 일치합니다.</span>
         <span id="alert-danger" style="display: none; color: #d92742; font-weight: bold;">비밀번호가 일치하지 않습니다.</span>
     </div>

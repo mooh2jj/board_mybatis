@@ -79,7 +79,7 @@
                 <tr>
                     <td style="width: 20%; background-color: #eeeeee;">비밀번호</td>
                     <td colspan="2">
-                        <input type="text" class="check" placeholder="비밀번호" name="password" id="password" maxlength="50">
+                        <input type="password" class="check" placeholder="비밀번호" name="password" id="password" maxlength="50">
                         <span id="alert-success" style="display: none; color: #2b52f6; font-weight: bold;">비밀번호가 일치합니다.</span>
                         <span id="alert-danger" style="display: none; color: #d92742; font-weight: bold;">비밀번호가 일치하지 않습니다.</span>
                     </td>
@@ -403,7 +403,7 @@ $(document).ready(function() {
                 return false;
             }
 
-            if(writerVal.length < 3 || writerVal.length > 5){
+            if(writerVal.length < 3 || writerVal.length >= 5){
                 alert("작성자명은 3글자 이상 5글자 미만이어야 합니다.");
                 writer.focus();
                 return false;
@@ -454,7 +454,7 @@ $(document).ready(function() {
                 return false;
             }
 
-            if (titleVal.length < 4 || titleVal.length > 100) {
+            if (titleVal.length < 4 || titleVal.length >= 100) {
                 alert("제목은 4글자 이상 100글자 미만이어야 합니다.");
                 title.focus();
                 return false;
@@ -466,7 +466,7 @@ $(document).ready(function() {
                 return false;
             }
 
-            if (contentVal.length < 4 || contentVal.length > 2000) {
+            if (contentVal.length < 4 || contentVal.length >= 2000) {
                 alert("내용은 4글자 이상 2000글자 미만이어야 합니다.");
                 content.focus();
                 return false;
