@@ -27,8 +27,8 @@ public interface BoardMapper {
     /**
      * board insert 후 boardId 리턴
      * selectKey 리턴값은 parameterType(board) 객체에 넘어간다
-     * @param board
-     * @return
+     * @param board 게시글
+     * @return result 1, -1
      */
     Long registerWithSelectKey(BoardVO board);
 
@@ -36,13 +36,13 @@ public interface BoardMapper {
 
     /**
      * 파일 존재 true 등록
-     * @param id
+     * @param id 게시글 seq
      */
     void registerFileYN(Long id);
 
     /**
      * 기존 파일 유무 false 등록
-     * @param id
+     * @param id 게시글 seq
      */
     void removeFileYN(Long id);
 

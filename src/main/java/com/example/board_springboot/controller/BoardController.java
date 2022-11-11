@@ -25,8 +25,8 @@ public class BoardController {
 
     /**
      * 게시판 목록
-     * @param model
-     * @param cri
+     * @param model 뷰단과 바인딩할 데이터
+     * @param cri 검색+페이징 파라미터
      * @return 게시판 리스트
      */
     @GetMapping("/board/list")
@@ -47,9 +47,9 @@ public class BoardController {
 
     /**
      * 게시글 상세보기
-     * @param id
-     * @param cri
-     * @param model
+     * @param id 게시글 seq
+     * @param cri 검색+페이징 파라미터
+     * @param model 뷰단 바인딩 객체
      */
     @GetMapping("/board/get")
     public void get(
@@ -66,9 +66,9 @@ public class BoardController {
 
     /**
      * 게시글 수정페이지 이동
-     * @param id
-     * @param cri
-     * @param model
+     * @param id 게시글 seq
+     * @param cri 검색+페이징 파라미터
+     * @param model 뷰단 바인딩 객체
      * @return modify 페이지
      */
     @GetMapping("/board/modify")
@@ -85,8 +85,8 @@ public class BoardController {
 
     /**
      * 게시글 수정하기 작업
-     * @param board
-     * @param cri
+     * @param board 게시글
+     * @param cri 검색+페이징 파라미터
      * @return 수정후 목록페이지 이동
      */
     @PostMapping("/board/modify")
@@ -107,8 +107,8 @@ public class BoardController {
 
     /**
      * 게시글 삭제 작업
-     * @param id
-     * @param cri
+     * @param id 게시글 seq
+     * @param cri 검색+페이징 파라미터
      * @return 삭제후 목록페이지 이동
      */
     @PostMapping("/board/remove")
@@ -123,8 +123,8 @@ public class BoardController {
 
     /**
      * 게시글 등록페이지 이동
-     * @param cri
-     * @param model
+     * @param cri 검색+페이징 파라미터
+     * @param model 뷰단 바인딩 객체
      * @return register 페이지 이동
      */
     @GetMapping("/board/register")
@@ -140,7 +140,7 @@ public class BoardController {
 
     /**
      * 게시글 등록 작업
-     * @param board
+     * @param board 게시글
      * @return 등록 후 목록페이지 이동
      */
     @PostMapping("/board/register")
@@ -161,7 +161,7 @@ public class BoardController {
 
     /**
      * 게시글 당 파일첨부 리스트 가져오기
-     * @param boardId
+     * @param boardId 게시글 seq
      * @return ResponseBody in 파일첨부 리스트
      */
     @GetMapping("/board/getAttachList")
@@ -174,7 +174,7 @@ public class BoardController {
 
     /**
      * 게시글 당 비밀번호 가져오기
-     * @param boardIdStr
+     * @param boardIdStr 패스워드 키 boardId 문자열
      * @return ResponseBody in 비밀번호
      */
     @PostMapping("/board/getPassword")

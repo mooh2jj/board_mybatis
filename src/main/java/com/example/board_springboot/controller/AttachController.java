@@ -35,7 +35,7 @@ public class AttachController {
     /**
      * ajax방식
      * (다중)파일업로드
-     * @param uploadFile
+     * @param uploadFile (다중)파일
      * @return 첨부파일 리스트
      */
     @PostMapping("/uploadAjaxAction")
@@ -103,9 +103,9 @@ public class AttachController {
 
     /**
      * 이미지 표시
-     * @param fileName
-     * @return
-     * @throws UnsupportedEncodingException
+     * @param fileName 파일이름
+     * @return 바이트타입으로 변환한 파일
+     * @throws UnsupportedEncodingException 인코딩 Exception
      */
     @GetMapping("/display")
     public ResponseEntity<byte[]> getFile(String fileName) throws UnsupportedEncodingException {
@@ -129,10 +129,9 @@ public class AttachController {
 
     /**
      * 파일 업로드 후 다운로드
-     * @param userAgent
-     * @param fileName
+     * @param userAgent 해당 브라우저를 알기위한 파라미터
+     * @param fileName 파일이름
      * @return resource, headers
-     * @throws UnsupportedEncodingException
      */
     @GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent") String userAgent, String fileName) {
@@ -174,8 +173,8 @@ public class AttachController {
 
     /**
      * 업로드폴더 파일 삭제
-     * @param fileName
-     * @param type
+     * @param fileName 파일이름
+     * @param type 이미지 or 그외
      * @return String "deleted"
      */
     @PostMapping("/deleteFile")

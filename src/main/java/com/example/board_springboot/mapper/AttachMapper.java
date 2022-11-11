@@ -15,7 +15,7 @@ public interface AttachMapper {
 
     /**
      * 게시글당 기존 파일 전부삭제
-     * @param id
+     * @param id boardId
      */
     void deleteAll(Long id);
 }

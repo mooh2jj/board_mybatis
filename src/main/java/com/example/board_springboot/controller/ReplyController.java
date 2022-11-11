@@ -19,8 +19,8 @@ public class ReplyController {
 
     /**
      * 댓글 입력
-     * @param reply
-     * @return 메시지(성공인 경우) && HttpStatus
+     * @param reply 게시글에 적힌 댓글
+     * @return 성공여부
      */
     @PostMapping("/reply/insert")
     public ResponseEntity<String> insert(@RequestBody ReplyVO reply) {
@@ -34,7 +34,7 @@ public class ReplyController {
     /**
      * ajax 방식
      * 게시글 당 댓글 리스트 가져오기
-     * @param boardId
+     * @param boardId 게시글 seq
      * @return 댓글 리스트
      */
     @GetMapping("/reply/list/{id}")
