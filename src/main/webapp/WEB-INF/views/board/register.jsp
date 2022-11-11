@@ -119,7 +119,7 @@
 <script>
     $(document).ready(function() {
         var formObj = $("#form");
-
+        // TODO: 엔터키 입력시 목록창으로 이동 enter키 막기
         $('button').on("click", function(e) {
             e.preventDefault();
             var operation = $(this).data("oper");

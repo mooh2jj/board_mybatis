@@ -22,10 +22,24 @@
             float: left;
             margin-left : 5px;
         }
-
-        .clicked {
-            color: crimson;
+/*        a:link {
+            color: #d92742;
+            text-decoration: none;
+        }*/
+        /* 링크 색깔  */
+        a:visited {
+            color: darkcyan;
+            text-decoration: none;
         }
+        a:hover {
+            color: brown;
+            text-decoration: underline;
+        }
+        /* 페이징 num일때 active 속성 */
+        .active {
+            background-color: darkorange;
+        }
+
     </style>
 </head>
 <body>
@@ -130,7 +144,6 @@
         $(".paginate_button a").on("click", function(e) {
             e.preventDefault();
             console.log('click');
-            $(this).toggleClass('clicked');     // TODO: submit으로 사라짐. 색깔 유지 방법은?
 
             actionForm.find("input[name='pageNum']").val($(this).attr("href"));
             actionForm.submit();
