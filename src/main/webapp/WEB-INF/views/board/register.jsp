@@ -355,7 +355,7 @@
                 return false;
             }
 
-            if (passwordVal !== '' && passwordCheck.val() !== '') {
+            if (passwordVal !== '' && passwordCheckVal !== '') {
                 if (passwordVal === passwordCheckVal) {
                     $("#alert-success").css('display', 'inline-block');
                     $("#alert-danger").css('display', 'none');

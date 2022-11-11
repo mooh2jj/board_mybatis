@@ -409,7 +409,7 @@ $(document).ready(function() {
                 return false;
             }
 
-            if (passwordVal === "" || password.val().length === 0) {
+            if (passwordVal === "" || passwordVal.length === 0) {
                 alert("비밀번호을 입력하세요.");
                 password.focus();
                 return false;
