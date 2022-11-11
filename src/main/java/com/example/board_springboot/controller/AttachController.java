@@ -132,14 +132,18 @@ public class AttachController {
      * 파일 업로드 후 다운로드
      * @param userAgent
      * @param fileName
-     * @param request
      * @return resource, headers
      * @throws UnsupportedEncodingException
      */
     @GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent") String userAgent, String fileName, HttpServletRequest request) throws UnsupportedEncodingException {
+    public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent") String userAgent, String fileName) {
 
-        Resource resource = new FileSystemResource(URLDecoder.decode(fileName, "UTF-8"));
+        Resource resource = null;
+        try {
+            resource = new FileSystemResource(URLDecoder.decode(fileName, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
 
         if (!resource.exists()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
