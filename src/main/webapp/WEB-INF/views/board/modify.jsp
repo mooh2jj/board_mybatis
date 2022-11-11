@@ -104,6 +104,7 @@
 
             </table>
             <input type='hidden' id='id' name='id' value='<c:out value="${board.id}"/>'>
+            <input type='hidden' name='category' value='<c:out value="${board.category}"/>'>
             <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
             <input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
             <input type='hidden' name='keyword' value='<c:out value="${cri.keyword}"/>'>
