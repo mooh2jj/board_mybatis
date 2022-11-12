@@ -7,6 +7,7 @@ public abstract class ErrorHttpStatusMapper {
     public static HttpStatus mapToStatus(ErrorCode errorCode) {
         switch (errorCode) {
             case NO_FOUND_ENTITY:
+            case NO_FOUND_ENTITY_COLUM:
                 return HttpStatus.NOT_FOUND;
             case DUPLICATED_ENTITY:
                 return HttpStatus.CONFLICT;
@@ -14,7 +15,7 @@ public abstract class ErrorHttpStatusMapper {
                 return HttpStatus.BAD_REQUEST;
             case NOT_FOUND_USER:
                 return HttpStatus.UNAUTHORIZED;
-                // TODO: 나머지는 모두 INTERNAL_SERVER_ERROR 처리
+                // 나머지는 모두 INTERNAL_SERVER_ERROR 처리
             default:
                 return HttpStatus.INTERNAL_SERVER_ERROR;
         }

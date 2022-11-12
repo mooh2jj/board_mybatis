@@ -40,6 +40,7 @@
 <br>
 <div class="container">
     <div class="row">
+<%--        TODO: 임기응변으로 enter키 막음 onsubmit="return false" 이것도 안됨. onsubmit="return false" + type="button" --%>
         <form id="form" action="/board/register" method="post" enctype="multipart/form-data">
             <table class="table table-striped"
                    style="text-align: center; border: 1px solid #dddddd;">
