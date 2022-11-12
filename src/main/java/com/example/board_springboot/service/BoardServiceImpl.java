@@ -67,12 +67,19 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     @Transactional
-    public void remove(Long id) {
+    public void remove(Long id, String password) {
         BoardVO board = boardMapper.findById(id);
         validateEntity(board);
-        
-        boolean result = boardMapper.remove(id);
-        log.info("remove result : {}", result);
+
+        String findPassword = boardMapper.findPassword(id);
+        // 암호화된 비밀번호와 매칭후 삭제
+        boolean matches = passwordEncoder().matches(password, findPassword);
+
+        boolean removeResult = false;
+        if (matches){
+            removeResult = boardMapper.remove(id);
+        } else throw new CustomException(ErrorCode.NO_FOUND_ENTITY_COLUM);
+        log.info("remove result : {}", removeResult);
     }
 
     @Override

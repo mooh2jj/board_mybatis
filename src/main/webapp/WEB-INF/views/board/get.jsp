@@ -298,6 +298,9 @@
 
             if (confirm("정말 삭제하시겠습니까?")) {
                 formObj.attr("action", "/board/remove").attr("method", "post");
+                let password = $("input[name='password']").clone();
+
+                formObj.append(password);
                 formObj.submit();
             }
         });

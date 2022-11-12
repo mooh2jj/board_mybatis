@@ -109,16 +109,20 @@ public class BoardController {
     /**
      * 게시글 삭제 작업
      * @param id 게시글 seq
+     * @param password 게시글 비밀번호
      * @param cri 검색+페이징 파라미터
      * @return 삭제후 목록페이지 이동
      */
     @PostMapping("/board/remove")
     public String remove(
             @RequestParam("id") Long id,
+            @RequestParam("password") String password,
             Criteria cri
     ) {
         log.info("/board/remove id: {}", id);
-        boardService.remove(id);
+        log.info("/board/remove password: {}", password);
+        log.info("/board/remove cri: {}", cri);
+        boardService.remove(id, password);
         return "redirect:/board/list" + cri.getListLink();
     }
 

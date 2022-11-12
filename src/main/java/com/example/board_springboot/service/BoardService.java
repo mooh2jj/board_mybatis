@@ -26,7 +26,7 @@ public interface BoardService {
      */
     int updateHit(Long id);
 
-    void remove(Long id);
+    void remove(Long id, String password);
 
     boolean modify(BoardVO board);
 
