@@ -66,4 +66,4 @@ logging:
 
 file:
   upload:
-    path: C:\\upload
+    folder: C:\\upload

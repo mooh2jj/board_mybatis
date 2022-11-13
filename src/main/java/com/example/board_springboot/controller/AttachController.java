@@ -21,7 +21,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.file.Files;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,8 +31,8 @@ import java.util.UUID;
 @RestController
 public class AttachController {
 
-    @Value("${file.upload.path}")
-    private String uploadPath;
+    @Value("${file.upload.folder}")
+    private String uploadFolder;
 
     /**
      * ajax방식
@@ -42,6 +44,14 @@ public class AttachController {
     public ResponseEntity<List<AttachVO>> uploadAjaxPost(MultipartFile[] uploadFile) {
 
         List<AttachVO> attachList = new ArrayList<>();
+        // 년/월/일 폴더 생성
+        String uploadFolderPath = getFolder();
+        log.info("uploadFolderPath: {}", uploadFolderPath);
+
+        File uploadPath = new File(uploadFolder, uploadFolderPath);
+        if (!uploadPath.exists()) {
+            uploadPath.mkdirs();
+        }
 
         for (MultipartFile multipartFile : uploadFile) {
 
@@ -66,7 +76,7 @@ public class AttachController {
                 multipartFile.transferTo(saveFile);
 
                 attachVO.setUuid(uuid.toString());
-                attachVO.setUploadPath(uploadPath);
+                attachVO.setUploadPath(uploadFolderPath);
 
                 if (checkImageType(saveFile)) {
                     attachVO.setImage(true);
@@ -77,8 +87,18 @@ public class AttachController {
                 log.error(e.getMessage());
             } // end catch
         } // end for
-
         return new ResponseEntity<>(attachList, HttpStatus.OK);
+    }
+
+    /**
+     * 년/월/일 폴더 생성
+     * @return 년/월/일 폴더
+     */
+    private String getFolder() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        String str = sdf.format(date);
+        return str.replace("-", File.separator);
     }
 
     /**
