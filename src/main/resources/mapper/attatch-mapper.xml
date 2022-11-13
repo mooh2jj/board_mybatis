@@ -32,4 +32,9 @@
         delete from attach where board_id = #{boardId}
     </delete>
 
+    <select id="findOldFolders" resultMap="attachVO">
+        SELECT * from attach
+        WHERE upload_path = DATE_FORMAT(CURDATE() - INTERVAL 1 DAY, '%Y\%m\%d')
+    </select>
+
 </mapper>

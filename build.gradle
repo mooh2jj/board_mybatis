@@ -47,6 +47,12 @@ dependencies {
     // sha256, sha512
     implementation group: 'commons-codec', name: 'commons-codec', version: '1.10'
 
+    // quartz
+    implementation group: 'org.quartz-scheduler', name: 'quartz', version: '2.3.2'
+    implementation group: 'org.quartz-scheduler', name: 'quartz-jobs', version: '2.3.2'
+
+
+
 
 }
 

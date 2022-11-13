@@ -18,4 +18,10 @@ public interface AttachMapper {
      * @param id boardId
      */
     void deleteAll(Long id);
+
+    /**
+     * 어제날짜 기준 DB에 있는 파일목록 가져오기
+     * @return 파일목록
+     */
+    List<AttachVO> findOldFolders();
 }
