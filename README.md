@@ -37,7 +37,8 @@
 * 파일경로 @Value 어노테이션으로 application.yml에서 바인딩해줌
 * 자세 내용 : https://velog.io/@mooh2jj/Springboot-MVC-단일다중-File-upload-구현하기
 
-<Quartz>
+<배치-파일첨부삭제>
+* Quartz 라이브러리 사용
 * 일정시간에 DB에 없는 내용 찾아서 -> 첨부파일 삭제처리
 * 일정시간을 지정해줄 업로드 폴더 생성해야
 * Quartz 라이브러리 + @Scheduled(cron = "15 * * * * ?") cronTap 사용법 익혀둬야
