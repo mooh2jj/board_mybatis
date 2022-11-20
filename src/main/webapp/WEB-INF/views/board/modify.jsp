@@ -90,7 +90,7 @@
                         <td style="width: 20%; background-color: #eeeeee;"><label>내용</label></td>
                         <td colspan="2">
                             <textarea class="check" placeholder="내용" id="content"
-                                      name="content" maxlength="2048" style="height: 350px;">
+                                      name="content" maxlength="2048" style="height: 100px;">
                                       ${board.content}</textarea>
                         </td>
                     </tr>
