@@ -3,15 +3,17 @@
 %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>게시판 등록</title>
-</head>
+
+<%@include file="../includes/header.jsp"%>
+<%--<!doctype html>--%>
+<%--<html lang="en">--%>
+<%--<head>--%>
+<%--    <meta charset="UTF-8">--%>
+<%--    <meta name="viewport"--%>
+<%--          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">--%>
+<%--    <meta http-equiv="X-UA-Compatible" content="ie=edge">--%>
+<%--    <title>게시판 등록</title>--%>
+<%--</head>--%>
 <style>
     .uploadResult {
         width: 100%;
@@ -35,87 +37,90 @@
     }
 </style>
 <body>
-<h2>게시판 - 등록</h2>
-<br>
-<br>
 <div class="container">
+<h2>게시판 - 등록</h2>
     <div class="row">
-<%--        TODO: 임기응변으로 enter키 막음 onsubmit="return false" 이것도 안됨. onsubmit="return false" + type="button" --%>
-        <form id="form" action="/board/register" method="post" enctype="multipart/form-data">
-            <table class="table table-striped"
-                   style="text-align: center; border: 1px solid #dddddd;">
-                <tr>
-                    <td style="width: 20%; background-color: #eeeeee;">카테고리</td>
-                    <td colspan="2">
-                        <select id="category" name="category" size="1">
-                            <option value="" selected></option>
-                            <c:forEach var="category" items="${categories}">
-                                <option value="${category}">${category}</option>
-                            </c:forEach>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 20%; background-color: #eeeeee;">작성자</td>
-                    <td colspan="2"><input type="text" id="writer" class="check" placeholder="작성자" name="writer" maxlength="50"></td>
-                </tr>
-                <tr>
-                    <td style="width: 20%; background-color: #eeeeee;">비밀번호</td>
-                    <td colspan="2">
-                        <input type="text" class="check" placeholder="비밀번호" id="password" name="password" maxlength="50">
-                        <input type="password" class="check" placeholder="비밀번호 확인" id="passwordCheck" name="passwordCheck" maxlength="50">
-                        <span id="alert-success" style="display: none; color: #2b52f6; font-weight: bold;">비밀번호가 일치합니다.</span>
-                        <span id="alert-danger" style="display: none; color: #d92742; font-weight: bold;">비밀번호가 일치하지 않습니다.</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 20%; background-color: #eeeeee;">제목</td>
-                    <td colspan="2"><input type="text" id="title" class="check" placeholder="제목" name="title" size="67" maxlength="300"></td>
-                </tr>
-                <tr>
-                    <td style="width: 20%; background-color: #eeeeee;">내용</td>
-                    <td colspan="2"><textarea id="content" class="check" placeholder="글 내용" name="content" rows="10" cols="65" maxlength="4000"></textarea></td>
-                </tr>
-<%--                <tr>--%>
-<%--                    <td style="width: 20%; background-color: #eeeeee;">파일 첨부</td>--%>
-<%--                    <td><input type="file" name="file1" value="" class="board_view_input" /></td>--%>
-<%--                    <td><input type="file" name="file2" value="" class="board_view_input" /></td>--%>
-<%--                    <td><input type="file" name="file3" value="" class="board_view_input" /></td>--%>
-<%--                </tr>--%>
-            </table>
-            <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
-            <input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
-            <input type='hidden' name='keyword' value='<c:out value="${cri.keyword}"/>'>
-            <input type='hidden' name='type' value='<c:out value="${cri.type}"/>'>
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+    <%--        TODO: 임기응변으로 enter키 막음 onsubmit="return false" 이것도 안됨. onsubmit="return false" + type="button" --%>
+                <form id="form" action="/board/register" method="post" enctype="multipart/form-data">
+                    <table class="table table-striped"
+                           style="text-align: center; border: 1px solid #dddddd;">
+                        <tr>
+                            <td style="width: 20%; background-color: #eeeeee;"><label>카테고리</label></td>
+                            <td colspan="2">
+                                <select id="category" name="category" class="check" size="1">
+                                    <option value="">카테고리를 선택해 주세요</option>
+                                    <c:forEach var="category" items="${categories}">
+                                        <option value="${category}">${category}</option>
+                                    </c:forEach>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%; background-color: #eeeeee;"><label>작성자</label></td>
+                            <td colspan="2"><input type="text" id="writer" class="check" placeholder="작성자" name="writer" maxlength="50"></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%; background-color: #eeeeee;"><label>비밀번호</label></td>
+                            <td colspan="2">
+                                <input type="text" class="check" placeholder="비밀번호" id="password" name="password" maxlength="50">
+                                <input type="password" class="check" placeholder="비밀번호 확인" id="passwordCheck" name="passwordCheck" maxlength="50">
+                                <span id="alert-success" style="display: none; color: #2b52f6; font-weight: bold;">비밀번호가 일치합니다.</span>
+                                <span id="alert-danger" style="display: none; color: #d92742; font-weight: bold;">비밀번호가 일치하지 않습니다.</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%; background-color: #eeeeee;"><label>제목</label></td>
+                            <td colspan="2"><input type="text" id="title" class="check" placeholder="제목" name="title" size="67" maxlength="300"></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%; background-color: #eeeeee;"><label>내용</label></td>
+                            <td colspan="2"><textarea id="content" class="check" placeholder="글 내용" name="content" rows="10" cols="65" maxlength="4000"></textarea></td>
+                        </tr>
+        <%--                <tr>--%>
+        <%--                    <td style="width: 20%; background-color: #eeeeee;">파일 첨부</td>--%>
+        <%--                    <td><input type="file" name="file1" value="" class="board_view_input" /></td>--%>
+        <%--                    <td><input type="file" name="file2" value="" class="board_view_input" /></td>--%>
+        <%--                    <td><input type="file" name="file3" value="" class="board_view_input" /></td>--%>
+        <%--                </tr>--%>
+                    </table>
+                    <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
+                    <input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
+                    <input type='hidden' name='keyword' value='<c:out value="${cri.keyword}"/>'>
+                    <input type='hidden' name='type' value='<c:out value="${cri.type}"/>'>
 
-            <button data-oper='list' class="btn btn-info">목록</button>
-            <button data-oper='register' class="btn btn-default">등록</button>
-        </form>
+                </form>
+            </div>
+        </div>
     </div>
-</div>
-<%--파일 첨부 부분--%>
-<div class="row">
-    <div class="col-lg-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">파일 첨부</div>
-            <!-- /.panel-heading -->
-            <div class="panel-body">
-                <div class="form-group uploadDiv">
-                    <%--   multiple: 파일 다중 업로드   --%>
-                    <input type="file" name='uploadFile' multiple>
+    <%--파일 첨부 부분--%>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"><label>파일 첨부</label></div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="form-group uploadDiv">
+                        <%--   multiple: 파일 다중 업로드   --%>
+                        <input type="file" name='uploadFile' multiple>
+                    </div>
+                    <div class='uploadResult'>
+                        <ul>
+                        </ul>
+                    </div>
                 </div>
-                <div class='uploadResult'>
-                    <ul>
-                    </ul>
-                </div>
+                <!--  end panel-body -->
             </div>
             <!--  end panel-body -->
         </div>
-        <!--  end panel-body -->
+        <!-- end panel -->
     </div>
-    <!-- end panel -->
+    <!-- /.row -->
+
+    <button data-oper='list' class="btn btn-info">목록</button>
+    <button data-oper='register' class="btn btn-primary">등록</button>
 </div>
-<!-- /.row -->
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script>
     $(document).ready(function() {
@@ -317,7 +322,7 @@
             let passwordVal = password.val().trim();
             let passwordCheckVal = passwordCheck.val().trim();
 
-            if (categoryVal === "") {
+            if (categoryVal === "" || $("#category").val().trim() === "") {
                 alert("카테고리를 입력하세요.");
                 category.focus();
                 return false;
@@ -336,7 +341,7 @@
                 return false;
             }
 
-            if (passwordVal === "" || password.val().length === 0) {
+            if (passwordVal === "" || passwordVal.length === 0) {
                 alert("비밀번호을 입력하세요.");
                 password.focus();
                 return false;
@@ -400,5 +405,4 @@
         });
     });
 </script>
-</body>
-</html>
+<%@include file="../includes/footer.jsp"%>

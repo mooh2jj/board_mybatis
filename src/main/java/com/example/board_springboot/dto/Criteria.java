@@ -1,4 +1,4 @@
-package com.example.board_springboot.common;
+package com.example.board_springboot.dto;
 
 import lombok.Data;
 import org.springframework.web.util.UriComponentsBuilder;

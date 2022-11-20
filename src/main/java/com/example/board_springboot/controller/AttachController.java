@@ -125,14 +125,13 @@ public class AttachController {
      * 이미지 표시
      * @param fileName 파일이름
      * @return 바이트타입으로 변환한 파일
-     * @throws UnsupportedEncodingException 인코딩 Exception
      */
     @GetMapping("/display")
-    public ResponseEntity<byte[]> getFile(String fileName) throws UnsupportedEncodingException {
+    public ResponseEntity<byte[]> getFile(String fileName) {
 
         log.info("fileName: " + fileName);
 
-        File file = new File(URLDecoder.decode(fileName, "UTF-8"));
+        File file = new File(uploadFolder + File.separator + fileName);
         log.info("file: " + file);
 
         ResponseEntity<byte[]> result = null;
@@ -155,13 +154,8 @@ public class AttachController {
      */
     @GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent") String userAgent, String fileName) {
-
-        Resource resource = null;
-        try {
-            resource = new FileSystemResource(URLDecoder.decode(fileName, "UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+        log.info("downloadFile run................");
+        Resource resource = new FileSystemResource(uploadFolder + File.separator + fileName);
 
         if (!resource.exists()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -26,7 +26,7 @@ public class FileCheckTask {
     private String uploadFolder;
     private final AttachMapper attachMapper;
 
-    @Scheduled(cron = "15 * * * * ?")        // 새벽 2시에 진행 sec min hour day month, week, year
+/*    @Scheduled(cron = "15 * * * * ?")        // 새벽 2시에 진행 sec min hour day month, week, year
     public void checkFiles() {
         log.warn("File Check Task run..........");
         log.warn("File Check Time: {}", new Date());
@@ -47,7 +47,7 @@ public class FileCheckTask {
             log.warn(file.getAbsolutePath());
             file.delete();
         }
-    }
+    }*/
 
     private String getFolderYesterDay() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

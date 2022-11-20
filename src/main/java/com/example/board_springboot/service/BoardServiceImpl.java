@@ -1,6 +1,6 @@
 package com.example.board_springboot.service;
 
-import com.example.board_springboot.common.Criteria;
+import com.example.board_springboot.dto.Criteria;
 import com.example.board_springboot.common.exception.CustomException;
 import com.example.board_springboot.common.exception.ErrorCode;
 import com.example.board_springboot.domain.AttachVO;

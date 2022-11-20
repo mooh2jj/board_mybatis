@@ -1,6 +1,6 @@
 package com.example.board_springboot.mapper;
 
-import com.example.board_springboot.common.Criteria;
+import com.example.board_springboot.dto.Criteria;
 import com.example.board_springboot.domain.BoardVO;
 import org.apache.ibatis.annotations.Mapper;
 

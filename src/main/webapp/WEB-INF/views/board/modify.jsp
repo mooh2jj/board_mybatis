@@ -3,15 +3,17 @@
 %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>게시판 수정</title>
-</head>
+
+<%@include file="../includes/header.jsp"%>
+<%--<!doctype html>--%>
+<%--<html lang="en">--%>
+<%--<head>--%>
+<%--    <meta charset="UTF-8">--%>
+<%--    <meta name="viewport"--%>
+<%--          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">--%>
+<%--    <meta http-equiv="X-UA-Compatible" content="ie=edge">--%>
+<%--    <title>게시판 수정</title>--%>
+<%--</head>--%>
 <style>
     .uploadResult {
         width: 100%;
@@ -36,108 +38,110 @@
 </style>
 <body>
 
-<h2>게시판 - 수정</h2>
-<br>
-<h3>기본정보</h3>
-
 <div class="container">
+    <h2>게시판 - 수정</h2>
+
     <div class="row">
-        <form id="form" action="/board/modify" method="post" enctype="multipart/form-data">
-            <table class="table table-striped"
-                   style="text-align: center; border: 1px solid #dddddd;">
-                <tr>
-                    <td style="width: 20%; background-color: #eeeeee;">카테고리</td>
-                    <td colspan="2">${board.category}</td>
-                </tr>
-                <tr>
-                    <td style="width: 20%; background-color: #eeeeee;">등록일시</td>
-                    <td colspan="2"><fmt:formatDate pattern="yyyy.MM.dd HH:mm:ss" value="${board.createdAt}"/></td>
-                </tr>
-                <tr>
-                    <td style="width: 20%; background-color: #eeeeee;">수정일시</td>
-                    <c:choose>
-                        <c:when test="${board.updatedAt ne null}">
-                            <td colspan="2"><fmt:formatDate pattern="yyyy.MM.dd HH:mm:ss" value="${board.updatedAt}"/></td>
-                        </c:when>
-                        <c:otherwise>
-                            <td colspan="2" style="text-align: center">-</td>
-                        </c:otherwise>
-                    </c:choose>
-                </tr>
-                <tr>
-                    <td style="width: 20%; background-color: #eeeeee;">조회수</td>
-                    <td colspan="2">${board.hit}</td>
-                </tr>
-                <tr>
-                    <td style="width: 20%; background-color: #eeeeee;">작성자</td>
-                    <td colspan="2">
-                        <input type="text" class="check"
-                               placeholder="작성자" id="writer" name="writer" maxlength="50"
-                               value="${board.writer}">
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 20%; background-color: #eeeeee;">비밀번호</td>
-                    <td colspan="2">
-                        <input type="password" class="check" placeholder="비밀번호" name="password" id="password" maxlength="50">
-                        <span id="alert-success" style="display: none; color: #2b52f6; font-weight: bold;">비밀번호가 일치합니다.</span>
-                        <span id="alert-danger" style="display: none; color: #d92742; font-weight: bold;">비밀번호가 일치하지 않습니다.</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 20%; background-color: #eeeeee;">제목</td>
-                    <td colspan="2">
-                        <input type="text" class="check"
-                               placeholder="제목" id="title" name="title" maxlength="50"
-                               value="${board.title}">
-                    </td>
-                </tr>
+        <div class="col-lg-12">
+            <form id="form" action="/board/modify" method="post" enctype="multipart/form-data">
+                <table class="table table-striped"
+                       style="text-align: center; border: 1px solid #dddddd;">
+                    <tr>
+                        <td style="width: 20%; background-color: #eeeeee;"><label>카테고리</label></td>
+                        <td colspan="2">${board.category}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 20%; background-color: #eeeeee;"><label>등록일시</label></td>
+                        <td colspan="2"><fmt:formatDate pattern="yyyy.MM.dd HH:mm:ss" value="${board.createdAt}"/></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 20%; background-color: #eeeeee;"><label>수정일시</label></td>
+                        <c:choose>
+                            <c:when test="${board.updatedAt ne null}">
+                                <td colspan="2"><fmt:formatDate pattern="yyyy.MM.dd HH:mm:ss" value="${board.updatedAt}"/></td>
+                            </c:when>
+                            <c:otherwise>
+                                <td colspan="2" style="text-align: center">-</td>
+                            </c:otherwise>
+                        </c:choose>
+                    </tr>
+                    <tr>
+                        <td style="width: 20%; background-color: #eeeeee;"><label>조회수</label></td>
+                        <td colspan="2">${board.hit}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 20%; background-color: #eeeeee;"><label>작성자</label></td>
+                        <td colspan="2">
+                            <input type="text" class="check"
+                                   placeholder="작성자" id="writer" name="writer" maxlength="50"
+                                   value="${board.writer}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 20%; background-color: #eeeeee;"><label>비밀번호</label></td>
+                        <td colspan="2">
+                            <input type="password" class="check" placeholder="비밀번호" name="password" id="password" maxlength="50">
+                            <span id="alert-success" style="display: none; color: #2b52f6; font-weight: bold;">비밀번호가 일치합니다.</span>
+                            <span id="alert-danger" style="display: none; color: #d92742; font-weight: bold;">비밀번호가 일치하지 않습니다.</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 20%; background-color: #eeeeee;"><label>제목</label></td>
+                        <td colspan="2">
+                            <input type="text" class="check"
+                                   placeholder="제목" id="title" name="title" maxlength="50"
+                                   value="${board.title}">
+                        </td>
+                    </tr>
 
-                <tr>
-                    <td style="width: 20%; background-color: #eeeeee;">내용</td>
-                    <td colspan="2">
-                        <textarea class="check" placeholder="내용" id="content"
-                                  name="content" maxlength="2048" style="height: 350px;">
-                                  ${board.content}</textarea>
-                    </td>
-                </tr>
+                    <tr>
+                        <td style="width: 20%; background-color: #eeeeee;"><label>내용</label></td>
+                        <td colspan="2">
+                            <textarea class="check" placeholder="내용" id="content"
+                                      name="content" maxlength="2048" style="height: 350px;">
+                                      ${board.content}</textarea>
+                        </td>
+                    </tr>
 
-            </table>
-            <input type='hidden' id='id' name='id' value='<c:out value="${board.id}"/>'>
-            <input type='hidden' name='category' value='<c:out value="${board.category}"/>'>
-            <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
-            <input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
-            <input type='hidden' name='keyword' value='<c:out value="${cri.keyword}"/>'>
-            <input type='hidden' name='type' value='<c:out value="${cri.type}"/>'>
+                </table>
+                <input type='hidden' id='id' name='id' value='<c:out value="${board.id}"/>'>
+                <input type='hidden' name='category' value='<c:out value="${board.category}"/>'>
+                <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
+                <input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
+                <input type='hidden' name='keyword' value='<c:out value="${cri.keyword}"/>'>
+                <input type='hidden' name='type' value='<c:out value="${cri.type}"/>'>
 
-            <button data-oper='cancel' class="btn btn-info">취소</button>
-            <button data-oper='modify' class="btn btn-primary pull-left">수정</button>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
-<%--파일 첨부 부분--%>
-<div class="row">
-    <div class="col-lg-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">파일 첨부</div>
-            <!-- /.panel-heading -->
-            <div class="panel-body">
-                <div class="form-group uploadDiv">
-                    <%--   multiple: 파일 다중 업로드   --%>
-                    <input type="file" name='uploadFile' multiple>
+    <%--파일 첨부 부분--%>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"><label>파일 첨부</label></div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="form-group uploadDiv">
+                        <%--   multiple: 파일 다중 업로드   --%>
+                        <input type="file" name='uploadFile' multiple>
+                    </div>
+                    <div class='uploadResult'>
+                        <ul>
+                        </ul>
+                    </div>
                 </div>
-                <div class='uploadResult'>
-                    <ul>
-                    </ul>
-                </div>
+                <!--  end panel-body -->
             </div>
             <!--  end panel-body -->
         </div>
-        <!--  end panel-body -->
+        <!-- end panel -->
     </div>
-    <!-- end panel -->
+    <!-- /.row -->
+
+    <button data-oper='cancel' class="btn btn-info">취소</button>
+    <button data-oper='modify' class="btn btn-default">수정</button>
 </div>
-<!-- /.row -->
+
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script>
 $(document).ready(function() {
@@ -168,6 +172,15 @@ $(document).ready(function() {
             formObj.submit();
         } else if (operation === 'modify') {
             console.log("modify clicked");
+
+            let password = $("#password");
+            let passwordVal = password.val().trim();
+
+            if (passwordVal === "" || passwordVal.length === 0) {
+                alert("비밀번호을 입력하세요.");
+                password.focus();
+                return false;
+            }
 
             var str = "";
             $(".uploadResult ul li").each(function (i, obj) {
@@ -475,5 +488,5 @@ $(document).ready(function() {
         });
     });
 </script>
-</body>
-</html>
+<%@include file="../includes/footer.jsp"%>
+

@@ -1,7 +1,7 @@
 package com.example.board_springboot.controller;
 
-import com.example.board_springboot.common.Criteria;
-import com.example.board_springboot.common.PageDTO;
+import com.example.board_springboot.dto.Criteria;
+import com.example.board_springboot.dto.PageDTO;
 import com.example.board_springboot.domain.AttachVO;
 import com.example.board_springboot.domain.BoardVO;
 import com.example.board_springboot.dto.PasswordRequest;
@@ -133,7 +133,7 @@ public class BoardController {
      * @return register 페이지 이동
      */
     @GetMapping("/board/register")
-    public String write(
+    public String register(
             @ModelAttribute("cri") Criteria cri,
             Model model
     ) {
