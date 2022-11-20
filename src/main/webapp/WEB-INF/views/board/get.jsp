@@ -27,28 +27,6 @@
         width: 100px;
     }
 
-    /* The Modal (background) */
-    .searchModal {
-        display: none; /* Hidden by default */
-        position: fixed; /* Stay in place */
-        z-index: 10; /* Sit on top */
-        left: 0;
-        top: 0;
-        width: 100%; /* Full width */
-        height: 100%; /* Full height */
-        overflow: auto; /* Enable scroll if needed */
-        background-color: rgb(0,0,0); /* Fallback color */
-        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    }
-
-    /* Modal Content/Box */
-    .search-modal-content {
-        /*background-color: #fefefe;*/
-        margin: 15% auto; /* 15% from the top and centered */
-        padding: 20px;
-        border: 1px solid #888;
-        width: 70%; /* Could be more or less, depending on screen size */
-    }
 </style>
 <body>
 
@@ -138,8 +116,9 @@
     </div>
 
     <%-- 비밀번호 modal창 --%>
-    <div id="modal" class="searchModal">
-        <div class="search-modal-content">
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"
@@ -254,7 +233,7 @@
 
         $("#remove").on("click", function (e) {
             e.preventDefault();
-            modal.show();
+            modal.modal("show");
         });
 
         $("#list").on("click", function (e) {
@@ -283,7 +262,7 @@
         // modal창 닫기
         $("#modalCancel").on("click", function (e) {
             e.preventDefault();
-            modal.hide();
+            modal.modal('hide');
             // 취소후 비밀번호 입력창 초기화
             modal.find("input[name='password']").val("");
             $("#alert-danger").css('display', 'none');
