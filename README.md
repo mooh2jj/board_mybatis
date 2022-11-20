@@ -63,3 +63,17 @@
 
 ### 유용 플러그인
 - MybatisX: 자바 클래스 메서드와 xml 메서드 연결시킴
+
+
+### 프론트(Bootstrap4)
+* 목록 
+![image](https://user-images.githubusercontent.com/62453668/202919924-ac25c349-4a7a-499c-893e-3e4252f5d283.png)
+* 등록
+![image](https://user-images.githubusercontent.com/62453668/202919974-5c7fc39b-7751-497e-902e-9b1bad4dc46e.png)
+* 상세보기
+![image](https://user-images.githubusercontent.com/62453668/202920192-9e1fc1e3-793e-46cc-8893-12b40f34636a.png)
+* 수정
+![image](https://user-images.githubusercontent.com/62453668/202920236-33d9eaed-2a9b-4332-ad70-1deae1d27b7d.png)
+* 비밀번호창(삭제시)
+![image](https://user-images.githubusercontent.com/62453668/202920474-961b3ffd-4820-4e26-83dc-100688927274.png)
+
