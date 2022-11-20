@@ -1,5 +1,7 @@
 # board_mybatis
 
+### 기술 스택
+
 * 언어 : Java11
 * 프레임워크 : Springboot2.7
 * 빌드도구 : Gradle7.5
@@ -65,6 +67,7 @@
 ### 유용 플러그인
 - MybatisX: 자바 클래스 메서드와 xml 메서드 연결시킴
 
+<br>
 
 ### 프론트(Bootstrap4)
 * 목록 
