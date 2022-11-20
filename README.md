@@ -2,7 +2,7 @@
 
 * 언어 : Java11
 * 프레임워크 : Springboot2.7
-* 빌드도구 : Gradle
+* 빌드도구 : Gradle7.5
 * Front Template : JSP
 * DB : MySQL8.0
 * SqlMapper : Mybatis3.0
