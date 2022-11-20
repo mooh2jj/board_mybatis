@@ -352,7 +352,7 @@
                 passwordCheck.focus();
                 return false;
             }
-
+            // TODO: keyup 시 이벤트 처리할 것 미리 비밀번호 일치하지 않다고 뜸!
             if (passwordVal !== '' && passwordCheckVal !== '') {
                 if (passwordVal === passwordCheckVal) {
                     $("#alert-success").css('display', 'inline-block');
