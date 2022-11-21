@@ -28,7 +28,6 @@
         width: 100px;
     }
 </style>
-<body>
 
 <div class="container">
     <h2>게시판 - 수정</h2>

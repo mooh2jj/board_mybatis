@@ -28,7 +28,6 @@
         width: 100px;
     }
 </style>
-<body>
 <div class="container">
 <h2>게시판 - 등록</h2>
     <div class="row">

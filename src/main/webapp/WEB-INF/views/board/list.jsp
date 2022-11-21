@@ -6,7 +6,6 @@
 
 <%@ include file="../includes/header.jsp" %>
 
-<body>
 
 <div class="container">
 <h2>게시판 - 목록</h2>
@@ -15,17 +14,21 @@
     <div class='row'>
         <div class="col-lg-12">
             <form align="left" id="searchForm" method="get" action="/board/list">
-                <select name="type">
-                    <option value="" <c:out value="${pageMaker.cri.type == null?'selected':''}"/>>--</option>
-                    <option value="TWC" <c:out value="${pageMaker.cri.type eq 'TWC'?'selected':''}"/>>제목+작성자+내용</option>
-                    <option value="T" <c:out value="${pageMaker.cri.type eq 'T'?'selected':''}"/>>제목</option>
-                    <option value="W" <c:out value="${pageMaker.cri.type eq 'W'?'selected':''}"/>>작성자</option>
-                    <option value="C" <c:out value="${pageMaker.cri.type eq 'C'?'selected':''}"/>>내용</option>
-                </select>
-                <input type="text" name="keyword" style="width: 290px;" value='<c:out value="${pageMaker.cri.keyword}"/>'  placeholder="검색어를 입력해주세요. (제목+작성자+내용)">
-                <input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum}"/>' />
-                <input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount}"/>' />
-                <button class='btn btn-default'>검색</button>
+                <div class="form-row align-items-center">
+                    <div class="col-auto my-1">
+                        <select class="custom-select" name="type">
+                            <option value="" <c:out value="${pageMaker.cri.type == null?'selected':''}"/>>--</option>
+                            <option value="TWC" <c:out value="${pageMaker.cri.type eq 'TWC'?'selected':''}"/>>제목+작성자+내용</option>
+                            <option value="T" <c:out value="${pageMaker.cri.type eq 'T'?'selected':''}"/>>제목</option>
+                            <option value="W" <c:out value="${pageMaker.cri.type eq 'W'?'selected':''}"/>>작성자</option>
+                            <option value="C" <c:out value="${pageMaker.cri.type eq 'C'?'selected':''}"/>>내용</option>
+                        </select>
+                        <input type="text" name="keyword" style="width: 290px;" value='<c:out value="${pageMaker.cri.keyword}"/>'  placeholder="검색어를 입력해주세요. (제목+작성자+내용)">
+                        <input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum}"/>' />
+                        <input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount}"/>' />
+                        <button class='btn btn-default'>검색</button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>

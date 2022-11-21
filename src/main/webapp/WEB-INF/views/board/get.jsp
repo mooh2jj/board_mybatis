@@ -28,7 +28,6 @@
     }
 
 </style>
-<body>
 
 <div class="container">
     <h2>게시판 - 보기 </h2>
