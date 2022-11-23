@@ -1,10 +1,12 @@
 package com.example.board_springboot.controller;
 
+import com.example.board_springboot.domain.MemberVO;
 import com.example.board_springboot.dto.Criteria;
 import com.example.board_springboot.dto.PageDTO;
 import com.example.board_springboot.domain.AttachVO;
 import com.example.board_springboot.domain.BoardVO;
 import com.example.board_springboot.dto.PasswordRequest;
+import com.example.board_springboot.dto.UserInfo;
 import com.example.board_springboot.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -135,7 +137,8 @@ public class BoardController {
     @GetMapping("/board/register")
     public String register(
             @ModelAttribute("cri") Criteria cri,
-            Model model
+            Model model,
+            @UserInfo MemberVO memberVO
     ) {
         List<String> categoryList = boardService.getCategoryList();
         log.info("/board/register 페이지 이동 categoryList: {}", categoryList);

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.board_springboot.mapper.MemberMapper">
+
+    <resultMap id="memberVO" type="com.example.board_springboot.domain.MemberVO">
+        <result property="id" column="id" javaType="Long" jdbcType="BIGINT"/>
+        <result property="name" column="name" javaType="String" jdbcType="VARCHAR"/>
+        <result property="password" column="password" javaType="String" jdbcType="VARCHAR"/>
+        <result property="createdAt" column="created_at" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <!-- 유저 찾기 -->
+    <select id="findMember" resultMap="memberVO">
+        SELECT * FROM member
+        where 1=1
+        AND name = #{name}
+        AND password = #{password}
+    </select>
+
+</mapper>
