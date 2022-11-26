@@ -71,7 +71,7 @@
 
 ### 프론트(Bootstrap4)
 * 목록 
-![image](https://user-images.githubusercontent.com/62453668/202919924-ac25c349-4a7a-499c-893e-3e4252f5d283.png)
+![image](https://user-images.githubusercontent.com/62453668/204101245-7bb48f05-32a1-4f62-a471-3ed820e69ec2.png)
 * 등록
 ![image](https://user-images.githubusercontent.com/62453668/202919974-5c7fc39b-7751-497e-902e-9b1bad4dc46e.png)
 * 상세보기
