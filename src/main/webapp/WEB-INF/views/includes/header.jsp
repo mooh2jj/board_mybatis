@@ -55,7 +55,7 @@
         }
     </style>
     <!-- Custom styles for this template -->
-    <link href="album.css" rel="stylesheet">
+<%--    <link href="album.css" rel="stylesheet">--%>
 </head>
 <br>
 <body>
@@ -71,8 +71,8 @@
                     <h4 class="text-white">Contact</h4>
                     <ul class="list-unstyled">
                         <li><a href="#" class="text-white">Follow on Twitter</a></li>
-                        <li><a href="#" class="text-white">Like on Facebook</a></li>
-                        <li><a href="#" class="text-white">Email me</a></li>
+                        <li><a href="/member/joinForm" class="text-white">회원가입</a></li>
+                        <li><a href="/member/loginForm" class="text-white">로그인</a></li>
                     </ul>
                 </div>
             </div>

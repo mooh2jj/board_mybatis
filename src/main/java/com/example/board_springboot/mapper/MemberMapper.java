@@ -7,4 +7,8 @@ import org.apache.ibatis.annotations.Mapper;
 public interface MemberMapper {
 
     MemberVO findMember(String name, String password);
+
+    boolean joinMember(MemberVO memberVO);
+
+    MemberVO findMemberByEmailAndPassword(String email, String password);
 }
