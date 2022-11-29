@@ -46,6 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated()
                 .and()
+                // ajax 처리때문에 주석처리
 //                .formLogin()
 //                .loginPage("/member/loginForm")
 //                .loginProcessingUrl("/member/login")
