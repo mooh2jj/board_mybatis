@@ -130,7 +130,12 @@
     <!-- /.row -->
 
     <button data-oper='cancel' class="btn btn-info">취소</button>
-    <button data-oper='modify' class="btn btn-default">수정</button>
+    <sec:authentication property="principal" var="pinfo" />
+    <sec:authorize access="isAuthenticated()">
+        <c:if test="${pinfo.username eq board.writer}">
+        <button data-oper='modify' class="btn btn-default">수정</button>
+        </c:if>
+    </sec:authorize>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>

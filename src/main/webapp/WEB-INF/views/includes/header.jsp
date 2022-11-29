@@ -2,6 +2,8 @@
          isELIgnored="false"
 %>
 
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -72,7 +74,12 @@
                     <ul class="list-unstyled">
                         <li><a href="#" class="text-white">Follow on Twitter</a></li>
                         <li><a href="/member/joinForm" class="text-white">회원가입</a></li>
+                        <sec:authorize access="isAuthenticated()">
+                        <li><a href="/member/customLogout" class="text-white">로그아웃</a></li>
+                        </sec:authorize>
+                        <sec:authorize access="isAnonymous()">
                         <li><a href="/member/loginForm" class="text-white">로그인</a></li>
+                        </sec:authorize>
                     </ul>
                 </div>
             </div>

@@ -16,12 +16,12 @@ public class BoardVO {
     @NotBlank
     private String category;
     @NotBlank
-    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{4,15}$",
-            message= "비밀번호는 4글자 이상, 16글자 미만 그리고 영문/숫자/특수문자 포함이어야 합니다.")
+/*    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{4,15}$",
+            message= "비밀번호는 4글자 이상, 16글자 미만 그리고 영문/숫자/특수문자 포함이어야 합니다.")*/
     private String password;
 
     @NotBlank
-    @Size(min = 3, max = 4, message = "작성자은 3글자 이상, 5글자 미만이어야 합니다.")
+/*    @Size(min = 3, max = 4, message = "작성자은 3글자 이상, 5글자 미만이어야 합니다.")*/
     private String writer;
 
     @NotBlank

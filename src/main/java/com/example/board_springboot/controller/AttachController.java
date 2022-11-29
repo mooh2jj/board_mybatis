@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,6 +41,7 @@ public class AttachController {
      * @param uploadFile (다중)파일
      * @return 첨부파일 리스트
      */
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/uploadAjaxAction")
     public ResponseEntity<List<AttachVO>> uploadAjaxPost(MultipartFile[] uploadFile) {
 
@@ -191,6 +193,7 @@ public class AttachController {
      * @param type 이미지 or 그외
      * @return String "deleted"
      */
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/deleteFile")
     public ResponseEntity<String> deleteFile(String fileName, String type) {
 

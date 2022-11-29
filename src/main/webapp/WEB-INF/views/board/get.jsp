@@ -102,8 +102,13 @@
 
                 <br>
                 <button id="list" data-oper='list' class="btn btn-info">목록</button>
-                <button id="modifyForm" data-oper='modifyForm' class="btn btn-default">수정</button>
-                <button id="remove" data-oper="remove" class="btn btn-danger">삭제</button>
+                <sec:authentication property="principal" var="pinfo" />
+                <sec:authorize access="isAuthenticated()">
+                    <c:if test="${pinfo.username eq board.writer}">
+                    <button id="modifyForm" data-oper='modifyForm' class="btn btn-default">수정</button>
+                    <button id="remove" data-oper="remove" class="btn btn-danger">삭제</button>
+                    </c:if>
+                </sec:authorize>
             </form>
         </div>
     </div>

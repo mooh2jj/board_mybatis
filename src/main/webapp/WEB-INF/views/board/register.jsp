@@ -50,7 +50,8 @@
                         </tr>
                         <tr>
                             <td style="width: 20%; background-color: #eeeeee;"><label>작성자</label></td>
-                            <td colspan="2"><input type="text" id="writer" class="check" placeholder="작성자" name="writer" maxlength="50"></td>
+                            <td colspan="2"><input type="text" id="writer" class="check" placeholder="작성자" name="writer" maxlength="50"
+                            readonly="readonly" value='<sec:authentication property="principal.username"/>'></td>
                         </tr>
                         <tr>
                             <td style="width: 20%; background-color: #eeeeee;"><label>비밀번호</label></td>
@@ -319,7 +320,7 @@
                 return false;
             }
 
-            if (writerVal === "") {
+/*            if (writerVal === "") {
                 alert("작성자명을 입력하세요.");
                 writer.focus();
                 return false;
@@ -330,7 +331,7 @@
                 writer.val("");
                 writer.focus();
                 return false;
-            }
+            }*/
 
             if (passwordVal === "" || passwordVal.length === 0) {
                 alert("비밀번호을 입력하세요.");
@@ -338,13 +339,13 @@
                 return false;
             }
 
-            let check_pw = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{4,15}$/;
+/*            let check_pw = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{4,15}$/;
             if (!check_pw.test(passwordVal) ) {
                 alert("비밀번호는 4글자 이상, 16글자 미만 그리고 영문/숫자/특수문자 포함이어야 합니다.");
                 password.val("");
                 password.focus();
                 return false;
-            }
+            }*/
 
             if (passwordCheckVal === "" || passwordCheckVal.length === 0) {
                 alert("비밀번호 확인을 위하여 다시한번 입력해주세요");

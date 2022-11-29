@@ -1,17 +1,16 @@
 package com.example.board_springboot.controller;
 
-import com.example.board_springboot.domain.MemberVO;
-import com.example.board_springboot.dto.Criteria;
-import com.example.board_springboot.dto.PageDTO;
 import com.example.board_springboot.domain.AttachVO;
 import com.example.board_springboot.domain.BoardVO;
+import com.example.board_springboot.dto.Criteria;
+import com.example.board_springboot.dto.PageDTO;
 import com.example.board_springboot.dto.PasswordRequest;
-import com.example.board_springboot.dto.UserInfo;
 import com.example.board_springboot.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -92,6 +91,7 @@ public class BoardController {
      * @param cri 검색+페이징 파라미터
      * @return 수정후 목록페이지 이동
      */
+    @PreAuthorize("principal.username == #board.writer")
     @PostMapping("/board/modify")
     public String modify(
             @Valid BoardVO board,
@@ -115,6 +115,7 @@ public class BoardController {
      * @param cri 검색+페이징 파라미터
      * @return 삭제후 목록페이지 이동
      */
+    @PreAuthorize("principal.username == #board.writer")
     @PostMapping("/board/remove")
     public String remove(
             @RequestParam("id") Long id,
@@ -134,11 +135,11 @@ public class BoardController {
      * @param model 뷰단 바인딩 객체
      * @return register 페이지 이동
      */
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/board/register")
     public String register(
             @ModelAttribute("cri") Criteria cri,
-            Model model,
-            @UserInfo MemberVO memberVO
+            Model model
     ) {
         List<String> categoryList = boardService.getCategoryList();
         log.info("/board/register 페이지 이동 categoryList: {}", categoryList);
@@ -152,6 +153,7 @@ public class BoardController {
      * @return 등록 후 목록페이지 이동
      */
     @PostMapping("/board/register")
+    @PreAuthorize("isAuthenticated()")
     public String register(@Valid BoardVO board) {
         log.info("/board/register board: {}", board);
 

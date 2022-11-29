@@ -36,6 +36,7 @@ public class MemberApiController {
         return new ResponseEntity<Integer>((Integer) null, HttpStatus.BAD_REQUEST);
     }
 
+    // PrincipalDetailsService loadUserByUsername 로 대체
 /*    @PostMapping("/member/login")
     public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
         log.info("MemberApiController: login, loginDTO: {}", loginDTO);

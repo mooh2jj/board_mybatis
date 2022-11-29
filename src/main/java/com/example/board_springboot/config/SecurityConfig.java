@@ -44,16 +44,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers( "/board/list", "/member/**", "/resources/**")
                 .permitAll()
                 .anyRequest()
-                .authenticated();
-//                .and()
+                .authenticated()
+                .and()
 //                .formLogin()
 //                .loginPage("/member/loginForm")
 //                .loginProcessingUrl("/member/login")
 //                .defaultSuccessUrl("/board/list")
 //                .and()
-//                .logout()
-//                .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
-//                .logoutSuccessUrl("/board/list");
+                .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/member/customLogout"))
+                .logoutSuccessUrl("/member/loginForm")
+                .invalidateHttpSession(true) // 로그아웃 이후 세션 전체 삭제 여부
+                .deleteCookies("JSESSIONID") // 세션과 쿠키를 지우는
+        ;
 
     }
 /*
