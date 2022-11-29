@@ -10,20 +10,21 @@
         <result property="email" column="email" javaType="String" jdbcType="VARCHAR"/>
         <result property="password" column="password" javaType="String" jdbcType="VARCHAR"/>
         <result property="createdAt" column="created_at" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
-        <collection property="authList" resultMap="authMap"/>
+<!--        <collection property="authList" resultMap="authMap"/>-->
+        <result property="role" column="role" />
     </resultMap>
 
-    <resultMap id="authMap" type="com.example.board_springboot.domain.auth.AuthVO">
+<!--    <resultMap id="authMap" type="com.example.board_springboot.domain.auth.AuthVO">
         <result property="username" column="username" />
         <result property="auth" column="auth" />
-    </resultMap>
+    </resultMap>-->
 
 
     <select id="read" resultMap="memberVO">
         select
-        m.id, m.name, m.email, m.password, m.created_at, m.auth
+        m.id, m.name, m.email, m.password, m.created_at, m.role
         from member m
-        left outer join auth a on m.name = a.username
+#         left outer join auth a on m.name = a.username
         where m.name = #{email}
     </select>
 
@@ -36,8 +37,8 @@
     </select>
 
     <insert id="joinMember" >
-        INSERT INTO member (id, name, email, password, created_at, auth)
-        values (null, #{name}, #{email}, #{password}, NOW(), #{authList})
+        INSERT INTO member (id, name, email, password, created_at, role)
+        values (null, #{name}, #{email}, #{password}, NOW(), #{role})
     </insert>
 
     <select id="findMemberByEmailAndPassword" resultMap="memberVO">

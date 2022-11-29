@@ -3,7 +3,7 @@ package com.example.board_springboot.service;
 import com.example.board_springboot.common.exception.CustomException;
 import com.example.board_springboot.common.exception.ErrorCode;
 import com.example.board_springboot.domain.MemberVO;
-import com.example.board_springboot.domain.auth.AuthVO;
+import com.example.board_springboot.domain.auth.RoleType;
 import com.example.board_springboot.dto.JoinDTO;
 import com.example.board_springboot.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
@@ -11,9 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
-
-import java.util.Arrays;
-import java.util.Collections;
 
 import static com.example.board_springboot.common.utils.EncodePasswordUtils.passwordEncoder;
 
@@ -45,7 +42,7 @@ public class MemberService {
                 .name(joinDTO.getName())
                 .email(joinDTO.getEmail())
                 .password(passwordEncoder().encode(joinDTO.getPassword()))
-//                .authList(Collections.singletonList(authVO)) // TODO
+                .role(RoleType.ROLE_USER)
                 .build();
 
         return memberMapper.joinMember(vo);
