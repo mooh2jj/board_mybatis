@@ -5,10 +5,15 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface MemberMapper {
+    
 
     MemberVO findMember(String name, String password);
 
     boolean joinMember(MemberVO memberVO);
 
     MemberVO findMemberByEmailAndPassword(String email, String password);
+
+    MemberVO findMemberByName(String name);
+
+    MemberVO read(String email);
 }

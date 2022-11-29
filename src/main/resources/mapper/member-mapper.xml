@@ -7,17 +7,50 @@
     <resultMap id="memberVO" type="com.example.board_springboot.domain.MemberVO">
         <result property="id" column="id" javaType="Long" jdbcType="BIGINT"/>
         <result property="name" column="name" javaType="String" jdbcType="VARCHAR"/>
+        <result property="email" column="email" javaType="String" jdbcType="VARCHAR"/>
         <result property="password" column="password" javaType="String" jdbcType="VARCHAR"/>
         <result property="createdAt" column="created_at" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
+        <collection property="authList" resultMap="authMap"/>
     </resultMap>
 
+    <resultMap id="authMap" type="com.example.board_springboot.domain.auth.AuthVO">
+        <result property="username" column="username" />
+        <result property="auth" column="auth" />
+    </resultMap>
+
+
+    <select id="read" resultMap="memberVO">
+        select
+        m.id, m.name, m.email, m.password, m.created_at, m.auth
+        from member m
+        left outer join auth a on m.name = a.username
+        where m.name = #{email}
+    </select>
 
     <!-- 유저 찾기 -->
     <select id="findMember" resultMap="memberVO">
         SELECT * FROM member
         where 1=1
-        AND name = #{name}
-        AND password = #{password}
+          AND name = #{name}
+          AND password = #{password}
+    </select>
+
+    <insert id="joinMember" >
+        INSERT INTO member (id, name, email, password, created_at)
+        values (null, #{name}, #{email}, #{password}, NOW())
+    </insert>
+
+    <select id="findMemberByEmailAndPassword" resultMap="memberVO">
+        SELECT * FROM member
+        where 1=1
+          AND email = #{email}
+          AND password = #{password}
+    </select>
+
+    <select id="findMemberByName" resultMap="memberVO">
+        SELECT * FROM member
+        where 1=1
+          AND name = #{name}
     </select>
 
 </mapper>

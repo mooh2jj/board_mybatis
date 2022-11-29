@@ -60,10 +60,10 @@
                 url: "/member/login",
                 data: JSON.stringify(data),
                 contentType: "application/json; charset=utf-8",
-                //dataType: "json",	// 요새 안 적어줘도 자동으로 json리턴해줌!
+                dataType: "json",	// 요새 안 적어줘도 자동으로 json리턴해줌!
                 success: function (res) {
                     //alert(resp);
-                    console.log(res);
+                    console.log("res: ", res);
                     alert("로그인 되었습니다!!");
                     location.href = "/board/list";
                 }
