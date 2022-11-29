@@ -1,5 +1,7 @@
 package com.example.board_springboot.domain.auth;
 
+import com.example.board_springboot.common.exception.CustomException;
+import com.example.board_springboot.common.exception.ErrorCode;
 import com.example.board_springboot.domain.MemberVO;
 import com.example.board_springboot.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +24,8 @@ public class PrincipalDetailsService implements UserDetailsService {
         MemberVO member = memberMapper.read(email);
         log.info("loadUserByUsername memberVO: {}", member);
         if (member == null) {
-            throw new UsernameNotFoundException(email);
+//            throw new UsernameNotFoundException(email);
+            throw new CustomException(ErrorCode.NOT_FOUND_USER);
         }
         return new PrincipalDetail(member);
     }

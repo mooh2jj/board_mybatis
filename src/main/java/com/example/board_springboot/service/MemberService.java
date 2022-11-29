@@ -25,11 +25,11 @@ public class MemberService {
     private final HttpSession httpSession;
     private final MemberMapper memberMapper;
 
-    public MemberVO getMemberByName(String name) {
-        MemberVO memberVO = memberMapper.findMemberByName(name);
-        log.info("getMemberByEmail memberVO: {}", memberVO);
-        return memberVO;
-    }
+//    public MemberVO getMemberByName(String name) {
+//        MemberVO memberVO = memberMapper.findMemberByName(name);
+//        log.info("getMemberByEmail memberVO: {}", memberVO);
+//        return memberVO;
+//    }
 
     public MemberVO getMember(MemberVO memberVO) {
         return memberMapper.findMember(memberVO.getName(), memberVO.getPassword());

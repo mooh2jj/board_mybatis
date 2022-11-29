@@ -66,19 +66,17 @@
                     console.log("res: ", res);
                     alert("로그인 되었습니다!!");
                     location.href = "/board/list";
-                }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR);  //응답 메시지
+                    console.log(textStatus); //"error"로 고정인듯함
+                    console.log(errorThrown);
+                    alert("로그인이 실패하였습니다!");
+                },
             });
 
         });
     });
 </script>
-
-<%--<c:if test="${param.logout != null}">--%>
-<%--<script type="text/javascript">--%>
-<%--    $(document).ready(function(){--%>
-<%--        alert("로그아웃하였습니다.");--%>
-<%--    });--%>
-<%--</script>--%>
-<%--</c:if>--%>
 
 <%@include file="../includes/footer.jsp"%>
