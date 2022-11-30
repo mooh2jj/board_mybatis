@@ -46,6 +46,12 @@
 * 일정시간을 지정해줄 업로드 폴더 생성해야
 * Quartz 라이브러리 + @Scheduled(cron = "15 * * * * ?") cronTap 사용법 익혀둬야
 
+<Spring Security>
+* 로그인페이지, 회원가입 페이지 구현
+* SecurityConfig 자바 클래스로 처리
+* 가장 구현하기 쉬운 UsernamePasswordAuthenticationToken로 Authentication 가져옴
+* 로그아웃 처리 구현
+
 <br>
 
 ### 컨벤션
