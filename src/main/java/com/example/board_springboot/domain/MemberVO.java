@@ -1,11 +1,14 @@
 package com.example.board_springboot.domain;
 
-import com.example.board_springboot.domain.auth.RoleType;
+import com.example.board_springboot.domain.auth.AuthType;
+import com.example.board_springboot.domain.auth.AuthVO;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -21,16 +24,19 @@ public class MemberVO {
 
     private Timestamp createdAt;
 
-    private RoleType role;
-//    private List<AuthVO> authList;
+    private AuthType auth;
+
+    private List<AuthVO> authList = new ArrayList<>();
 
     @Builder
-    public MemberVO(String name, String email, String password, Timestamp createdAt, RoleType role) {
+    public MemberVO(String name, String email, String password, Timestamp createdAt, AuthType auth) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.createdAt = createdAt;
-//        this.authList = authList;
-        this.role = role;
+        this.auth = auth;
+    }
+    public void addMemberRole(AuthVO authVO) {
+        authList.add(authVO);
     }
 }

@@ -1,5 +1,5 @@
 package com.example.board_springboot.domain.auth;
 
-public enum RoleType {
+public enum AuthType {
     ROLE_USER, ROLE_ADMIN
 }
