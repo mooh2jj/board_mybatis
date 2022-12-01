@@ -36,8 +36,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.httpBasic().disable();
 
-        http.rememberMe();
-
         http
                 .csrf().disable()
                 .authorizeHttpRequests()
@@ -57,6 +55,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/member/loginForm")
                 .invalidateHttpSession(true) // 로그아웃 이후 세션 전체 삭제 여부
                 .deleteCookies("JSESSIONID") // 세션과 쿠키를 지우는
+        ;
+        http.rememberMe()
+                .tokenValiditySeconds(3600)
+                .userDetailsService(principalDetailsService)
         ;
 
     }
