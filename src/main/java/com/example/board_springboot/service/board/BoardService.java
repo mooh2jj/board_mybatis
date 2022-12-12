@@ -1,4 +1,4 @@
-package com.example.board_springboot.service;
+package com.example.board_springboot.service.board;
 
 import com.example.board_springboot.dto.Criteria;
 import com.example.board_springboot.domain.AttachVO;

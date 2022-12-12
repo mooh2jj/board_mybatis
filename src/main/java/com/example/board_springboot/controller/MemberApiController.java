@@ -2,7 +2,7 @@ package com.example.board_springboot.controller;
 
 import com.example.board_springboot.dto.JoinDTO;
 import com.example.board_springboot.dto.LoginDTO;
-import com.example.board_springboot.service.MemberService;
+import com.example.board_springboot.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

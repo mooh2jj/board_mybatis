@@ -1,4 +1,4 @@
-package com.example.board_springboot.service;
+package com.example.board_springboot.service.reply;
 
 import com.example.board_springboot.common.exception.CustomException;
 import com.example.board_springboot.common.exception.ErrorCode;

@@ -5,7 +5,7 @@ import com.example.board_springboot.domain.BoardVO;
 import com.example.board_springboot.dto.Criteria;
 import com.example.board_springboot.dto.PageDTO;
 import com.example.board_springboot.dto.PasswordRequest;
-import com.example.board_springboot.service.BoardService;
+import com.example.board_springboot.service.board.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

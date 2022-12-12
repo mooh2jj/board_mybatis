@@ -1,4 +1,4 @@
-package com.example.board_springboot.service;
+package com.example.board_springboot.service.reply;
 
 import com.example.board_springboot.domain.ReplyVO;
 

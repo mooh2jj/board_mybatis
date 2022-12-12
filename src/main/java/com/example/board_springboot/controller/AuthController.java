@@ -2,7 +2,7 @@ package com.example.board_springboot.controller;
 
 import com.example.board_springboot.domain.MemberVO;
 import com.example.board_springboot.dto.UserInfo;
-import com.example.board_springboot.service.MemberService;
+import com.example.board_springboot.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

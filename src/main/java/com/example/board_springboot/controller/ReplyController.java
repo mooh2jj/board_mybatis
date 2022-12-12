@@ -1,7 +1,7 @@
 package com.example.board_springboot.controller;
 
 import com.example.board_springboot.domain.ReplyVO;
-import com.example.board_springboot.service.ReplyService;
+import com.example.board_springboot.service.reply.ReplyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
