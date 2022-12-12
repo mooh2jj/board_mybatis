@@ -33,8 +33,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
-    <%--        TODO: 임기응변으로 enter키 막음 onsubmit="return false" 이것도 안됨. onsubmit="return false" + type="button" --%>
-                <form id="form" action="/board/register" method="post" enctype="multipart/form-data">
+                <form id="form" onsubmit="return checkz()" action="/board/register" method="post" enctype="multipart/form-data">
                     <table class="table table-striped"
                            style="text-align: center; border: 1px solid #dddddd;">
                         <tr>
@@ -115,7 +114,109 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script>
-    $(document).ready(function() {
+    // form 유효성 검사 function
+    function checkz() {
+
+        let category = $("#category option:selected");
+
+        // let writer = $('#writer');
+        let title = $('#title');
+        let content = $('#content');
+
+        let password = $("#password");
+        let passwordCheck = $("#passwordCheck");
+
+        let categoryVal = category.val().trim();
+        // let writerVal = writer.val().trim();
+        let titleVal = title.val().trim();
+        let contentVal = content.val().trim();
+
+        let passwordVal = password.val().trim();
+        let passwordCheckVal = passwordCheck.val().trim();
+
+        if (categoryVal === "" || categoryVal.length === 0) {
+            alert("카테고리를 입력하세요.");
+            category.focus();
+            return false;
+        }
+
+        /*            if (writerVal === "") {
+                        alert("작성자명을 입력하세요.");
+                        writer.focus();
+                        return false;
+                    }
+
+                    if(writerVal.length < 3 || writerVal.length >= 5){
+                        alert("작성자명은 3글자 이상 5글자 미만이어야 합니다.");
+                        writer.val("");
+                        writer.focus();
+                        return false;
+                    }*/
+
+        if (passwordVal === "" || passwordVal.length === 0) {
+            alert("비밀번호을 입력하세요.");
+            password.focus();
+            return false;
+        }
+
+        /*            let check_pw = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{4,15}$/;
+                    if (!check_pw.test(passwordVal) ) {
+                        alert("비밀번호는 4글자 이상, 16글자 미만 그리고 영문/숫자/특수문자 포함이어야 합니다.");
+                        password.val("");
+                        password.focus();
+                        return false;
+                    }*/
+
+        if (passwordCheckVal === "" || passwordCheckVal.length === 0) {
+            alert("비밀번호 확인을 위하여 다시한번 입력해주세요");
+            passwordCheck.focus();
+            return false;
+        }
+        // TODO: keyup 시 이벤트 처리할 것 미리 비밀번호 일치하지 않다고 뜸!
+        if (passwordVal !== '' && passwordCheckVal !== '') {
+            if (passwordVal === passwordCheckVal) {
+                $("#alert-success").css('display', 'inline-block');
+                $("#alert-danger").css('display', 'none');
+            } else {
+                $("#alert-success").css('display', 'none');
+                $("#alert-danger").css('display', 'inline-block');
+                passwordCheck.val("");
+                passwordCheck.focus();
+                return false;
+            }
+        }
+
+        if (titleVal === "" || titleVal.length === 0) {
+            alert("제목을 입력해주세요.");
+            title.val("");
+            title.focus();
+            return false;
+        }
+
+        if (titleVal.length < 4 || titleVal.length >= 100) {
+            alert("제목은 4글자 이상 100글자 미만이어야 합니다.");
+            title.val("");
+            title.focus();
+            return false;
+        }
+
+        if (contentVal === "" || contentVal.length === 0) {
+            alert("내용을 입력해주세요.");
+            content.val("");
+            content.focus();
+            return false;
+        }
+
+        if (contentVal.length < 4 || contentVal.length >= 2000) {
+            alert("내용은 4글자 이상 2000글자 미만이어야 합니다.");
+            content.val("");
+            content.focus();
+            return false;
+        }
+    }
+</script>
+<script>
+$(document).ready(function() {
         var formObj = $("#form");
         // TODO: 엔터키 입력시 목록창으로 이동 enter키 막기
         $('button').on("click", function(e) {
@@ -287,113 +388,6 @@
                     targetLi.remove();
                 }
             }); //$.ajax
-        });
-
-    });
-</script>
-<script>
-    $(function () {
-        // 등록시 값 유효성 검사
-        // TODO: 먼저 alert창이 뜨는 현상 방지
-        $('.check').on('change', function (e) {
-            e.preventDefault();
-            let category = $("#category option:selected");
-
-            let writer = $('#writer');
-            let title = $('#title');
-            let content = $('#content');
-
-            let password = $("#password");
-            let passwordCheck = $("#passwordCheck");
-
-            let categoryVal = category.val().trim();
-            let writerVal = writer.val().trim();
-            let titleVal = title.val().trim();
-            let contentVal = content.val().trim();
-
-            let passwordVal = password.val().trim();
-            let passwordCheckVal = passwordCheck.val().trim();
-
-            if (categoryVal === "" || $("#category").val().trim() === "") {
-                alert("카테고리를 입력하세요.");
-                category.focus();
-                return false;
-            }
-
-/*            if (writerVal === "") {
-                alert("작성자명을 입력하세요.");
-                writer.focus();
-                return false;
-            }
-
-            if(writerVal.length < 3 || writerVal.length >= 5){
-                alert("작성자명은 3글자 이상 5글자 미만이어야 합니다.");
-                writer.val("");
-                writer.focus();
-                return false;
-            }*/
-
-            if (passwordVal === "" || passwordVal.length === 0) {
-                alert("비밀번호을 입력하세요.");
-                password.focus();
-                return false;
-            }
-
-/*            let check_pw = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{4,15}$/;
-            if (!check_pw.test(passwordVal) ) {
-                alert("비밀번호는 4글자 이상, 16글자 미만 그리고 영문/숫자/특수문자 포함이어야 합니다.");
-                password.val("");
-                password.focus();
-                return false;
-            }*/
-
-            if (passwordCheckVal === "" || passwordCheckVal.length === 0) {
-                alert("비밀번호 확인을 위하여 다시한번 입력해주세요");
-                passwordCheck.focus();
-                return false;
-            }
-            // TODO: keyup 시 이벤트 처리할 것 미리 비밀번호 일치하지 않다고 뜸!
-            if (passwordVal !== '' && passwordCheckVal !== '') {
-                if (passwordVal === passwordCheckVal) {
-                    $("#alert-success").css('display', 'inline-block');
-                    $("#alert-danger").css('display', 'none');
-                } else {
-                    $("#alert-success").css('display', 'none');
-                    $("#alert-danger").css('display', 'inline-block');
-                    passwordCheck.val("");
-                    passwordCheck.focus();
-                    return false;
-                }
-            }
-
-            if(titleVal === ""){
-                alert("제목을 입력해주세요.");
-                title.val("");
-                title.focus();
-                return false;
-            }
-
-            if (titleVal.length < 4 || titleVal.length >= 100) {
-                alert("제목은 4글자 이상 100글자 미만이어야 합니다.");
-                title.val("");
-                title.focus();
-                return false;
-            }
-
-            if(contentVal === ""){
-                alert("내용을 입력해주세요.");
-                content.val("");
-                content.focus();
-                return false;
-            }
-
-            if (contentVal.length < 4 || contentVal.length >= 2000) {
-                alert("내용은 4글자 이상 2000글자 미만이어야 합니다.");
-                content.val("");
-                content.focus();
-                return false;
-            }
-
         });
     });
 </script>
