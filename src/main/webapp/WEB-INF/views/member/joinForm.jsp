@@ -40,8 +40,6 @@
     $(document).ready(function () {
 
         $("#btn-save").on("click", () => {	// function(){}, ()=> 하는 이유 : this를 바인딩하기 위해서
-
-            alert("user의 save함수 호출됨");
             let data = {
                 name: $("#name").val(),
                 email: $("#email").val(),
@@ -56,10 +54,9 @@
                 contentType: "application/json; charset=utf-8",
                 //dataType: "json",	// 요새 안 적어줘도 자동으로 json리턴해줌!
                 success: function (res) {
-                    //alert(resp);
                     console.log(res);
                     alert("회원가입이 완료되었습니다!!");
-                    location.href = "/board/list";
+                    location.replace("/board/list");
                 }
             });
 

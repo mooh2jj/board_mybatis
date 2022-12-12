@@ -47,8 +47,6 @@
     $(document).ready(function () {
         $("#btn-login").on("click", function (e) {
 
-            alert("login 호출됨!")
-
             let data = {
                 email: $("#email").val(),
                 password: $("#password").val(),
@@ -65,7 +63,7 @@
                     //alert(resp);
                     console.log("res: ", res);
                     alert("로그인 되었습니다!!");
-                    location.href = "/board/list";
+                    location.replace("/board/list");
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     console.log(jqXHR);  //응답 메시지
