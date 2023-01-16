@@ -13,6 +13,28 @@
     1) mybatis sql 로그 보는 법 - jdbc log4j2 라이브러리 연동 사용, 참고 - https://frozenpond.tistory.com/86
     2) `[unread]` 오류 -> 각 자바 클래스 필드와 DB테이블 컬럼 매칭이 안돼서 -> 해결) `<resultMap>` 태그 사용, 그리고 속성 javaType, jdbcType 맞추면됨
     3) TimeStamp -> LocalDateTime 변환시, log4j2 드라이버에서 오류, jsp에서 LocalDateTime 변환시, 2번을 parsing 해주어야 함. TimeStamp로 계속 감.
+    4) Security 적용 PrincipalDetail 설계
+    
+```java
+@Getter
+public class PrincipalDetail extends User {
+
+    private MemberVO memberVO;
+
+
+    public PrincipalDetail(String username, String password,
+                           Collection<? extends GrantedAuthority> authorities) {
+        super(username, password, authorities);
+    }
+
+    public PrincipalDetail(MemberVO vo) {
+        super(vo.getEmail(), vo.getPassword(), vo.getAuthList().stream()
+                .map(auth -> new SimpleGrantedAuthority(auth.getAuth())).collect(Collectors.toList()));
+        this.memberVO = vo;
+    }
+}
+```
+    
 <br>
 
 ### 구현 사항
